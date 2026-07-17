@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "palooz"
+version = "0.2.0"
+description = "Oodle compression/decompression bindings for Python"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "GPL-3.0-or-later"

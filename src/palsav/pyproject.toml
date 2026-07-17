@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "palsav-flex"
+version = "0.2.0"
+description = "High-performance Palworld save-file parser with Oodle compression support"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-or-later"
+dependencies = [
+    "orjson>=3.11.8",
+    "palooz",
+    "setuptools>=68.0",
+]
+
+[project.optional-dependencies]
+performance = ["recordclass"]
+
+[tool.uv.sources]
+palooz = { path = "./palooz" }
+
+[tool.setuptools.packages.find]
+include = ["palsav*"]

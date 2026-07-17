@@ -1,0 +1,58 @@
+{
+    "Friendship_Rank_Minus3": {
+        "FriendshipRank": -3,
+        "RequiredPoint": -10000
+    },
+    "Friendship_Rank_Minus2": {
+        "FriendshipRank": -2,
+        "RequiredPoint": -1000
+    },
+    "Friendship_Rank_Minus1": {
+        "FriendshipRank": -1,
+        "RequiredPoint": -1
+    },
+    "Friendship_Rank_0": {
+        "FriendshipRank": 0,
+        "RequiredPoint": 0
+    },
+    "Friendship_Rank_1": {
+        "FriendshipRank": 1,
+        "RequiredPoint": 6000
+    },
+    "Friendship_Rank_2": {
+        "FriendshipRank": 2,
+        "RequiredPoint": 13000
+    },
+    "Friendship_Rank_3": {
+        "FriendshipRank": 3,
+        "RequiredPoint": 21000
+    },
+    "Friendship_Rank_4": {
+        "FriendshipRank": 4,
+        "RequiredPoint": 30000
+    },
+    "Friendship_Rank_5": {
+        "FriendshipRank": 5,
+        "RequiredPoint": 40000
+    },
+    "Friendship_Rank_6": {
+        "FriendshipRank": 6,
+        "RequiredPoint": 55000
+    },
+    "Friendship_Rank_7": {
+        "FriendshipRank": 7,
+        "RequiredPoint": 80000
+    },
+    "Friendship_Rank_8": {
+        "FriendshipRank": 8,
+        "RequiredPoint": 110000
+    },
+    "Friendship_Rank_9": {
+        "FriendshipRank": 9,
+        "RequiredPoint": 150000
+    },
+    "Friendship_Rank_10": {
+        "FriendshipRank": 10,
+        "RequiredPoint": 200000
+    }
+}

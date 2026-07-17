@@ -1,0 +1,32 @@
+{
+    "ui_icons": {
+        "palwork_00": "/icons/ui/T_icon_palwork_00.webp",
+        "palwork_01": "/icons/ui/T_icon_palwork_01.webp",
+        "palwork_02": "/icons/ui/T_icon_palwork_02.webp",
+        "palwork_03": "/icons/ui/T_icon_palwork_03.webp",
+        "palwork_04": "/icons/ui/T_icon_palwork_04.webp",
+        "palwork_05": "/icons/ui/T_icon_palwork_05.webp",
+        "palwork_06": "/icons/ui/T_icon_palwork_06.webp",
+        "palwork_07": "/icons/ui/T_icon_palwork_07.webp",
+        "palwork_08": "/icons/ui/T_icon_palwork_08.webp",
+        "palwork_09": "/icons/ui/T_icon_palwork_09.webp",
+        "palwork_10": "/icons/ui/T_icon_palwork_10.webp",
+        "palwork_11": "/icons/ui/T_icon_palwork_11.webp",
+        "palwork_12": "/icons/ui/T_icon_palwork_12.webp",
+        "palwork_13": "/icons/ui/T_icon_palwork_13.webp",
+        "palwork_90": "/icons/ui/T_icon_palwork_90.webp",
+        "friendship": "/icons/ui/T_Icon_PalFriendship_Color.webp",
+        "gender_female": "/icons/ui/T_Icon_PanGender_Female.webp",
+        "gender_male": "/icons/ui/T_Icon_PanGender_Male.webp",
+        "dna": "/icons/ui/T_Icon_PalGlobalInport.webp",
+        "food_on": "/icons/ui/T_Icon_foodamount_on.webp",
+        "food_off": "/icons/ui/T_Icon_foodamount_off.webp",
+        "lock": "/icons/ui/T_icon_PalLock.webp",
+        "lock_1": "/icons/ui/T_icon_PalLock.webp",
+        "lock_0": "/icons/ui/T_icon_PalLock_Unlock.webp",
+        "lock_2": "/icons/ui/T_icon_PalLock_2.webp",
+        "lock_3": "/icons/ui/T_icon_PalLock_3.webp",
+        "buildup": "/icons/ui/T_icon_buildup.webp",
+        "talent_checker": "/icons/ui/T_itemicon_Accessory_TalentChecker.webp"
+    }
+}

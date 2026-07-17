@@ -1,0 +1,66 @@
+name: Bug report
+description: Report a reproducible problem in Map, Breeding, Wiki, Settings, or packaging.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not attach Palworld saves containing personal or server data. Remove identifiers from screenshots and logs.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Map Viewer
+        - Breeding Calculator
+        - Wiki
+        - Settings or localization
+        - Startup or packaging
+        - Other companion feature
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "2.1.0"
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Operating system
+      placeholder: "Windows 11 24H2"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      placeholder: Describe the smallest sequence that reproduces the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add sanitized screenshots or error text. Do not include save files, tokens, or personal identifiers.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed save data, credentials, player identifiers, and private server information.
+          required: true
