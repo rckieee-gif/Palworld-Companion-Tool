@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.1 - Wiki, Branding, and Breeding Update
+
+- Replaced the application icon with the new Palworld Companion Tools artwork.
+- Redesigned the Wiki with responsive category browsing, search, filtering,
+  sorting, result counts, keyboard search, and improved light/dark styling.
+- Excluded unavailable development-only Pals such as Boltmane from breeding
+  results and path calculations.
+- Prevented target Pals from being reused as their own unowned breeding
+  partners.
+- Extended multi-generation breeding paths to six generations.
+- Expanded breeding, Wiki, resource-integrity, and application tests.
+
 ## 1.0.0 - Initial Palworld Companion Tools Release
 
 - Repositioned the project as a read-only Palworld companion application.
