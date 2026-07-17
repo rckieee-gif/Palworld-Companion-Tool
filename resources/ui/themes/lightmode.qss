@@ -90,6 +90,160 @@ QHeaderView::section {
     color: #485157; padding: 6px;
 }
 
+QWidget#wikiWorkspace { background-color: #f3f5f6; }
+QFrame#wikiCategoryRail {
+    background-color: #ffffff;
+    border-right: 1px solid #d7dce0;
+}
+QLabel#wikiRailTitle {
+    color: #738089;
+    font-size: 9pt;
+    font-weight: 700;
+}
+QPushButton[wikiCategory="true"] {
+    background-color: transparent;
+    border: 0;
+    border-radius: 5px;
+    color: #566168;
+    padding: 8px 10px;
+    text-align: left;
+}
+QPushButton[wikiCategory="true"]:hover {
+    background-color: #edf2f3;
+    color: #182024;
+}
+QPushButton[wikiCategory="true"]:checked {
+    background-color: #dff3ef;
+    border-left: 3px solid #249c87;
+    color: #155f53;
+    font-weight: 650;
+    padding-left: 7px;
+}
+QFrame#wikiBrowserPane {
+    background-color: #f8fafb;
+    border-right: 1px solid #d7dce0;
+}
+QLabel#wikiBrowserTitle {
+    color: #182024;
+    font-size: 13pt;
+    font-weight: 700;
+}
+QLineEdit#wikiSearch { min-height: 32px; }
+QComboBox#wikiSortCombo, QComboBox#wikiFilterCombo,
+QComboBox#wikiInlineSort { min-height: 30px; }
+QToolButton#wikiSortDirection, QToolButton#wikiResetButton {
+    min-width: 30px;
+    max-width: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    padding: 0;
+}
+QToolButton#wikiResetButton:disabled {
+    background-color: transparent;
+    border-color: transparent;
+}
+QLabel#wikiResultCount {
+    color: #6d7880;
+    font-size: 9pt;
+    font-weight: 600;
+}
+QListWidget#wikiResults {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+}
+QListWidget#wikiResults::item {
+    border-bottom: 1px solid #e0e5e8;
+    border-radius: 4px;
+    color: #30373c;
+    padding: 5px 7px;
+}
+QListWidget#wikiResults::item:hover { background-color: #edf3f4; }
+QListWidget#wikiResults::item:selected {
+    background-color: #d2ecee;
+    color: #173b40;
+}
+QScrollArea#wikiDetail {
+    background-color: #f3f5f6;
+    border: 0;
+}
+QWidget#wikiDetailContent { background-color: #f3f5f6; }
+QFrame#wikiIdentity { border-bottom: 1px solid #d6dce0; }
+QLabel#wikiEntryTitle {
+    color: #182024;
+    font-size: 18pt;
+    font-weight: 700;
+}
+QLabel#wikiCodeText {
+    color: #6f7b83;
+    font-family: Consolas, monospace;
+    font-size: 9pt;
+}
+QLabel#wikiBadge {
+    background-color: #e1f3f0;
+    border: 1px solid #a4d5cc;
+    border-radius: 4px;
+    color: #176c5e;
+    font-size: 9pt;
+    font-weight: 650;
+    padding: 3px 7px;
+}
+QLabel#wikiSectionTitle {
+    color: #3d484f;
+    font-size: 11pt;
+    font-weight: 700;
+    padding-top: 7px;
+}
+QLabel#wikiBodyText {
+    color: #566168;
+    font-size: 10pt;
+}
+QFrame#wikiStatCard, QFrame#wikiInfoCard {
+    background-color: #ffffff;
+    border: 1px solid #d2d8dc;
+    border-radius: 6px;
+}
+QFrame#wikiStatCard:hover, QFrame#wikiInfoCard:hover {
+    background-color: #f9fbfb;
+    border-color: #aab5bb;
+}
+QLabel#wikiStatLabel {
+    color: #6f7a82;
+    font-size: 9pt;
+    font-weight: 600;
+}
+QLabel#wikiStatValue {
+    color: #20272b;
+    font-size: 15pt;
+    font-weight: 700;
+}
+QLabel#wikiInfoTitle {
+    color: #252c31;
+    font-size: 10pt;
+    font-weight: 650;
+}
+QLabel#wikiInfoSubtitle {
+    color: #6d7880;
+    font-size: 9pt;
+}
+QLabel#wikiInfoTrailing {
+    color: #17786a;
+    font-size: 9pt;
+    font-weight: 700;
+}
+QFrame#wikiInfoCard[tone="positive"] QLabel#wikiInfoTrailing { color: #18845b; }
+QFrame#wikiInfoCard[tone="negative"] QLabel#wikiInfoTrailing { color: #b94b4b; }
+QLabel#wikiEmptyTitle {
+    color: #30383d;
+    font-size: 13pt;
+    font-weight: 700;
+}
+QLabel#wikiEmptyText {
+    color: #748088;
+    font-size: 9pt;
+}
+QWidget#wikiInlineToolbar { background-color: transparent; }
+
 QFrame#settingsPanel, QFrame#aboutPanel, QFrame#breedingControls {
     background-color: #ffffff;
     border: 1px solid #d0d6da;

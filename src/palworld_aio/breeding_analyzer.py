@@ -122,7 +122,19 @@ def _steps_from_tree(root: BreedingTreeNode) -> tuple[BreedCombination, ...]:
 class BreedingAnalyzer:
     def __init__(self, breeding_data: dict):
         self.breeding_data = breeding_data or {}
-        self.pal_info = self.breeding_data.get('pal_info', {})
+        raw_pal_info = self.breeding_data.get('pal_info', {})
+        if not isinstance(raw_pal_info, dict):
+            raw_pal_info = {}
+        self.unavailable_species = frozenset(
+            species
+            for species, info in raw_pal_info.items()
+            if isinstance(info, dict) and info.get('available') is False
+        )
+        self.pal_info = {
+            species: info
+            for species, info in raw_pal_info.items()
+            if species not in self.unavailable_species
+        }
         self.pair_to_child: dict[tuple[str, str], str] = {}
         self.children_by_parent: dict[str, list[tuple[str, str]]] = {}
         self.parents_by_child: dict[str, list[tuple[str, str]]] = {}
@@ -135,18 +147,36 @@ class BreedingAnalyzer:
 
     def _build_pair_index(self) -> None:
         # Later sources take priority, so explicit unique combinations win.
-        for source in ('child_to_parents_formula', 'child_to_parents_ignore', 'child_to_parents_unique'):
+        for source in (
+            'child_to_parents_formula',
+            'child_to_parents_ignore',
+            'child_to_parents_unique',
+        ):
             for child, pairs in self.breeding_data.get(source, {}).items():
+                if child in self.unavailable_species:
+                    continue
                 for pair in pairs:
                     parent_a = pair.get('parent_a')
                     parent_b = pair.get('parent_b')
-                    if parent_a and parent_b:
+                    if (
+                        parent_a
+                        and parent_b
+                        and parent_a not in self.unavailable_species
+                        and parent_b not in self.unavailable_species
+                    ):
                         self.pair_to_child[self.pair_key(parent_a, parent_b)] = child
         for combo in self.breeding_data.get('unique_combos', []):
             parent_a = combo.get('parent_a')
             parent_b = combo.get('parent_b')
             child = combo.get('child')
-            if parent_a and parent_b and child:
+            if (
+                parent_a
+                and parent_b
+                and child
+                and parent_a not in self.unavailable_species
+                and parent_b not in self.unavailable_species
+                and child not in self.unavailable_species
+            ):
                 self.pair_to_child[self.pair_key(parent_a, parent_b)] = child
 
     def _build_parent_index(self) -> None:
@@ -203,7 +233,7 @@ class BreedingAnalyzer:
         nodes = {
             species: PathNode(generation=0, steps=0)
             for species, count in inventory.species.items()
-            if count.total > 0
+            if count.total > 0 and species not in self.unavailable_species
         }
         ordered_pairs = sorted(self.pair_to_child.items())
         changed = True
@@ -242,6 +272,11 @@ class BreedingAnalyzer:
         max_generations: int = 3,
         required: Iterable[str] = (),
     ) -> BreedingPath:
+        required = tuple(required)
+        if target in self.unavailable_species or any(
+            species in self.unavailable_species for species in required
+        ):
+            return BreedingPath(target, False, False, None, ())
         required_bits = _required_bit_map(required)
         if required_bits:
             return self._find_path_with_required(
@@ -384,7 +419,18 @@ class BreedingAnalyzer:
         allow_unowned_partners: bool = True,
     ) -> BreedingPath:
         max_generations = max(1, int(max_generations))
-        start_set = {start for start in starts if start}
+        required = tuple(required)
+        if target in self.unavailable_species or any(
+            species in self.unavailable_species for species in required
+        ):
+            return BreedingPath(target, False, False, None, ())
+        start_set = {
+            start
+            for start in starts
+            if start and start not in self.unavailable_species
+        }
+        if not start_set:
+            return BreedingPath(target, False, False, None, ())
         required_bits = _required_bit_map(required)
         if required_bits:
             return self._find_chain_with_required(
@@ -413,7 +459,7 @@ class BreedingAnalyzer:
             if depth >= max_generations:
                 continue
             for partner, child in self.children_by_parent.get(current, []):
-                if child == current:
+                if child == current or partner == target:
                     continue
                 if not allow_unowned_partners and partner not in available:
                     continue
@@ -467,7 +513,7 @@ class BreedingAnalyzer:
             if depth >= max_generations:
                 continue
             for partner, child in self.children_by_parent.get(current, ()):
-                if child == current:
+                if child == current or partner == target:
                     continue
                 if not allow_unowned_partners and partner not in available:
                     continue

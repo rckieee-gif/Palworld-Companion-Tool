@@ -59,6 +59,8 @@ def test_breeding_and_wiki_work_without_world_data(qapp) -> None:
     try:
         window.navigate('breeding')
         assert len(window.breeding_tab.pal_info) > 250
+        assert 'ElecLion' not in window.breeding_tab.pal_info
+        assert window.breeding_tab.max_generations.value() == 6
         assert window.breeding_tab.tabs.count() == 3
 
         window.navigate('wiki')

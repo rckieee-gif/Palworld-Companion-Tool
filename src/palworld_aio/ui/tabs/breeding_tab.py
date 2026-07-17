@@ -50,13 +50,18 @@ class BreedingTab(QWidget):
     def _load_data(self) -> None:
         try:
             self.breeding_data = load_breeding_data()
-            self.pal_info = self.breeding_data.get('pal_info', {})
             self.analyzer = BreedingAnalyzer(self.breeding_data)
-            self._unique_pairs = {
-                self.analyzer.pair_key(combo['parent_a'], combo['parent_b'])
-                for combo in self.breeding_data.get('unique_combos', [])
-                if combo.get('parent_a') and combo.get('parent_b')
-            }
+            self.pal_info = self.analyzer.pal_info
+            self._unique_pairs = set()
+            for combo in self.breeding_data.get('unique_combos', []):
+                parent_a = combo.get('parent_a')
+                parent_b = combo.get('parent_b')
+                child = combo.get('child')
+                if not parent_a or not parent_b or not child:
+                    continue
+                pair = self.analyzer.pair_key(parent_a, parent_b)
+                if self.analyzer.pair_to_child.get(pair) == child:
+                    self._unique_pairs.add(pair)
         except GameDataError as exc:
             self._data_error = str(exc)
 
@@ -204,7 +209,7 @@ class BreedingTab(QWidget):
         first_row.addWidget(QLabel('Max generations'))
         self.max_generations = QSpinBox()
         self.max_generations.setRange(1, 10)
-        self.max_generations.setValue(5)
+        self.max_generations.setValue(6)
         self.max_generations.setFixedWidth(72)
         first_row.addWidget(self.max_generations)
         self.allow_unowned = QCheckBox('Allow additional partner Pals')

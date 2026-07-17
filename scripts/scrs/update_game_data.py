@@ -2784,10 +2784,28 @@ def update_breeding_data():
     if not pal_data or 'pals' not in pal_data:
         pal_data = load_resource_json('characters.json')
     pal_icon_map = {}
+    pal_availability_map = {}
     if pal_data and 'pals' in pal_data:
         for p in pal_data['pals']:
             if isinstance(p, dict) and 'asset' in p:
-                pal_icon_map[p['asset'].lower()] = p.get('icon', f'/icons/pals/{p["asset"]}_icon_normal.webp')
+                asset_lower = p['asset'].lower()
+                pal_icon_map[asset_lower] = p.get(
+                    'icon', f'/icons/pals/{p["asset"]}_icon_normal.webp'
+                )
+                stats = p.get('stats') if isinstance(p.get('stats'), dict) else p
+                zukan_index = stats.get('zukan_index')
+                description = str(p.get('description') or '').strip().casefold()
+                is_available = (
+                    zukan_index is None
+                    or (
+                        isinstance(zukan_index, (int, float))
+                        and zukan_index >= 0
+                    )
+                    or (bool(description) and 'under investigation' not in description)
+                )
+                pal_availability_map[asset_lower] = (
+                    pal_availability_map.get(asset_lower, False) or is_available
+                )
     def _name_map():
         nm = {}
         for k, v in name_l10n.items():
@@ -2908,7 +2926,21 @@ def update_breeding_data():
         tribe = p['tribe']
         asset_lower = tribe.lower()
         icon = pal_icon_map.get(asset_lower, pal_icon_map.get(tribe.lower(), f'/icons/pals/T_{tribe}_icon_normal.webp'))
-        pal_info[tribe] = {'name': name_map.get(tribe.upper(), tribe), 'combi_rank': p['rank'], 'rarity': p.get('rarity', 0), 'ignore_combi': p['ignore_combi'], 'icon': icon}
+        name = name_map.get(tribe.upper(), tribe)
+        is_available = pal_availability_map.get(
+            asset_lower,
+            p.get('rarity', 0) > 0 and name.casefold() != 'unidentified pal',
+        )
+        info = {
+            'name': name,
+            'combi_rank': p['rank'],
+            'rarity': p.get('rarity', 0),
+            'ignore_combi': p['ignore_combi'],
+            'icon': icon,
+        }
+        if not is_available:
+            info['available'] = False
+        pal_info[tribe] = info
     child_to_parents_ignore = {}
     for parent_tribe, entries in parent_to_children_formula.items():
         for e in entries:

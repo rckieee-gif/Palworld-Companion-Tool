@@ -48,6 +48,60 @@ def test_parent_search_contains_special_combination() -> None:
     ]
 
 
+def test_unavailable_species_are_removed_from_breeding_graph() -> None:
+    analyzer = BreedingAnalyzer({
+        'pal_info': {
+            'A': {'name': 'A'},
+            'Hidden': {'name': 'Hidden', 'available': False},
+            'T': {'name': 'T'},
+        },
+        'child_to_parents_ignore': {
+            'T': [{'parent_a': 'A', 'parent_b': 'Hidden'}],
+        },
+        'unique_combos': [
+            {'parent_a': 'Hidden', 'parent_b': 'Hidden', 'child': 'Hidden'},
+        ],
+    })
+
+    assert 'Hidden' not in analyzer.pal_info
+    assert analyzer.pair_key('A', 'Hidden') not in analyzer.pair_to_child
+    assert analyzer.find_chain('A', 'T').reachable is False
+
+
+def test_bundled_paths_exclude_development_only_pals() -> None:
+    analyzer = BreedingAnalyzer(load_breeding_data())
+    unavailable = {
+        'BlackFurDragon',
+        'CandleWitch',
+        'ElecLion',
+        'Strawhatcat',
+        'VolcanicTurtle',
+    }
+
+    assert unavailable.isdisjoint(analyzer.pal_info)
+    assert analyzer.pair_key(
+        'LazyCatfish_Gold', 'ElecLion'
+    ) not in analyzer.pair_to_child
+    assert 'ElecPanda' in analyzer.pal_info
+    assert analyzer.children_by_parent['ElecPanda']
+
+    path = analyzer.find_chain(
+        'LazyCatfish_Gold', 'ChickenPal', max_generations=6
+    )
+    assert path.reachable is True
+    assert path.generation == 6
+    assert all(
+        step.parent_a not in unavailable
+        and step.parent_b not in unavailable
+        and step.child not in unavailable
+        for step in path.steps
+    )
+    assert all(
+        'ChickenPal' not in (step.parent_a, step.parent_b)
+        for step in path.steps
+    )
+
+
 def test_find_chain_returns_shortest_route() -> None:
     path = _analyzer().find_chain('A', 'E', max_generations=3)
     assert path.reachable is True
@@ -102,6 +156,24 @@ def test_unowned_partner_toggle_changes_reachability() -> None:
     assert unrestricted.reachable is True
     assert restricted.reachable is False
     assert with_required.reachable is True
+
+
+def test_target_is_not_used_as_an_unowned_partner() -> None:
+    analyzer = BreedingAnalyzer({
+        'pal_info': {
+            name: {'name': name}
+            for name in ('A', 'B', 'T', 'X')
+        },
+        'child_to_parents_formula': {
+            'B': [{'parent_a': 'A', 'parent_b': 'T'}],
+            'T': [{'parent_a': 'B', 'parent_b': 'X'}],
+        },
+    })
+
+    path = analyzer.find_chain(
+        'A', 'T', max_generations=2, allow_unowned_partners=True
+    )
+    assert path.reachable is False
 
 
 def test_build_tree_rejects_unreachable_path() -> None:
