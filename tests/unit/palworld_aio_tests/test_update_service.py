@@ -18,12 +18,12 @@ from palworld_aio.update_service import (
 @pytest.mark.parametrize(
     ('left', 'right', 'expected'),
     (
-        ('2.2.0', '2.1.9', 1),
-        ('v2.2.0', '2.2', 0),
-        ('2.2.0-rc.2', '2.2.0-rc.1', 1),
-        ('2.2.0-RC.1', '2.2.0-rc.1', -1),
-        ('2.2.0', '2.2.0-rc.9', 1),
-        ('2.1.9', '2.2.0', -1),
+        ('1.0.0', '0.9.9', 1),
+        ('v1.0.0', '1.0', 0),
+        ('1.0.0-rc.2', '1.0.0-rc.1', 1),
+        ('1.0.0-RC.1', '1.0.0-rc.1', -1),
+        ('1.0.0', '1.0.0-rc.9', 1),
+        ('0.9.9', '1.0.0', -1),
     ),
 )
 def test_compare_versions(left: str, right: str, expected: int) -> None:
@@ -31,25 +31,25 @@ def test_compare_versions(left: str, right: str, expected: int) -> None:
 
 
 def test_normalize_and_detect_newer_version() -> None:
-    assert normalize_version('v02.002.000') == '2.2.0'
-    assert is_newer_version('v2.3.0', current='2.2.0') is True
-    assert is_newer_version('v2.2.0', current='2.2.0') is False
+    assert normalize_version('v01.000.000') == '1.0.0'
+    assert is_newer_version('v1.1.0', current='1.0.0') is True
+    assert is_newer_version('v1.0.0', current='1.0.0') is False
 
 
 def test_invalid_version_is_rejected() -> None:
     with pytest.raises(UpdateCheckError, match='Invalid version'):
         normalize_version('release-latest')
     with pytest.raises(UpdateCheckError, match='Invalid version'):
-        normalize_version('2.2.0-rc..1')
+        normalize_version('1.0.0-rc..1')
 
 
 def _release_payload(**overrides) -> bytes:
     payload = {
-        'tag_name': 'v2.3.0',
-        'name': 'Palworld Companion Tools v2.3.0',
+        'tag_name': 'v1.1.0',
+        'name': 'Palworld Companion Tools v1.1.0',
         'html_url': (
             'https://github.com/rckieee-gif/Palworld-Companion-Tool/'
-            'releases/tag/v2.3.0'
+            'releases/tag/v1.1.0'
         ),
         'body': 'Installer and data updates.',
         'draft': False,
@@ -61,9 +61,9 @@ def _release_payload(**overrides) -> bytes:
 
 def test_release_payload_is_parsed() -> None:
     release = parse_release_payload(_release_payload())
-    assert release.version == '2.3.0'
-    assert release.name == 'Palworld Companion Tools v2.3.0'
-    assert release.url.endswith('/releases/tag/v2.3.0')
+    assert release.version == '1.1.0'
+    assert release.name == 'Palworld Companion Tools v1.1.0'
+    assert release.url.endswith('/releases/tag/v1.1.0')
     assert release.notes == 'Installer and data updates.'
 
 
@@ -73,8 +73,8 @@ def test_release_payload_is_parsed() -> None:
         {'draft': True},
         {'prerelease': True},
         {'tag_name': 'latest'},
-        {'html_url': 'https://example.com/releases/tag/v2.3.0'},
-        {'html_url': 'http://github.com/rckieee-gif/Palworld-Companion-Tool/releases/tag/v2.3.0'},
+        {'html_url': 'https://example.com/releases/tag/v1.1.0'},
+        {'html_url': 'http://github.com/rckieee-gif/Palworld-Companion-Tool/releases/tag/v1.1.0'},
     ),
 )
 def test_untrusted_or_unstable_release_is_rejected(overrides: dict[str, object]) -> None:

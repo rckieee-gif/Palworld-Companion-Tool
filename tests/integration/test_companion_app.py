@@ -4,6 +4,7 @@ from PySide6.QtCore import QObject, Signal
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import QLabel
 
+from app_info import PRODUCT_VERSION, RELEASES_URL
 from palworld_aio.ui.main_window import MainWindow
 from palworld_aio.update_service import ReleaseInfo
 
@@ -117,12 +118,9 @@ def test_update_controls_are_wired_without_loading_a_save(qapp) -> None:
 
         window._manual_update_check = False
         checker.up_to_date.emit(ReleaseInfo(
-            version='2.2.0',
-            name='Version 2.2.0',
-            url=(
-                'https://github.com/rckieee-gif/Palworld-Companion-Tool/'
-                'releases/tag/v2.2.0'
-            ),
+            version=PRODUCT_VERSION,
+            name=f'Version {PRODUCT_VERSION}',
+            url=f'{RELEASES_URL}/tag/v{PRODUCT_VERSION}',
         ))
         assert 'up to date' in window.settings_tab.update_status_label.text().lower()
         assert window.update_button.isHidden() is True
