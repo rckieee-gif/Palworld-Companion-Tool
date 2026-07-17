@@ -1,0 +1,46 @@
+name: Feature request
+description: Suggest an improvement within the read-only companion scope.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project accepts read-only Map, Breeding, Wiki, accessibility, localization, and packaging improvements. Save editing and server administration are outside scope.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Map Viewer
+        - Breeding Calculator
+        - Wiki
+        - Accessibility or localization
+        - Packaging or documentation
+        - Other companion feature
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      placeholder: What workflow or information need is currently difficult?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      placeholder: Describe the interaction and expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope confirmation
+      options:
+        - label: This request does not require modifying a Palworld save or adding an administration tool.
+          required: true

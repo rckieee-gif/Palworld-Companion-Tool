@@ -1,49 +1,126 @@
-# Palworld Companion Tools
+<div align="center">
 
-Palworld Companion Tools is a focused desktop companion for Palworld. It keeps
-three informational features from PalworldSaveTools and removes the save editor,
-server administration, cleanup, transfer, conversion, inventory, character,
-guild, base, and Pal modification tools.
+<h1>Palworld Companion Tools</h1>
 
-The application provides:
+<p><strong>Map. Breed. Discover.</strong></p>
 
-- **Interactive Map Viewer** for the bundled World and Tree maps, read-only save
-  markers, filters, coordinates, overlays, local annotations, and an optional
-  embedded MapGenie view.
-- **Breeding Calculator** for parent-to-child results, desired-child parent
-  searches, special combinations, breeding paths, required Pals, and optional
-  unowned breeding partners.
-- **Built-in Wiki** for Pals, items, buildings, technologies, active and passive
-  skills, elements, and work suitability using bundled game data.
+<p>A focused, read-only desktop companion for Palworld.</p>
 
-Breeding and Wiki work immediately. Loading a save is optional and is used only
-to place bases and players on the local map.
+[![Tests](https://github.com/rckieee-gif/Palworld-Companion-Tool/actions/workflows/ci.yml/badge.svg)](https://github.com/rckieee-gif/Palworld-Companion-Tool/actions/workflows/ci.yml)
+[![Save access](https://img.shields.io/badge/save%20access-read--only-28b8a5)](#read-only-guarantee)
+[![Python](https://img.shields.io/badge/python-3.11%2B-3776ab)](https://www.python.org/)
+[![PySide6](https://img.shields.io/badge/UI-PySide6-41cd52)](https://doc.qt.io/qtforpython-6/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](license)
+
+[Releases](https://github.com/rckieee-gif/Palworld-Companion-Tool/releases) |
+[Report a bug](https://github.com/rckieee-gif/Palworld-Companion-Tool/issues/new?template=bug_report.yml) |
+[Request a feature](https://github.com/rckieee-gif/Palworld-Companion-Tool/issues/new?template=feature_request.yml)
+
+</div>
+
+![Breeding Calculator](docs/screenshots/breeding-calculator.png)
+
+## Overview
+
+Palworld Companion Tools keeps the informational parts of PalworldSaveTools and
+removes its save-editing and server-administration capabilities. It is designed
+for players who want to explore a world map, plan breeding combinations, and
+browse bundled game information without modifying game data.
+
+The application starts without a save. Breeding and Wiki are always available,
+and loading `Level.sav` is optional.
+
+### Highlights
+
+| Feature | What it provides |
+| --- | --- |
+| Interactive Map | World and Tree maps, read-only base/player markers, filters, overlays, coordinates, local annotations, and MapGenie access. |
+| Breeding Calculator | Parent-to-child results, desired-child searches, special combinations, required Pals, and multi-generation paths. |
+| Built-in Wiki | Searchable Pals, items, buildings, technologies, skills, elements, and work suitability from bundled data. |
+| Read-only design | No save, overwrite, patch, restore, injection, conversion, cleanup, or backup operation exists in the retained application. |
+| Local processing | Save parsing, breeding searches, and Wiki browsing happen on the device. |
+
+## Contents
+
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Read-only guarantee](#read-only-guarantee)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [Save locations](#save-locations)
+- [Build from source](#build-from-source)
+- [Testing](#testing)
+- [Privacy](#privacy)
+- [Limitations](#limitations)
+- [Contributing](#contributing)
+- [Attribution and license](#attribution-and-license)
+
+## Features
+
+### Interactive Map Viewer
+
+- Opens `Level.sav` as immutable input for map inspection.
+- Shows World Map and Tree Map views with zooming and panning.
+- Displays base and last-known player markers when available.
+- Filters markers by guild or player and opens read-only detail panels.
+- Toggles bases, players, radius rings, and local annotations.
+- Copies coordinates and identifiers without changing world data.
+- Opens the Palpagos Islands MapGenie map in an embedded or external browser.
+
+### Breeding Calculator
+
+- Calculates offspring from two selected parents.
+- Finds parent combinations for a desired child.
+- Supports normal breeding-power rules and special combinations.
+- Plans a path from a starting Pal to a target Pal.
+- Accepts required Pals and optional unowned breeding partners.
+- Uses localized names, Pal icons, sorting, filtering, and clear states.
+- Works without loading a save.
+
+### Built-in Wiki
+
+- Searches Pals, items, buildings, technologies, and skills.
+- Shows Pal stats, elements, work suitability, learned skills, and descriptions.
+- Uses bundled game data and local assets.
+- Handles missing assets without crashing.
+- Works without loading a save.
+
+## Screenshots
+
+| Read-only Map Viewer | Built-in Wiki |
+| --- | --- |
+| ![Read-only Map Viewer](docs/screenshots/map-viewer.png) | ![Built-in Wiki](docs/screenshots/wiki.png) |
 
 ## Read-Only Guarantee
 
 Palworld saves are immutable inputs to this application.
 
-- The retained application imports only the decoder interface used to parse a
-  selected `Level.sav` and, when available, matching files in `Players`.
-- No application service or UI action serializes, overwrites, patches, restores,
-  injects, converts, or replaces a `.sav` file.
-- The loader fingerprints input files before and after parsing and rejects a load
-  if the world changes while it is being read.
-- Map annotations, theme, language, and the last-opened folder are stored in the
-  Palworld Companion Tools configuration directory, never in a Palworld save.
-- Automated tests verify save bytes, size, SHA-256 hash, and modification time
-  remain unchanged after loading, map navigation, overlay toggles, marker
-  inspection, and closing a world.
+- The UI receives frozen marker records rather than writable world objects.
+- The application imports only the decoder interface needed for inspection.
+- No retained application service or UI action serializes a `.sav` file.
+- Input bytes, size, SHA-256, and modification time are checked around loading.
+- A load is rejected if the world changes while it is being read.
+- Map annotations and preferences are stored in the app configuration directory.
+- No backup is created because the application never writes to the save.
 
-No backup is created during loading because the app never writes to the save.
+Automated tests load a fixture, navigate the map, toggle overlays, inspect
+markers, close the world, and verify that every recorded file property remains
+unchanged.
 
-## Install And Run
+## Installation
 
-### Packaged Windows build
+### Windows release
 
-Run `PalworldCompanionTools-V2.1.0-win.exe` from the packaged release or build
-directory. The current development and packaging validation is performed on
-Windows 11.
+Windows packages are published on the
+[Releases page](https://github.com/rckieee-gif/Palworld-Companion-Tool/releases).
+
+1. Download the latest `PalworldCompanionTools-*.exe` asset.
+2. Run the executable.
+3. Open Breeding or Wiki immediately, or load `Level.sav` from Map.
+
+The currently verified packaged platform is Windows 11. Source execution is
+also supported on Linux and macOS, but native packages must be built and tested
+on those operating systems.
 
 ### Run from source
 
@@ -51,95 +128,116 @@ Requirements:
 
 - Python 3.11 or newer
 - Git
-- [uv](https://docs.astral.sh/uv/) or `pip`
+- `pip` or [uv](https://docs.astral.sh/uv/)
 
-From this source checkout with `uv`:
+```powershell
+git clone https://github.com/rckieee-gif/Palworld-Companion-Tool.git
+cd Palworld-Companion-Tool
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install .\src\palsav\palooz
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe start.py
+```
+
+With `uv`:
 
 ```powershell
 uv sync --group dev
 uv run python start.py
 ```
 
-Or with a conventional virtual environment on Windows:
+## Quick Start
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe start.py
+1. Start the application. Breeding opens by default.
+2. Use Pair Calculator to select two parents and view their offspring.
+3. Use Find Parents or Path Planner for a target Pal.
+4. Open Wiki to search the bundled Palworld data.
+5. Open Map and select **Load world** to inspect a `Level.sav` file.
+6. Use the map filters, overlays, marker details, and coordinate tools.
+7. Select **Close world** when finished. No game file is changed.
+
+## Save Locations
+
+Common `Level.sav` locations include:
+
+```text
+Windows Steam
+%LOCALAPPDATA%\Pal\Saved\SaveGames\<SteamID>\<WorldID>\Level.sav
+
+Windows dedicated server
+PalServer\Pal\Saved\SaveGames\0\<WorldID>\Level.sav
+
+Linux Steam / Proton
+~/.local/share/Steam/steamapps/compatdata/1623730/pfx/drive_c/users/steamuser/
+AppData/Local/Pal/Saved/SaveGames/<SteamID>/<WorldID>/Level.sav
 ```
 
-Linux and macOS can run the source build with the corresponding virtual
-environment paths. Native packaged builds for those platforms must be produced
-and verified on that operating system.
+The sibling `Players` folder is optional. If it is absent, the map still loads
+world/base information and explains that player markers are unavailable.
 
-## Loading A World
+## Build From Source
 
-Open **Map**, select **Load world**, and choose `Level.sav`. Dragging one
-`Level.sav` onto the window performs the same read-only load.
-
-Common locations include:
-
-- Windows Steam:
-  `%LOCALAPPDATA%\Pal\Saved\SaveGames\<SteamID>\<WorldID>\Level.sav`
-- Windows dedicated server:
-  `PalServer\Pal\Saved\SaveGames\0\<WorldID>\Level.sav`
-- Linux Steam/Proton:
-  `~/.local/share/Steam/steamapps/compatdata/1623730/pfx/drive_c/users/steamuser/AppData/Local/Pal/Saved/SaveGames/<SteamID>/<WorldID>/Level.sav`
-
-The sibling `Players` folder is optional. When it is missing, the map still
-shows world and base information but reports that player markers are unavailable.
-
-## Privacy
-
-Save parsing and bundled Wiki/Breeding searches happen locally on the device.
-The application does not upload save data, player identifiers, or world data.
-The optional interactive MapGenie page requires an internet connection and is a
-third-party website; opening it is separate from loading a local save.
-
-## Test
-
-```powershell
-.\.venv\Scripts\python.exe -m pytest tests
-```
-
-The suite covers startup without a save, the five allowed navigation entries,
-feature-removal boundaries, read-only file invariants, map interactions,
-breeding formulas and special combinations, required-Pal paths, Wiki categories
-and search, localization, resources, and packaging configuration.
-
-## Build
-
-Create a standalone distribution with Nuitka:
+Create a Windows standalone distribution with Nuitka:
 
 ```powershell
 .\.venv\Scripts\python.exe build\nuitka\build_nuitka.py --standalone
 .\.venv\Scripts\python.exe build\verify_build.py
 ```
 
-Use `--onefile` instead of `--standalone` for a single executable. Build output
-is written under `dist`, and `build/nuitka-report.xml` records bundled modules
-and resources.
+Create one executable file:
+
+```powershell
+.\.venv\Scripts\python.exe build\nuitka\build_nuitka.py --onefile
+```
+
+The GitHub release workflow runs tests, builds the one-file Windows package,
+uploads a workflow artifact, and attaches it to releases triggered by `v*` tags.
+
+## Testing
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+The suite covers startup, the five allowed navigation entries, feature-removal
+boundaries, file invariants, map interactions, breeding formulas, special
+combinations, path constraints, Wiki categories, localization, resources, and
+packaging configuration.
+
+## Privacy
+
+- Save parsing is local.
+- Breeding and Wiki searches are local.
+- Save data, player identifiers, and world data are not uploaded.
+- Preferences and local annotations are stored in the app configuration folder.
+- MapGenie is an optional third-party website and requires network access.
 
 ## Limitations
 
-- Palworld save formats and game data change over time. A newer game version may
-  require a parser or bundled-data update.
-- Save inspection currently focuses on guild, base, and last-known player
-  locations needed by the Map Viewer.
-- The built-in Wiki reflects bundled data and is not an official live database.
-- The embedded MapGenie view requires Qt WebEngine and network access. A browser
-  fallback is provided when embedding is unavailable.
-- Local annotations are viewing notes only and are never imported into the game.
+- Palworld save formats and game data can change after game updates.
+- Save inspection focuses on the guild, base, and player locations needed by Map.
+- The bundled Wiki is not an official live database.
+- MapGenie availability depends on Qt WebEngine and the third-party service.
+- Native Linux and macOS release packages are not currently validated.
+
+## Contributing
+
+Contributions that improve Map, Breeding, Wiki, accessibility, localization,
+testing, or read-only safety are welcome. Save editing and server-administration
+features are intentionally outside this project's scope.
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Security
+reports should follow [SECURITY.md](SECURITY.md).
 
 ## Attribution And License
 
-This project is a streamlined derivative of PalworldSaveTools. It retains the
-original MIT license and attribution. The save-editing and server-administration
-features have been removed.
+This project is a streamlined derivative of
+[PalworldSaveTools](https://github.com/deafdudecomputers/PalworldSaveTools). It
+retains the original MIT license and attribution. The save-editing and
+server-administration features have been removed.
 
 The root [`license`](license) preserves the original MIT copyright notice:
-Copyright (c) 2026 Pylar. Upstream source and history are available at
-[deafdudecomputers/PalworldSaveTools](https://github.com/deafdudecomputers/PalworldSaveTools).
+Copyright (c) 2026 Pylar.
 
 The vendored `palsav-flex` / `palooz` parser dependency carries its own
 GPL-3.0-or-later license in [`src/palsav/LICENSE`](src/palsav/LICENSE).
@@ -148,3 +246,9 @@ Palworld and related names, trademarks, and game assets belong to Pocketpair and
 their respective owners. This project is not affiliated with, endorsed by, or
 sponsored by Pocketpair. MapGenie is a third-party service and is not affiliated
 with this project.
+
+<div align="center">
+
+[Back to top](#palworld-companion-tools)
+
+</div>
