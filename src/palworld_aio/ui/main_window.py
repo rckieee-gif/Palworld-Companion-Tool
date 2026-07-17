@@ -4,8 +4,16 @@ from collections.abc import Callable
 import os
 from pathlib import Path
 
-from PySide6.QtCore import QObject, QThread, Qt, Signal, Slot
-from PySide6.QtGui import QAction, QCloseEvent, QDragEnterEvent, QDropEvent, QIcon, QKeySequence
+from PySide6.QtCore import QObject, QThread, QTimer, QUrl, Qt, Signal, Slot
+from PySide6.QtGui import (
+    QAction,
+    QCloseEvent,
+    QDesktopServices,
+    QDragEnterEvent,
+    QDropEvent,
+    QIcon,
+    QKeySequence,
+)
 from PySide6.QtWidgets import (
     QFileDialog,
     QFrame,
@@ -22,13 +30,19 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from app_info import PRODUCT_NAME, PRODUCT_VERSION
+from app_info import PRODUCT_NAME, PRODUCT_VERSION, RELEASES_URL
 from common import ICON_PATH, get_preferred_save_path, set_last_save_path
-from i18n import get_config_value, set_language, t
+from i18n import get_config_value, set_config_value, set_language, t
 from palworld_aio.read_only_world import (
     ReadOnlyWorldData,
     WorldLoadError,
     load_read_only_world,
+)
+from palworld_aio.update_service import (
+    GitHubReleaseChecker,
+    ReleaseInfo,
+    current_utc_timestamp,
+    should_check_automatically,
 )
 from palworld_aio.ui.chrome.styles import ThemeManager
 from palworld_aio.ui.tabs.about_tab import AboutTab
@@ -71,10 +85,15 @@ class MainWindow(QMainWindow):
         self,
         *,
         world_loader: Callable[[str], ReadOnlyWorldData] = load_read_only_world,
+        update_checker: GitHubReleaseChecker | None = None,
+        schedule_update_check: bool = True,
     ):
         super().__init__()
         self._world_loader = world_loader
+        self._update_checker = update_checker or GitHubReleaseChecker(self)
         self._world: ReadOnlyWorldData | None = None
+        self._latest_release: ReleaseInfo | None = None
+        self._manual_update_check = False
         self._load_thread: QThread | None = None
         self._load_worker: _WorldLoadWorker | None = None
         self._nav_buttons: dict[str, QPushButton] = {}
@@ -85,6 +104,8 @@ class MainWindow(QMainWindow):
         self._apply_theme(str(get_config_value('theme', 'dark')))
         self.navigate('breeding')
         self.setAcceptDrops(True)
+        if schedule_update_check:
+            QTimer.singleShot(1_500, self._check_updates_at_startup)
 
     @property
     def navigation_ids(self) -> tuple[str, ...]:
@@ -161,6 +182,12 @@ class MainWindow(QMainWindow):
         self.page_title.setObjectName('pageTitle')
         header_layout.addWidget(self.page_title)
         header_layout.addStretch()
+        self.update_button = QPushButton()
+        self.update_button.setObjectName('availableUpdateButton')
+        self.update_button.setToolTip('Open the latest GitHub release')
+        self.update_button.setVisible(False)
+        self.update_button.clicked.connect(self._open_latest_release)
+        header_layout.addWidget(self.update_button)
         self.world_status = QLabel('No world loaded')
         self.world_status.setObjectName('brandTagline')
         self.world_status.setTextInteractionFlags(Qt.TextSelectableByMouse)
@@ -208,6 +235,16 @@ class MainWindow(QMainWindow):
         self.map_tab.status_message.connect(self.status_bar.showMessage)
         self.settings_tab.theme_changed.connect(self._apply_theme)
         self.settings_tab.language_changed.connect(self._change_language)
+        self.settings_tab.check_updates_requested.connect(
+            lambda: self.check_for_updates(manual=True)
+        )
+        self.about_tab.check_updates_requested.connect(
+            lambda: self.check_for_updates(manual=True)
+        )
+        self._update_checker.update_available.connect(self._on_update_available)
+        self._update_checker.up_to_date.connect(self._on_up_to_date)
+        self._update_checker.failed.connect(self._on_update_check_failed)
+        self._update_checker.finished.connect(self._on_update_check_finished)
 
     def navigate(self, page_id: str) -> None:
         page = self._pages.get(page_id)
@@ -287,6 +324,125 @@ class MainWindow(QMainWindow):
         self.world_status.setText('No world loaded')
         self.status_bar.showMessage('World closed. No save data was changed.')
 
+    def _check_updates_at_startup(self) -> None:
+        if not bool(get_config_value('check_updates_automatically', True)):
+            return
+        last_checked = get_config_value('last_update_check_utc')
+        if should_check_automatically(last_checked):
+            self.check_for_updates(manual=False)
+
+    def check_for_updates(self, *, manual: bool) -> None:
+        if self._update_checker.is_checking:
+            self._manual_update_check = self._manual_update_check or manual
+            if manual:
+                self.status_bar.showMessage(
+                    t('companion.update.checking', default='Checking for updates...')
+                )
+            return
+        self._manual_update_check = manual
+        if not self._update_checker.check():
+            return
+        message = t('companion.update.checking', default='Checking for updates...')
+        self.settings_tab.set_update_status(message, checking=True)
+        self.about_tab.set_update_status(message, checking=True)
+        self.status_bar.showMessage(message)
+
+    def _record_successful_update_check(self) -> None:
+        set_config_value('last_update_check_utc', current_utc_timestamp())
+
+    def _on_update_available(self, release: ReleaseInfo) -> None:
+        self._latest_release = release
+        self._record_successful_update_check()
+        message = t(
+            'companion.update.available',
+            default='Version {version} is available.',
+            version=release.version,
+        )
+        self.settings_tab.set_update_status(message)
+        self.about_tab.set_update_status(message)
+        self.update_button.setText(t(
+            'companion.update.header',
+            default='Update v{version}',
+            version=release.version,
+        ))
+        self.update_button.setVisible(True)
+        self.status_bar.showMessage(message)
+
+        last_notified = str(get_config_value('last_notified_version', ''))
+        if self._manual_update_check or last_notified != release.version:
+            set_config_value('last_notified_version', release.version)
+            self._show_update_dialog(release)
+
+    def _on_up_to_date(self, release: ReleaseInfo) -> None:
+        self._record_successful_update_check()
+        self.update_button.setVisible(False)
+        message = t(
+            'companion.update.current',
+            default='Version {version} is up to date.',
+            version=PRODUCT_VERSION,
+        )
+        self.settings_tab.set_update_status(message)
+        self.about_tab.set_update_status(message)
+        self.status_bar.showMessage(message, 5_000)
+        if self._manual_update_check:
+            QMessageBox.information(
+                self,
+                t('companion.update.title', default='Software update'),
+                message,
+            )
+
+    def _on_update_check_failed(self, message: str) -> None:
+        friendly = t(
+            'companion.update.failed',
+            default='Could not check for updates. Check your internet connection and try again.',
+        )
+        self.settings_tab.set_update_status(friendly)
+        self.about_tab.set_update_status(friendly)
+        self.status_bar.showMessage(friendly, 7_000)
+        if self._manual_update_check:
+            QMessageBox.warning(
+                self,
+                t('companion.update.title', default='Software update'),
+                f'{friendly}\n\n{message}',
+            )
+
+    def _on_update_check_finished(self) -> None:
+        self.settings_tab.check_updates_button.setEnabled(True)
+        self.about_tab.check_updates_button.setEnabled(True)
+        self._manual_update_check = False
+
+    def _show_update_dialog(self, release: ReleaseInfo) -> None:
+        box = QMessageBox(self)
+        box.setIcon(QMessageBox.Icon.Information)
+        box.setWindowTitle(t('companion.update.title', default='Software update'))
+        box.setText(t(
+            'companion.update.dialog',
+            default='Palworld Companion Tools {version} is available.',
+            version=release.version,
+        ))
+        box.setInformativeText(t(
+            'companion.update.dialog_help',
+            default=(
+                'Open the GitHub release page to view the notes and download the '
+                'new Windows installer. The app never sends or uploads save data.'
+            ),
+        ))
+        open_button = box.addButton(
+            t('companion.update.open', default='Open release'),
+            QMessageBox.ButtonRole.AcceptRole,
+        )
+        box.addButton(
+            t('companion.update.later', default='Later'),
+            QMessageBox.ButtonRole.RejectRole,
+        )
+        box.exec()
+        if box.clickedButton() is open_button:
+            QDesktopServices.openUrl(QUrl(release.url))
+
+    def _open_latest_release(self) -> None:
+        url = self._latest_release.url if self._latest_release else RELEASES_URL
+        QDesktopServices.openUrl(QUrl(url))
+
     def _apply_theme(self, theme: str) -> None:
         ThemeManager.apply_global(theme)
 
@@ -320,6 +476,12 @@ class MainWindow(QMainWindow):
                 default='Saves stay on this device.\nWorld loading is read-only.',
             )
         )
+        if self._latest_release is not None:
+            self.update_button.setText(t(
+                'companion.update.header',
+                default='Update v{version}',
+                version=self._latest_release.version,
+            ))
         current = next(
             (key for key, page in self._pages.items() if page is self.stack.currentWidget()),
             'breeding',

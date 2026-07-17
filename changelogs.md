@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.2.0 - Installer and Release Notifications
+
+- Added a per-user Windows setup package with Start Menu integration, optional
+  desktop shortcut, and clean uninstall support.
+- Added a Python-free portable ZIP built from the same standalone application.
+- Added SHA-256 checksum generation for published Windows artifacts.
+- Added optional daily checks for the latest stable GitHub Release.
+- Added manual update checks in Settings and About plus a persistent available
+  update indicator.
+- Added strict release URL validation and semantic version comparison.
+- Added tag/version enforcement to prevent mismatched release packages.
+
 ## 2.1.0 - Palworld Companion Tools
 
 - Repositioned the project as a read-only Palworld companion application.

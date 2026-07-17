@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from build.nuitka.build_nuitka import build_command, executable_filename
+from build.verify_build import expected_standalone_executable
 
 
 def test_build_uses_companion_identity_and_retained_resources() -> None:
@@ -13,6 +14,7 @@ def test_build_uses_companion_identity_and_retained_resources() -> None:
     assert 'resources/assets/maps' in joined
     assert 'resources/i18n' in joined
     assert 'resources/ui/themes' in joined
+    assert 'PySide6.QtNetwork' in joined
 
 
 def test_removed_feature_packages_are_not_bundled() -> None:
@@ -26,3 +28,10 @@ def test_removed_feature_packages_are_not_bundled() -> None:
         'palsav.commands',
     ):
         assert module not in joined
+
+
+def test_build_verifier_targets_the_standalone_application() -> None:
+    expected = expected_standalone_executable()
+    assert expected.parent.name == 'main.dist'
+    assert expected.name == executable_filename()
+    assert 'Setup' not in expected.name

@@ -7,6 +7,7 @@
 <p>A focused, read-only desktop companion for Palworld.</p>
 
 [![Tests](https://github.com/rckieee-gif/Palworld-Companion-Tool/actions/workflows/ci.yml/badge.svg)](https://github.com/rckieee-gif/Palworld-Companion-Tool/actions/workflows/ci.yml)
+[![Windows installer](https://img.shields.io/badge/Windows-setup-0078d4)](https://github.com/rckieee-gif/Palworld-Companion-Tool/releases/latest)
 [![Save access](https://img.shields.io/badge/save%20access-read--only-28b8a5)](#read-only-guarantee)
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776ab)](https://www.python.org/)
 [![PySide6](https://img.shields.io/badge/UI-PySide6-41cd52)](https://doc.qt.io/qtforpython-6/)
@@ -39,6 +40,7 @@ and loading `Level.sav` is optional.
 | Built-in Wiki | Searchable Pals, items, buildings, technologies, skills, elements, and work suitability from bundled data. |
 | Read-only design | No save, overwrite, patch, restore, injection, conversion, cleanup, or backup operation exists in the retained application. |
 | Local processing | Save parsing, breeding searches, and Wiki browsing happen on the device. |
+| Release notifications | Optional daily checks notify you when a newer stable GitHub release is available. |
 
 ## Contents
 
@@ -46,6 +48,7 @@ and loading `Level.sav` is optional.
 - [Screenshots](#screenshots)
 - [Read-only guarantee](#read-only-guarantee)
 - [Installation](#installation)
+- [Updates](#updates)
 - [Quick start](#quick-start)
 - [Save locations](#save-locations)
 - [Build from source](#build-from-source)
@@ -111,12 +114,27 @@ unchanged.
 
 ### Windows release
 
-Windows packages are published on the
-[Releases page](https://github.com/rckieee-gif/Palworld-Companion-Tool/releases).
+Windows packages are published on the [latest release page](https://github.com/rckieee-gif/Palworld-Companion-Tool/releases/latest).
+They contain the application and its runtime, so Python is not required.
 
-1. Download the latest `PalworldCompanionTools-*.exe` asset.
-2. Run the executable.
-3. Open Breeding or Wiki immediately, or load `Level.sav` from Map.
+1. Download `PalworldCompanionTools-Setup-V<version>-win-x64.exe`.
+2. Run the setup program and choose whether to create a desktop shortcut.
+3. Launch **Palworld Companion Tools** from the Start Menu.
+4. Open Breeding or Wiki immediately, or load `Level.sav` from Map.
+
+The setup installs for the current Windows user, does not require administrator
+rights, and includes an uninstaller. Community builds are currently unsigned,
+so Windows SmartScreen may ask you to confirm that you want to run them.
+
+### Portable Windows package
+
+For a no-install copy:
+
+1. Download `PalworldCompanionTools-Portable-V<version>-win-x64.zip`.
+2. Extract the entire ZIP to a folder.
+3. Run `PalworldCompanionTools-V<version>-win.exe` inside that folder.
+
+Use `SHA256SUMS.txt` on the release page to verify either download when desired.
 
 The currently verified packaged platform is Windows 11. Source execution is
 also supported on Linux and macOS, but native packages must be built and tested
@@ -145,6 +163,18 @@ With `uv`:
 uv sync --group dev
 uv run python start.py
 ```
+
+## Updates
+
+The app checks the repository's latest stable GitHub Release at startup at most
+once every 24 hours. When a newer version is available, it displays a notice and
+an **Open release** button. Installation remains user-controlled; the app never
+downloads or runs an update automatically.
+
+Automatic checks are enabled by default and can be disabled under
+**Settings > Updates**. **Check now** is available in Settings and About. Update
+checks send a normal HTTPS request to GitHub and never include save files,
+player identifiers, map data, or Wiki searches.
 
 ## Quick Start
 
@@ -190,8 +220,19 @@ Create one executable file:
 .\.venv\Scripts\python.exe build\nuitka\build_nuitka.py --onefile
 ```
 
-The GitHub release workflow runs tests, builds the one-file Windows package,
-uploads a workflow artifact, and attaches it to releases triggered by `v*` tags.
+To build the Windows installer, install
+[Inno Setup 6](https://jrsoftware.org/isinfo.php), then run:
+
+```powershell
+.\.venv\Scripts\python.exe build\nuitka\build_nuitka.py --standalone
+.\.venv\Scripts\python.exe build\verify_build.py
+.\.venv\Scripts\python.exe build\installer\build_installer.py
+.\.venv\Scripts\python.exe build\package_release.py
+```
+
+The GitHub release workflow runs tests, builds one standalone distribution,
+creates the per-user installer and portable ZIP, writes SHA-256 checksums, and
+attaches all three artifacts to releases triggered by matching `v*` tags.
 
 ## Testing
 
@@ -210,6 +251,7 @@ packaging configuration.
 - Breeding and Wiki searches are local.
 - Save data, player identifiers, and world data are not uploaded.
 - Preferences and local annotations are stored in the app configuration folder.
+- Optional update checks contact only GitHub's latest-release API and send no save data.
 - MapGenie is an optional third-party website and requires network access.
 
 ## Limitations
@@ -218,6 +260,8 @@ packaging configuration.
 - Save inspection focuses on the guild, base, and player locations needed by Map.
 - The bundled Wiki is not an official live database.
 - MapGenie availability depends on Qt WebEngine and the third-party service.
+- Update notifications require internet access and track stable GitHub Releases only.
+- Windows packages are not currently code-signed and may trigger SmartScreen.
 - Native Linux and macOS release packages are not currently validated.
 
 ## Contributing

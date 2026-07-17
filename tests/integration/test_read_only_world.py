@@ -165,7 +165,7 @@ def test_map_navigation_and_overlays_do_not_touch_save(world_fixture, qapp) -> N
     level, player = world_fixture
     before = {path: _snapshot(path) for path in world_fixture}
     world = load_read_only_world(level, parser=_fixture_properties)
-    window = MainWindow()
+    window = MainWindow(schedule_update_check=False)
     try:
         window._on_world_loaded(world)
         assert window.stack.currentWidget() is window.map_tab

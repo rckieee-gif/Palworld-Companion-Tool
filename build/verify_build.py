@@ -9,7 +9,7 @@ SRC_DIR = ROOT_DIR / 'src'
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from app_info import EXECUTABLE_NAME
+from app_info import EXECUTABLE_NAME, PRODUCT_VERSION
 
 
 REQUIRED_RESOURCES = (
@@ -32,6 +32,13 @@ PROHIBITED_MODULES = (
 )
 
 
+def expected_standalone_executable() -> Path:
+    platform_tag = {'win32': 'win', 'darwin': 'macos'}.get(sys.platform, 'linux')
+    suffix = '.exe' if sys.platform == 'win32' else ''
+    filename = f'{EXECUTABLE_NAME}-V{PRODUCT_VERSION}-{platform_tag}{suffix}'
+    return ROOT_DIR / 'dist' / 'main.dist' / filename
+
+
 def main() -> int:
     report_path = ROOT_DIR / 'build' / 'nuitka-report.xml'
     if not report_path.is_file():
@@ -46,18 +53,14 @@ def main() -> int:
         if f'name="{module}"' in report:
             failures.append(f'prohibited module bundled: {module}')
 
-    executables = [
-        path
-        for path in (ROOT_DIR / 'dist').rglob(f'{EXECUTABLE_NAME}*')
-        if path.is_file() and path.suffix.lower() in ('', '.exe')
-    ]
-    if not executables:
-        failures.append('companion executable was not found under dist')
+    executable = expected_standalone_executable()
+    if not executable.is_file():
+        failures.append(f'companion standalone executable was not found: {executable}')
 
     if failures:
         print('\n'.join(f'FAIL: {failure}' for failure in failures))
         return 1
-    print(f'Build verified: {executables[0]}')
+    print(f'Build verified: {executable}')
     return 0
 
 

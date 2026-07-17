@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtCore import QUrl, Qt
+from PySide6.QtCore import QUrl, Qt, Signal
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import (
     QFrame,
@@ -15,12 +15,15 @@ from app_info import (
     LICENSE_NAME,
     PRODUCT_NAME,
     PRODUCT_VERSION,
+    REPOSITORY_URL,
     UPSTREAM_REPOSITORY,
 )
 from i18n import t
 
 
 class AboutTab(QWidget):
+    check_updates_requested = Signal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self._setup_ui()
@@ -61,16 +64,28 @@ class AboutTab(QWidget):
         body_layout.addWidget(self.rights_label)
 
         actions = QHBoxLayout()
+        self.repository_button = QPushButton()
+        self.repository_button.clicked.connect(
+            lambda: QDesktopServices.openUrl(QUrl(REPOSITORY_URL))
+        )
+        actions.addWidget(self.repository_button)
         self.upstream_button = QPushButton()
         self.upstream_button.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(UPSTREAM_REPOSITORY))
         )
         actions.addWidget(self.upstream_button)
+        self.check_updates_button = QPushButton()
+        self.check_updates_button.clicked.connect(self.check_updates_requested.emit)
+        actions.addWidget(self.check_updates_button)
         self.license_label = QLabel()
         self.license_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         actions.addWidget(self.license_label)
         actions.addStretch()
         body_layout.addLayout(actions)
+        self.update_status_label = QLabel()
+        self.update_status_label.setObjectName('pageSubtitle')
+        self.update_status_label.setWordWrap(True)
+        body_layout.addWidget(self.update_status_label)
         root.addWidget(body)
         root.addStretch()
         self.refresh_labels()
@@ -111,6 +126,21 @@ class AboutTab(QWidget):
         self.upstream_button.setText(
             t('companion.about.upstream', default='Upstream project')
         )
+        self.repository_button.setText(
+            t('companion.about.repository', default='Project repository')
+        )
+        self.check_updates_button.setText(
+            t('companion.settings.updates_check', default='Check now')
+        )
         self.license_label.setText(
             t('companion.about.license', default='License: {license}', license=LICENSE_NAME)
         )
+        if not self.update_status_label.text():
+            self.update_status_label.setText(t(
+                'companion.about.update_status',
+                default='Release updates are checked securely through GitHub.',
+            ))
+
+    def set_update_status(self, text: str, *, checking: bool = False) -> None:
+        self.update_status_label.setText(text)
+        self.check_updates_button.setEnabled(not checking)

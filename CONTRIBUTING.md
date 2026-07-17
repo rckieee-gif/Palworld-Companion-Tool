@@ -38,6 +38,19 @@ Run tests:
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
+Build the Python-free Windows distribution and installer:
+
+```powershell
+.\.venv\Scripts\python.exe build\nuitka\build_nuitka.py --standalone
+.\.venv\Scripts\python.exe build\verify_build.py
+.\.venv\Scripts\python.exe build\installer\build_installer.py
+.\.venv\Scripts\python.exe build\package_release.py
+```
+
+The installer step requires Inno Setup 6. `PRODUCT_VERSION` in `src/app_info.py`
+and `project.version` in `pyproject.toml` must match. A release tag must be the
+same version prefixed with `v`, for example `v2.2.0`.
+
 ## Pull Requests
 
 1. Create a focused branch.
