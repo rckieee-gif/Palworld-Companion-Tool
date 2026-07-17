@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Added a deterministic game-data manifest with JSON and icon-bundle SHA-256
+  checksums, record counts, version metadata, and unavailable-Pal tracking.
+- Added reusable schema, breeding-reference, icon, and bundle validation.
+- Added a local validation control in Settings and a game-data version badge in About.
+- Added validation commands to pull-request and release workflows.
+
 ## 1.0.1 - Wiki, Branding, and Breeding Update
 
 - Replaced the application icon with the new Palworld Companion Tools artwork.

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from build.nuitka.build_nuitka import build_command, executable_filename
-from build.verify_build import expected_standalone_executable
+from build.verify_build import REQUIRED_RESOURCES, expected_standalone_executable
 
 
 def test_build_uses_companion_identity_and_retained_resources() -> None:
@@ -15,6 +15,7 @@ def test_build_uses_companion_identity_and_retained_resources() -> None:
     assert 'resources/i18n' in joined
     assert 'resources/ui/themes' in joined
     assert 'PySide6.QtNetwork' in joined
+    assert 'resources/game_data/manifest.json' in REQUIRED_RESOURCES
 
 
 def test_removed_feature_packages_are_not_bundled() -> None:

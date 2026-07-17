@@ -38,6 +38,7 @@ and loading `Level.sav` is optional.
 | Interactive Map | World and Tree maps, read-only base/player markers, filters, overlays, coordinates, local annotations, and MapGenie access. |
 | Breeding Calculator | Parent-to-child results, desired-child searches, special combinations, required Pals, and multi-generation paths. |
 | Built-in Wiki | Searchable Pals, items, buildings, technologies, skills, elements, and work suitability from bundled data. |
+| Game-data validation | Verifies bundled JSON schemas, breeding references, icons, versions, and SHA-256 manifest entries locally. |
 | Read-only design | No save, overwrite, patch, restore, injection, conversion, cleanup, or backup operation exists in the retained application. |
 | Local processing | Save parsing, breeding searches, and Wiki browsing happen on the device. |
 | Release notifications | Optional daily checks notify you when a newer stable GitHub release is available. |
@@ -47,6 +48,7 @@ and loading `Level.sav` is optional.
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Read-only guarantee](#read-only-guarantee)
+- [Game-data integrity](#game-data-integrity)
 - [Installation](#installation)
 - [Updates](#updates)
 - [Quick start](#quick-start)
@@ -87,6 +89,20 @@ and loading `Level.sav` is optional.
 - Uses bundled game data and local assets.
 - Handles missing assets without crashing.
 - Works without loading a save.
+
+## Game-Data Integrity
+
+The bundled data includes a deterministic `resources/game_data/manifest.json`.
+It records the game-data version, each JSON file's SHA-256 and record counts,
+the complete icon-bundle digest, known fallback icons, and unavailable Pals.
+
+- Use **Settings > Game data > Validate data** to run the check locally.
+- Validation never opens a save, changes game data, or requires a network connection.
+- Unknown breeding references, version drift, missing required files, changed
+  checksums, and unrecorded icon gaps are validation errors.
+- Known internal/development entries without dedicated icons are reported as a
+  warning and use the existing unknown-icon fallback.
+- Pull-request and release workflows run the same validator before packaging.
 
 ## Screenshots
 
@@ -238,12 +254,21 @@ attaches all three artifacts to releases triggered by matching `v*` tags.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe scripts\validate_game_data.py
 ```
 
 The suite covers startup, the five allowed navigation entries, feature-removal
 boundaries, file invariants, map interactions, breeding formulas, special
 combinations, path constraints, Wiki categories, localization, resources, and
 packaging configuration.
+
+After intentionally updating files under `resources/game_data`, regenerate and
+review the manifest before running validation:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\generate_game_data_manifest.py
+.\.venv\Scripts\python.exe scripts\validate_game_data.py
+```
 
 ## Privacy
 
@@ -257,6 +282,8 @@ packaging configuration.
 ## Limitations
 
 - Palworld save formats and game data can change after game updates.
+- The validation manifest proves bundle consistency, not endorsement or live
+  accuracy against Pocketpair's current servers.
 - Save inspection focuses on the guild, base, and player locations needed by Map.
 - The bundled Wiki is not an official live database.
 - MapGenie availability depends on Qt WebEngine and the third-party service.

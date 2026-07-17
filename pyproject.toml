@@ -26,6 +26,9 @@ Upstream = "https://github.com/deafdudecomputers/PalworldSaveTools"
 [project.gui-scripts]
 palworld-companion-tools = "palworld_aio.main:run_aio"
 
+[project.scripts]
+palworld-companion-validate-data = "palworld_aio.game_data_validation:main"
+
 [tool.uv.sources]
 palsav-flex = { workspace = true, editable = true }
 

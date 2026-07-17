@@ -3051,9 +3051,10 @@ def main():
         except Exception as e:
             stop.set()
             print(f'\r  [FAIL] {label} - {e}')
-            return
+            return False
         stop.set()
         print(f'\r  [OK]  {label}')
+        return True
     global icon_name_to_path
     def _build_lookup():
         global icon_name_to_path
@@ -3089,6 +3090,34 @@ def main():
     from PIL import Image
     _run_step('Converting map textures...', lambda: _convert_map_pngs(Image))
     _run_step('Converting icons...', lambda: _convert_icons(Image))
+    def _write_and_validate_manifest():
+        src_dir = BASE_DIR / 'src'
+        if str(src_dir) not in sys.path:
+            sys.path.insert(0, str(src_dir))
+        from app_info import GAME_DATA_VERSION
+        from palworld_aio.game_data_validation import (
+            validate_game_data,
+            write_game_data_manifest,
+        )
+        write_game_data_manifest(
+            RESOURCES_DIR,
+            game_data_version=GAME_DATA_VERSION,
+        )
+        report = validate_game_data(
+            RESOURCES_DIR,
+            expected_version=GAME_DATA_VERSION,
+        )
+        if not report.is_valid:
+            details = '; '.join(
+                f'{issue.code}: {issue.message}' for issue in report.errors[:5]
+            )
+            raise RuntimeError(f'{report.summary()} {details}')
+    if not _run_step(
+        'Writing and validating game data manifest...',
+        _write_and_validate_manifest,
+    ):
+        print('\nERROR: Updated game data did not pass validation.')
+        sys.exit(1)
     print('\n' + '=' * 60)
     print(logo)
     print('=' * 60)

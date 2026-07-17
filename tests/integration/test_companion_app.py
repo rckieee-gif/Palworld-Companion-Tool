@@ -4,7 +4,7 @@ from PySide6.QtCore import QObject, Signal
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import QLabel
 
-from app_info import PRODUCT_VERSION, RELEASES_URL
+from app_info import GAME_DATA_VERSION, PRODUCT_VERSION, RELEASES_URL
 from palworld_aio.ui.main_window import MainWindow
 from palworld_aio.update_service import ReleaseInfo
 
@@ -126,5 +126,23 @@ def test_update_controls_are_wired_without_loading_a_save(qapp) -> None:
         ))
         assert 'up to date' in window.settings_tab.update_status_label.text().lower()
         assert window.update_button.isHidden() is True
+    finally:
+        window.close()
+
+
+def test_game_data_validation_is_available_without_a_save(qapp) -> None:
+    window = MainWindow(schedule_update_check=False)
+    try:
+        window.navigate('settings')
+        assert GAME_DATA_VERSION in window.settings_tab.game_data_status_label.text()
+        window.settings_tab.validate_data_button.click()
+        assert window.settings_tab._data_validation_report is not None
+        assert window.settings_tab._data_validation_report.is_valid is True
+        assert 'is valid' in window.settings_tab.game_data_status_label.text().lower()
+        assert '58 known icon paths' in window.settings_tab.game_data_status_label.text()
+        assert window.settings_tab.validate_data_button.isEnabled() is True
+
+        window.navigate('about')
+        assert GAME_DATA_VERSION in window.about_tab.data_version_label.text()
     finally:
         window.close()
