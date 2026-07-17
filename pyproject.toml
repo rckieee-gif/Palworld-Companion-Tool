@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=75.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "palworld-companion-tools"
+version = "2.1.0"
+description = "Read-only Palworld map viewer, breeding calculator, and built-in wiki"
+readme = "README.md"
+license = { file = "license" }
+authors = [{ name = "Pylar" }]
+requires-python = ">=3.11"
+dependencies = [
+    "pyside6-essentials>=6.8",
+    "pyside6-addons>=6.8",
+    "palsav-flex==0.2.0",
+]
+
+[project.urls]
+Upstream = "https://github.com/deafdudecomputers/PalworldSaveTools"
+
+[project.gui-scripts]
+palworld-companion-tools = "palworld_aio.main:run_aio"
+
+[tool.uv.sources]
+palsav-flex = { workspace = true, editable = true }
+
+[tool.uv.workspace]
+members = ["src/palsav"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = [
+    "app_info",
+    "boot_paths",
+    "bootup",
+    "common",
+    "path_setup",
+    "resource_resolver",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["i18n*", "palworld_aio*", "palworld_coord*"]
+
+[tool.pyright]
+extraPaths = ["src", "src/palsav"]
+reportAttributeAccessIssue = false
+reportOptionalMemberAccess = false
+reportOptionalSubscript = false
+reportOptionalIterable = false
+reportOptionalComparison = false
+reportArgumentType = false
+reportOptionalIn = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-m 'not slow' --basetemp=build/pytest-tmp -p no:cacheprovider"
+markers = ["slow: slower integration or packaging tests"]
+
+[dependency-groups]
+dev = [
+    "nuitka>=4.1.2",
+    "pytest>=8.0",
+]

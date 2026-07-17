@@ -1,0 +1,28 @@
+from __future__ import annotations
+
+from build.nuitka.build_nuitka import build_command, executable_filename
+
+
+def test_build_uses_companion_identity_and_retained_resources() -> None:
+    command = build_command(onefile=False)
+    joined = '\n'.join(command)
+    assert '--mode=standalone' in command
+    assert executable_filename().startswith('PalworldCompanionTools-')
+    assert '--product-name=Palworld Companion Tools' in command
+    assert 'resources/game_data' in joined
+    assert 'resources/assets/maps' in joined
+    assert 'resources/i18n' in joined
+    assert 'resources/ui/themes' in joined
+
+
+def test_removed_feature_packages_are_not_bundled() -> None:
+    joined = '\n'.join(build_command(onefile=False)).lower()
+    for module in (
+        'palworld_toolsets',
+        'palworld_xgp_import',
+        'palworld_aio.editor',
+        'palworld_aio.inventory',
+        'palworld_aio.managers',
+        'palsav.commands',
+    ):
+        assert module not in joined

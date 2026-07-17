@@ -1,0 +1,82 @@
+{
+    "work_types": [
+        {
+            "id": "EmitFlame",
+            "display_name": "Kindling",
+            "icon": "/icons/ui/T_icon_palwork_00.webp",
+            "index": 0
+        },
+        {
+            "id": "Watering",
+            "display_name": "Watering",
+            "icon": "/icons/ui/T_icon_palwork_01.webp",
+            "index": 1
+        },
+        {
+            "id": "Seeding",
+            "display_name": "Planting",
+            "icon": "/icons/ui/T_icon_palwork_02.webp",
+            "index": 2
+        },
+        {
+            "id": "GenerateElectricity",
+            "display_name": "Generating Electricity",
+            "icon": "/icons/ui/T_icon_palwork_03.webp",
+            "index": 3
+        },
+        {
+            "id": "Handcraft",
+            "display_name": "Handiwork",
+            "icon": "/icons/ui/T_icon_palwork_04.webp",
+            "index": 4
+        },
+        {
+            "id": "Collection",
+            "display_name": "Gathering",
+            "icon": "/icons/ui/T_icon_palwork_05.webp",
+            "index": 5
+        },
+        {
+            "id": "Deforest",
+            "display_name": "Lumbering",
+            "icon": "/icons/ui/T_icon_palwork_06.webp",
+            "index": 6
+        },
+        {
+            "id": "Mining",
+            "display_name": "Mining",
+            "icon": "/icons/ui/T_icon_palwork_07.webp",
+            "index": 7
+        },
+        {
+            "id": "Transport",
+            "display_name": "Transporting",
+            "icon": "/icons/ui/T_icon_palwork_08.webp",
+            "index": 8
+        },
+        {
+            "id": "MonsterFarm",
+            "display_name": "Ranching",
+            "icon": "/icons/ui/T_icon_palwork_09.webp",
+            "index": 9
+        },
+        {
+            "id": "ProductMedicine",
+            "display_name": "Medicine Production",
+            "icon": "/icons/ui/T_icon_palwork_10.webp",
+            "index": 10
+        },
+        {
+            "id": "OilExtraction",
+            "display_name": "Oil Extraction",
+            "icon": "/icons/ui/T_icon_palwork_11.webp",
+            "index": 11
+        },
+        {
+            "id": "Cool",
+            "display_name": "Cooling",
+            "icon": "/icons/ui/T_icon_palwork_12.webp",
+            "index": 12
+        }
+    ]
+}
