@@ -11,7 +11,7 @@ from PySide6.QtCore import QTimer
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from PySide6.QtWidgets import QApplication, QMessageBox
 
-from app_info import PRODUCT_NAME
+from app_info import PRODUCT_NAME, PRODUCT_VERSION
 from common import ICON_PATH, get_base_directory
 from i18n import init_language
 from resource_resolver import resource_path
@@ -47,6 +47,7 @@ def run_aio(argv: list[str] | None = None) -> int:
 
     app = QApplication.instance() or QApplication(args)
     app.setApplicationName(PRODUCT_NAME)
+    app.setApplicationVersion(PRODUCT_VERSION)
     app.setOrganizationName('Palworld Companion Tools')
     app.setStyle('Fusion')
     _install_font()

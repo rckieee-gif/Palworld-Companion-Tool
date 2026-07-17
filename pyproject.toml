@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "palworld-companion-tools"
-version = "2.1.0"
+version = "2.2.0"
 description = "Read-only Palworld map viewer, breeding calculator, and built-in wiki"
 readme = "README.md"
 license = { file = "license" }
@@ -17,6 +17,10 @@ dependencies = [
 ]
 
 [project.urls]
+Homepage = "https://github.com/rckieee-gif/Palworld-Companion-Tool"
+Repository = "https://github.com/rckieee-gif/Palworld-Companion-Tool"
+Issues = "https://github.com/rckieee-gif/Palworld-Companion-Tool/issues"
+Releases = "https://github.com/rckieee-gif/Palworld-Companion-Tool/releases"
 Upstream = "https://github.com/deafdudecomputers/PalworldSaveTools"
 
 [project.gui-scripts]

@@ -11,8 +11,8 @@ permissions:
 
 jobs:
   build:
-    name: Build Windows package
-    runs-on: windows-latest
+    name: Build Windows installer
+    runs-on: windows-2022
     timeout-minutes: 60
 
     steps:
@@ -43,15 +43,40 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         run: python -m pytest -q
 
-      - name: Build one-file executable
+      - name: Read and validate version
         shell: pwsh
-        run: python build/nuitka/build_nuitka.py --onefile
+        run: |
+          $version = python -c "import sys; sys.path.insert(0, 'src'); from app_info import PRODUCT_VERSION; print(PRODUCT_VERSION)"
+          if (-not $version) { throw "Application version was not found." }
+          if ($env:GITHUB_REF_TYPE -eq "tag" -and $env:GITHUB_REF_NAME -ne "v$version") {
+            throw "Tag $env:GITHUB_REF_NAME does not match application version v$version."
+          }
+          "APP_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Build standalone application
+        shell: pwsh
+        run: python build/nuitka/build_nuitka.py --standalone
+
+      - name: Verify standalone application
+        shell: pwsh
+        run: python build/verify_build.py
+
+      - name: Build Windows installer
+        shell: pwsh
+        run: python build/installer/build_installer.py
+
+      - name: Create portable archive and checksums
+        shell: pwsh
+        run: python build/package_release.py
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PalworldCompanionTools-Windows
-          path: dist/PalworldCompanionTools-*.exe
+          name: PalworldCompanionTools-Windows-${{ env.APP_VERSION }}
+          path: |
+            dist/PalworldCompanionTools-Setup-V*-win-x64.exe
+            dist/PalworldCompanionTools-Portable-V*-win-x64.zip
+            dist/SHA256SUMS.txt
           if-no-files-found: error
 
       - name: Publish tagged release
@@ -60,6 +85,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $asset = Get-ChildItem dist -Filter "PalworldCompanionTools-*.exe" | Select-Object -First 1
-          if (-not $asset) { throw "Release executable was not found." }
-          gh release create $env:GITHUB_REF_NAME $asset.FullName --generate-notes --title "Palworld Companion Tools $env:GITHUB_REF_NAME"
+          $assets = @(
+            Get-ChildItem dist -Filter "PalworldCompanionTools-Setup-V*-win-x64.exe"
+            Get-ChildItem dist -Filter "PalworldCompanionTools-Portable-V*-win-x64.zip"
+            Get-Item dist/SHA256SUMS.txt
+          )
+          if ($assets.Count -ne 3) { throw "Expected release artifacts were not found." }
+          gh release create $env:GITHUB_REF_NAME $assets.FullName --generate-notes --title "Palworld Companion Tools $env:GITHUB_REF_NAME"
