@@ -49,7 +49,7 @@ Build the Python-free Windows distribution and installer:
 
 The installer step requires Inno Setup 6. `PRODUCT_VERSION` in `src/app_info.py`
 and `project.version` in `pyproject.toml` must match. A release tag must be the
-same version prefixed with `v`, for example `v2.2.0`.
+same version prefixed with `v`, for example `v1.0.0`.
 
 ## Pull Requests
 
