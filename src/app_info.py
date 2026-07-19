@@ -3,7 +3,7 @@
 PRODUCT_NAME = 'Palworld Companion Tools'
 PRODUCT_SLUG = 'PalworldCompanionTools'
 EXECUTABLE_NAME = 'PalworldCompanionTools'
-PRODUCT_VERSION = '1.0.1'
+PRODUCT_VERSION = '1.0.2'
 GAME_DATA_VERSION = '1.0.1'
 
 REPOSITORY_SLUG = 'rckieee-gif/Palworld-Companion-Tool'

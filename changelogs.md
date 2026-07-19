@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.0.2 - Native Map and Path Planner Update
+
 - Replaced the third-party web map with a fully local World/Tree explorer.
 - Added searchable markers for all 174 bundled fast-travel locations.
 - Added personal map pins stored only in the application configuration directory.
@@ -14,7 +16,7 @@
 - Added validation commands to pull-request and release workflows.
 - Made unowned Pal `+` badges interactive in Path Planner, with searchable
   parent-pair selection and recursive branch expansion.
-- Prevented circular branch expansion and explain self-only combinations that
+- Prevented circular branch expansion and explained self-only combinations that
   cannot produce a player's first copy of a Pal.
 
 ## 1.0.1 - Wiki, Branding, and Breeding Update
