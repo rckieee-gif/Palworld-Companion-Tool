@@ -10,9 +10,9 @@ from palworld_aio.update_service import ReleaseInfo
 
 
 EXPECTED_NAVIGATION = ('map', 'breeding', 'wiki', 'settings', 'about')
-MAP_EMPTY_MESSAGE = (
-    'Load a Palworld world save to view its map. This app opens saves '
-    'in read-only mode and will never modify them.'
+MAP_NO_SAVE_MESSAGE = (
+    'Explore bundled locations. Load Level.sav to add read-only '
+    'base and player overlays.'
 )
 
 
@@ -72,14 +72,50 @@ def test_breeding_and_wiki_work_without_world_data(qapp) -> None:
         window.close()
 
 
-def test_map_shows_read_only_empty_state(qapp) -> None:
+def test_native_map_is_available_without_a_save(qapp) -> None:
     window = MainWindow(schedule_update_check=False)
     try:
         window.navigate('map')
-        assert window.map_tab.content_stack.currentWidget() is window.map_tab.empty_page
+        assert window.map_tab.local_page is not None
+        assert len(window.map_tab._bundled_locations) == 174
+        assert len(window.map_tab._location_markers) == 157
+        assert window.map_tab.location_tree.topLevelItemCount() == 1
+        assert window.map_tab.read_only_label.isHidden() is True
         texts = [label.text() for label in window.map_tab.findChildren(QLabel)]
-        assert MAP_EMPTY_MESSAGE in texts
+        assert MAP_NO_SAVE_MESSAGE in texts
     finally:
+        window.close()
+
+
+def test_native_map_searches_both_maps_and_renders_personal_pins(qapp) -> None:
+    window = MainWindow(schedule_update_check=False)
+    try:
+        map_tab = window.map_tab
+        map_tab.annotation_store.clear()
+
+        map_tab.search.setText('Deserted Islet')
+        assert len(map_tab._location_markers) == 1
+        location = next(iter(map_tab._location_markers.values())).location_data
+        assert location.name == 'Deserted Islet'
+
+        map_tab.search.clear()
+        map_tab.tree_button.click()
+        assert len(map_tab._location_markers) == 17
+
+        map_tab.world_button.click()
+        pin_id = map_tab.annotation_store.add({
+            'type': 'point',
+            'name': 'Ore route',
+            'map_type': 'world',
+            'x': 125,
+            'y': -340,
+        })
+        map_tab.refresh()
+        assert pin_id in map_tab._location_markers
+        assert map_tab._location_markers[pin_id].location_data.source == 'local'
+        assert map_tab.world is None
+    finally:
+        window.map_tab.annotation_store.clear()
         window.close()
 
 

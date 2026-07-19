@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 import json
+import math
 from pathlib import Path
 import uuid
 
@@ -96,6 +97,21 @@ class AnnotationStore:
             x1, x2 = sorted((float(value['x1']), float(value['x2'])))
             y1, y2 = sorted((float(value['y1']), float(value['y2'])))
             value.update({'x1': x1, 'x2': x2, 'y1': y1, 'y2': y2})
+        elif kind == 'point':
+            map_type = str(value.get('map_type', 'world'))
+            if map_type not in ('world', 'tree'):
+                raise ValueError(f'Unsupported map type: {map_type}')
+            x = float(value['x'])
+            y = float(value['y'])
+            if not math.isfinite(x) or not math.isfinite(y):
+                raise ValueError('Map pin coordinates must be finite numbers.')
+            limit = 2500 if map_type == 'tree' else 1000
+            if abs(x) > limit or abs(y) > limit:
+                raise ValueError(
+                    f'Map pin coordinates must be between {-limit} and {limit}.'
+                )
+            value.update({'map_type': map_type, 'x': x, 'y': y})
+            value['description'] = str(value.get('description') or '')
         else:
             raise ValueError(f'Unsupported map annotation type: {kind}')
         return value

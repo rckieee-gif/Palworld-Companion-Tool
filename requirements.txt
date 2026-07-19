@@ -1,5 +1,4 @@
 pyside6-essentials>=6.8
-pyside6-addons>=6.8
 ./src/palsav
 
 # Development and packaging

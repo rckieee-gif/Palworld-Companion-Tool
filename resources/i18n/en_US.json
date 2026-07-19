@@ -130,12 +130,5 @@
   "docs.wiki.work_required": "Work Required",
   "docs.wiki.work_suitability": "Work Suitability",
   "docs.wiki.yes": "Yes",
-  "mapgenie.back": "Back",
-  "mapgenie.copy_coords": "Copy Coordinates",
-  "mapgenie.forward": "Forward",
-  "mapgenie.no_pin": "No save pin selected",
-  "mapgenie.open_browser": "Open in Browser",
-  "mapgenie.reload": "Reload",
-  "mapgenie.webview_unavailable": "The embedded map is unavailable in this source environment.",
   "zoom": "Zoom"
 }

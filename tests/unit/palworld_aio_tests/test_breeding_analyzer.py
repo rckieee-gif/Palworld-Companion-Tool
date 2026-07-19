@@ -4,7 +4,12 @@ from palworld_aio.breeding_analyzer import (
     BreedCombination,
     BreedingAnalyzer,
     BreedingPath,
+    BreedingTreeNode,
+    breeding_steps_from_tree,
+    breeding_tree_ancestors,
+    breeding_tree_depth,
     build_breeding_tree,
+    expand_breeding_tree,
 )
 from palworld_aio.game_data import load_breeding_data
 
@@ -179,3 +184,33 @@ def test_target_is_not_used_as_an_unowned_partner() -> None:
 def test_build_tree_rejects_unreachable_path() -> None:
     path = BreedingPath('T', False, False, None, ())
     assert build_breeding_tree(path) is None
+
+
+def test_leaf_can_be_expanded_into_a_parent_pair() -> None:
+    leaf = BreedingTreeNode('E')
+    root = BreedingTreeNode('T', (BreedingTreeNode('A'), leaf))
+
+    expanded = expand_breeding_tree(root, leaf, 'B', 'D')
+
+    assert expanded.parents[1] == BreedingTreeNode(
+        'E',
+        (BreedingTreeNode('B'), BreedingTreeNode('D')),
+    )
+    assert breeding_tree_depth(expanded) == 2
+    assert breeding_steps_from_tree(expanded) == (
+        BreedCombination('B', 'D', 'E', 1),
+        BreedCombination('A', 'E', 'T', 2),
+    )
+
+
+def test_expansion_rejects_a_circular_parent_branch() -> None:
+    leaf = BreedingTreeNode('E')
+    root = BreedingTreeNode('T', (BreedingTreeNode('A'), leaf))
+
+    assert breeding_tree_ancestors(root, leaf) == frozenset({'T'})
+    try:
+        expand_breeding_tree(root, leaf, 'B', 'T')
+    except ValueError as exc:
+        assert 'circular' in str(exc)
+    else:
+        raise AssertionError('Circular expansion should be rejected.')

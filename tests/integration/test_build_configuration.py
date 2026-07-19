@@ -29,6 +29,8 @@ def test_removed_feature_packages_are_not_bundled() -> None:
         'palsav.commands',
     ):
         assert module not in joined
+    assert 'qtwebengine' not in joined
+    assert 'mapgenie' not in joined
 
 
 def test_build_verifier_targets_the_standalone_application() -> None:

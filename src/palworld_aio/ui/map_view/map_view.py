@@ -3,7 +3,7 @@ from PySide6.QtCore import Qt, QPointF, QPoint, QSize, Signal, QTimer
 from PySide6.QtGui import QPainter
 from i18n import t
 import palworld_coord
-from .map_markers import BaseMarker, PlayerMarker
+from .map_markers import BaseMarker, LocationMarker, PlayerMarker
 from .map_items import ExclusionZoneItem, PolygonExclusionZoneItem, ZonePreviewItem, PolygonPreviewItem
 class MapGraphicsView(QGraphicsView):
     marker_clicked = Signal(object, object)
@@ -135,6 +135,18 @@ class MapGraphicsView(QGraphicsView):
             elif event.button() == Qt.RightButton:
                 self.marker_right_clicked.emit(item.player_data, event.globalPosition())
                 return
+        elif isinstance(item, LocationMarker):
+            if event.button() == Qt.LeftButton:
+                self.scene().clearSelection()
+                item.setSelected(True)
+                item.start_glow()
+                self.marker_clicked.emit(item.location_data, item)
+            elif event.button() == Qt.RightButton:
+                self.marker_right_clicked.emit(
+                    item.location_data,
+                    event.globalPosition(),
+                )
+                return
         elif isinstance(item, (ExclusionZoneItem, PolygonExclusionZoneItem)):
             if event.button() == Qt.RightButton:
                 self.zone_right_clicked.emit(item, event.globalPosition())
@@ -196,6 +208,12 @@ class MapGraphicsView(QGraphicsView):
                 zoom_level = self.config['zoom']['double_click_target']
                 self.animate_to_marker(item, zoom_level=zoom_level, duration_ms=1500)
                 return
+        elif isinstance(item, LocationMarker):
+            if event.button() == Qt.LeftButton:
+                self.marker_double_clicked.emit(item.location_data, item)
+                zoom_level = self.config['zoom']['double_click_target']
+                self.animate_to_marker(item, zoom_level=zoom_level, duration_ms=1500)
+                return
         elif isinstance(item, (ExclusionZoneItem, PolygonExclusionZoneItem)):
             if event.button() == Qt.LeftButton:
                 self.zone_double_clicked.emit(item)
@@ -217,7 +235,12 @@ class MapGraphicsView(QGraphicsView):
                 width, height = (rect.width(), rect.height())
                 img_x, img_y = (scene_pos.x(), scene_pos.y())
                 if self.current_map == 'tree':
-                    x_world, y_world = palworld_coord.treemap_pixel_to_cursor(img_x, img_y, width, height)
+                    x_world, y_world = palworld_coord.treemap_pixel_to_map(
+                        img_x,
+                        img_y,
+                        width,
+                        height,
+                    )
                 else:
                     x_world = img_x / width * 2000 - 1000
                     y_world = 1000 - img_y / height * 2000
@@ -240,6 +263,16 @@ class MapGraphicsView(QGraphicsView):
                 self._hovered_marker = item
                 global_pos = self.mapToGlobal(event.pos())
                 self.marker_hover_entered.emit(item.player_data, QPointF(global_pos.x(), global_pos.y()))
+        elif isinstance(item, LocationMarker):
+            if self._hovered_marker != item:
+                if self._hovered_marker is not None:
+                    self.marker_hover_left.emit()
+                self._hovered_marker = item
+                global_pos = self.mapToGlobal(event.pos())
+                self.marker_hover_entered.emit(
+                    item.location_data,
+                    QPointF(global_pos.x(), global_pos.y()),
+                )
         elif self._hovered_marker is not None:
             self._hovered_marker = None
             self.marker_hover_left.emit()
@@ -249,7 +282,12 @@ class MapGraphicsView(QGraphicsView):
             width, height = (rect.width(), rect.height())
             img_x, img_y = (scene_pos.x(), scene_pos.y())
             if self.current_map == 'tree':
-                x_world, y_world = palworld_coord.treemap_pixel_to_cursor(img_x, img_y, width, height)
+                x_world, y_world = palworld_coord.treemap_pixel_to_map(
+                    img_x,
+                    img_y,
+                    width,
+                    height,
+                )
             else:
                 x_world = img_x / width * 2000 - 1000
                 y_world = 1000 - img_y / height * 2000

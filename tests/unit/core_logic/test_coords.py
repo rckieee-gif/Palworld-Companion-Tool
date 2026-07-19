@@ -7,6 +7,8 @@ sav_to_map = _coord.sav_to_map
 map_to_sav = _coord.map_to_sav
 sav_to_treemap = _coord.sav_to_treemap
 treemap_to_sav = _coord.treemap_to_sav
+treemap_to_pixel = _coord.treemap_to_pixel
+treemap_pixel_to_map = _coord.treemap_pixel_to_map
 sav_to_map_by_z = _coord.sav_to_map_by_z
 MAP_Z_THRESHOLD = _coord.MAP_Z_THRESHOLD
 get_treemap_coord_range = _coord.get_treemap_coord_range
@@ -70,6 +72,13 @@ def test_treemap_to_sav():
     result = treemap_to_sav(0, 0)
     assert isinstance(result, tuple)
     assert len(result) == 2
+
+
+def test_treemap_pixel_conversion_round_trip():
+    pixel_x, pixel_y = treemap_to_pixel(100, -200, 8192, 8192)
+    map_x, map_y = treemap_pixel_to_map(pixel_x, pixel_y, 8192, 8192)
+    assert map_x == pytest.approx(100, abs=1)
+    assert map_y == pytest.approx(-200, abs=1)
 
 
 def test_get_treemap_coord_range():

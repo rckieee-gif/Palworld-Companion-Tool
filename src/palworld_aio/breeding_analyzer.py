@@ -104,7 +104,7 @@ def _required_bit_map(required: Iterable[str]) -> dict[str, int]:
     return {species: 1 << index for index, species in enumerate(ordered)}
 
 
-def _steps_from_tree(root: BreedingTreeNode) -> tuple[BreedCombination, ...]:
+def breeding_steps_from_tree(root: BreedingTreeNode) -> tuple[BreedCombination, ...]:
     steps: list[BreedCombination] = []
 
     def visit(node: BreedingTreeNode) -> int:
@@ -117,6 +117,68 @@ def _steps_from_tree(root: BreedingTreeNode) -> tuple[BreedCombination, ...]:
 
     visit(root)
     return tuple(steps)
+
+
+def breeding_tree_depth(root: BreedingTreeNode) -> int:
+    if root.is_leaf:
+        return 0
+    return max(breeding_tree_depth(parent) for parent in root.parents) + 1
+
+
+def breeding_tree_ancestors(
+    root: BreedingTreeNode,
+    target: BreedingTreeNode,
+) -> frozenset[str]:
+    def find(
+        node: BreedingTreeNode,
+        ancestors: frozenset[str],
+    ) -> frozenset[str] | None:
+        if node is target:
+            return ancestors
+        next_ancestors = ancestors | {node.species}
+        for parent in node.parents:
+            result = find(parent, next_ancestors)
+            if result is not None:
+                return result
+        return None
+
+    result = find(root, frozenset())
+    if result is None:
+        raise ValueError('The selected node is not part of this breeding tree.')
+    return result
+
+
+def expand_breeding_tree(
+    root: BreedingTreeNode,
+    target: BreedingTreeNode,
+    parent_a: str,
+    parent_b: str,
+) -> BreedingTreeNode:
+    if not target.is_leaf:
+        raise ValueError('Only a leaf Pal can be expanded.')
+    if not parent_a or not parent_b:
+        raise ValueError('Both parent species are required.')
+
+    blocked_species = breeding_tree_ancestors(root, target) | {target.species}
+    if parent_a in blocked_species or parent_b in blocked_species:
+        raise ValueError('That parent pair would create a circular breeding branch.')
+
+    replacement = BreedingTreeNode(
+        target.species,
+        (BreedingTreeNode(parent_a), BreedingTreeNode(parent_b)),
+    )
+
+    def replace(node: BreedingTreeNode) -> BreedingTreeNode:
+        if node is target:
+            return replacement
+        if node.is_leaf:
+            return node
+        parents = tuple(replace(parent) for parent in node.parents)
+        if parents == node.parents:
+            return node
+        return BreedingTreeNode(node.species, parents)
+
+    return replace(root)
 
 
 class BreedingAnalyzer:
@@ -384,7 +446,7 @@ class BreedingAnalyzer:
         if target_candidate is None:
             return BreedingPath(target, False, False, None, ())
         already_owned = target_candidate.generation == 0
-        steps = _steps_from_tree(target_candidate.tree)
+        steps = breeding_steps_from_tree(target_candidate.tree)
         return BreedingPath(
             target,
             True,

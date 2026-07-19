@@ -249,20 +249,19 @@ QFrame#settingsPanel, QFrame#aboutPanel, QFrame#breedingControls {
     border: 1px solid #d0d6da;
     border-radius: 7px;
 }
-QFrame#mapToolbar, QFrame#mapGenieToolbar { background-color: #ffffff; border-bottom: 1px solid #d0d6da; }
+QFrame#mapToolbar { background-color: #ffffff; border-bottom: 1px solid #d0d6da; }
 QLabel#readOnlyBadge {
     background-color: #dff5ea; border: 1px solid #29996f; border-radius: 4px;
     color: #176c50; font-weight: 700; padding: 4px 8px;
 }
 QLabel#mapWarning { color: #9a570b; }
-QLabel#mapWorldName, QLabel#mapDetailTitle { color: #182024; font-weight: 650; }
+QLabel#mapSourceLabel, QLabel#mapWorldName, QLabel#mapDetailTitle { color: #182024; font-weight: 650; }
+QLabel#mapWorldStatus { color: #626d74; }
 QLabel#mapFilterLabel { color: #176c61; }
 QLabel#mapDetail { background-color: #ffffff; border: 1px solid #d0d6da; border-radius: 5px; padding: 8px; }
-QLabel#emptyStateTitle { color: #182024; font-size: 15pt; font-weight: 650; }
-QLabel#emptyStateText, QLabel#breedingEmptyState, QLabel#mapGenieFallbackStatus { color: #626d74; }
+QLabel#breedingEmptyState { color: #626d74; }
 QLabel#breedingOperator { color: #168a77; font-size: 16pt; font-weight: 700; }
-QLabel#breedingSteps, QLabel#mapGeniePin { color: #515c63; }
-QWidget#mapGenieFallback { background-color: #f3f5f6; }
+QLabel#breedingSteps { color: #515c63; }
 
 QMenu { background-color: #ffffff; border: 1px solid #aeb7bd; border-radius: 5px; padding: 4px; }
 QMenu::item { padding: 6px 24px 6px 10px; border-radius: 3px; }
@@ -276,6 +275,4 @@ QScrollBar::handle:horizontal { background: #aeb8bf; border-radius: 5px; min-wid
 QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
 QSplitter::handle { background-color: #d0d6da; }
 QStatusBar { background-color: #ffffff; color: #68727a; border-top: 1px solid #d7dce0; }
-QProgressBar#mapGenieProgress { border: 0; background: #e8ecee; }
-QProgressBar#mapGenieProgress::chunk { background: #2697a4; }
 QToolTip { background-color: #20262a; color: #ffffff; border: 1px solid #555f66; padding: 5px; }

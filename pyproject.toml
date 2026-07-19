@@ -12,7 +12,6 @@ authors = [{ name = "Pylar" }]
 requires-python = ">=3.11"
 dependencies = [
     "pyside6-essentials>=6.8",
-    "pyside6-addons>=6.8",
     "palsav-flex==0.2.0",
 ]
 
