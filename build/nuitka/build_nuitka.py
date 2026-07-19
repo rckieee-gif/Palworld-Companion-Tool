@@ -43,8 +43,6 @@ INCLUDED_MODULES = (
     'orjson',
     'palooz',
     'PySide6.QtNetwork',
-    'PySide6.QtWebEngineCore',
-    'PySide6.QtWebEngineWidgets',
 )
 
 

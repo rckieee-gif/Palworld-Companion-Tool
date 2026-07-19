@@ -35,9 +35,10 @@ and loading `Level.sav` is optional.
 
 | Feature | What it provides |
 | --- | --- |
-| Interactive Map | World and Tree maps, read-only base/player markers, filters, overlays, coordinates, local annotations, and MapGenie access. |
+| Interactive Map | Fully local World and Tree maps with 174 bundled fast-travel locations, personal pins, read-only save overlays, filters, and coordinates. |
 | Breeding Calculator | Parent-to-child results, desired-child searches, special combinations, required Pals, and multi-generation paths. |
 | Built-in Wiki | Searchable Pals, items, buildings, technologies, skills, elements, and work suitability from bundled data. |
+| Game-data validation | Verifies bundled JSON schemas, breeding references, icons, versions, and SHA-256 manifest entries locally. |
 | Read-only design | No save, overwrite, patch, restore, injection, conversion, cleanup, or backup operation exists in the retained application. |
 | Local processing | Save parsing, breeding searches, and Wiki browsing happen on the device. |
 | Release notifications | Optional daily checks notify you when a newer stable GitHub release is available. |
@@ -47,6 +48,7 @@ and loading `Level.sav` is optional.
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Read-only guarantee](#read-only-guarantee)
+- [Game-data integrity](#game-data-integrity)
 - [Installation](#installation)
 - [Updates](#updates)
 - [Quick start](#quick-start)
@@ -62,13 +64,15 @@ and loading `Level.sav` is optional.
 
 ### Interactive Map Viewer
 
+- Works immediately without a save, account, browser, ads, or network connection.
+- Searches and navigates 174 bundled fast-travel locations across both maps.
 - Opens `Level.sav` as immutable input for map inspection.
 - Shows World Map and Tree Map views with zooming and panning.
 - Displays base and last-known player markers when available.
 - Filters markers by guild or player and opens read-only detail panels.
-- Toggles bases, players, radius rings, and local annotations.
+- Toggles locations, bases, players, radius rings, and local annotations.
+- Creates personal pins stored only in the app configuration directory.
 - Copies coordinates and identifiers without changing world data.
-- Opens the Palpagos Islands MapGenie map in an embedded or external browser.
 
 ### Breeding Calculator
 
@@ -76,6 +80,7 @@ and loading `Level.sav` is optional.
 - Finds parent combinations for a desired child.
 - Supports normal breeding-power rules and special combinations.
 - Plans a path from a starting Pal to a target Pal.
+- Expands unowned path Pals into selectable parent branches with the `+` badge.
 - Accepts required Pals and optional unowned breeding partners.
 - Uses localized names, Pal icons, sorting, filtering, and clear states.
 - Works without loading a save.
@@ -87,6 +92,20 @@ and loading `Level.sav` is optional.
 - Uses bundled game data and local assets.
 - Handles missing assets without crashing.
 - Works without loading a save.
+
+## Game-Data Integrity
+
+The bundled data includes a deterministic `resources/game_data/manifest.json`.
+It records the game-data version, each JSON file's SHA-256 and record counts,
+the complete icon-bundle digest, known fallback icons, and unavailable Pals.
+
+- Use **Settings > Game data > Validate data** to run the check locally.
+- Validation never opens a save, changes game data, or requires a network connection.
+- Unknown breeding references, version drift, missing required files, changed
+  checksums, and unrecorded icon gaps are validation errors.
+- Known internal/development entries without dedicated icons are reported as a
+  warning and use the existing unknown-icon fallback.
+- Pull-request and release workflows run the same validator before packaging.
 
 ## Screenshots
 
@@ -182,9 +201,10 @@ player identifiers, map data, or Wiki searches.
 2. Use Pair Calculator to select two parents and view their offspring.
 3. Use Find Parents or Path Planner for a target Pal.
 4. Open Wiki to search the bundled Palworld data.
-5. Open Map and select **Load world** to inspect a `Level.sav` file.
-6. Use the map filters, overlays, marker details, and coordinate tools.
-7. Select **Close world** when finished. No game file is changed.
+5. Open Map to search fast-travel locations or add personal pins.
+6. Select **Load world** to add read-only base and player overlays from `Level.sav`.
+7. Use the map filters, overlays, marker details, and coordinate tools.
+8. Select **Close world** when finished. No game file is changed.
 
 ## Save Locations
 
@@ -238,6 +258,7 @@ attaches all three artifacts to releases triggered by matching `v*` tags.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe scripts\validate_game_data.py
 ```
 
 The suite covers startup, the five allowed navigation entries, feature-removal
@@ -245,21 +266,32 @@ boundaries, file invariants, map interactions, breeding formulas, special
 combinations, path constraints, Wiki categories, localization, resources, and
 packaging configuration.
 
+After intentionally updating files under `resources/game_data`, regenerate and
+review the manifest before running validation:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\generate_game_data_manifest.py
+.\.venv\Scripts\python.exe scripts\validate_game_data.py
+```
+
 ## Privacy
 
 - Save parsing is local.
 - Breeding and Wiki searches are local.
 - Save data, player identifiers, and world data are not uploaded.
-- Preferences and local annotations are stored in the app configuration folder.
+- Preferences, personal pins, and local annotations are stored in the app configuration folder.
+- Map browsing and bundled location search require no network connection.
 - Optional update checks contact only GitHub's latest-release API and send no save data.
-- MapGenie is an optional third-party website and requires network access.
 
 ## Limitations
 
 - Palworld save formats and game data can change after game updates.
+- The validation manifest proves bundle consistency, not endorsement or live
+  accuracy against Pocketpair's current servers.
 - Save inspection focuses on the guild, base, and player locations needed by Map.
+- The bundled map currently includes fast-travel points; broader resource,
+  dungeon, Pal, and collectible datasets require independently sourced data.
 - The bundled Wiki is not an official live database.
-- MapGenie availability depends on Qt WebEngine and the third-party service.
 - Update notifications require internet access and track stable GitHub Releases only.
 - Windows packages are not currently code-signed and may trigger SmartScreen.
 - Native Linux and macOS release packages are not currently validated.
@@ -288,8 +320,7 @@ GPL-3.0-or-later license in [`src/palsav/LICENSE`](src/palsav/LICENSE).
 
 Palworld and related names, trademarks, and game assets belong to Pocketpair and
 their respective owners. This project is not affiliated with, endorsed by, or
-sponsored by Pocketpair. MapGenie is a third-party service and is not affiliated
-with this project.
+sponsored by Pocketpair.
 
 <div align="center">
 

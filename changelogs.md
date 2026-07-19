@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+- Replaced the third-party web map with a fully local World/Tree explorer.
+- Added searchable markers for all 174 bundled fast-travel locations.
+- Added personal map pins stored only in the application configuration directory.
+- Made the native map available without loading a save or using the network.
+- Removed Qt WebEngine and the PySide6 Addons runtime dependency.
+- Added a deterministic game-data manifest with JSON and icon-bundle SHA-256
+  checksums, record counts, version metadata, and unavailable-Pal tracking.
+- Added reusable schema, breeding-reference, icon, and bundle validation.
+- Added a local validation control in Settings and a game-data version badge in About.
+- Added validation commands to pull-request and release workflows.
+- Made unowned Pal `+` badges interactive in Path Planner, with searchable
+  parent-pair selection and recursive branch expansion.
+- Prevented circular branch expansion and explain self-only combinations that
+  cannot produce a player's first copy of a Pal.
+
 ## 1.0.1 - Wiki, Branding, and Breeding Update
 
 - Replaced the application icon with the new Palworld Companion Tools artwork.
@@ -19,7 +36,7 @@
 - Added an immutable `ReadOnlyWorldData` boundary with file fingerprint checks.
 - Retained local World/Tree map inspection, markers, filters, overlays, and
   application-owned viewing annotations.
-- Added an optional embedded MapGenie Palpagos Islands view.
+- Added local World/Tree map inspection and coordinate tools.
 - Isolated the breeding calculator from all save managers and added parent
   search, special combinations, starting/target paths, required Pals, and an
   unowned-partner option.

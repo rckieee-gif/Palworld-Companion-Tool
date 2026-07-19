@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 import struct
 
+from app_info import GAME_DATA_VERSION
+from palworld_aio.game_data_validation import validate_game_data
 from resource_resolver import get_base_dir, resource_path
 
 
@@ -17,6 +19,7 @@ REQUIRED_FILES = (
     'game_data/breedingdata.json',
     'game_data/characters.json',
     'game_data/items.json',
+    'game_data/manifest.json',
     'game_data/skills.json',
     'game_data/work_suitability.json',
     'game_data/icons/T_icon_unknown.webp',
@@ -48,6 +51,16 @@ def test_retained_resources_exist(project_dir: Path) -> None:
 def test_retained_json_resources_parse(project_dir: Path) -> None:
     for path in (project_dir / 'resources').rglob('*.json'):
         json.loads(path.read_text(encoding='utf-8'))
+
+
+def test_bundled_game_data_manifest_is_valid() -> None:
+    report = validate_game_data()
+
+    assert report.is_valid, report.summary()
+    assert report.game_data_version == GAME_DATA_VERSION
+    assert report.files_checked == 15
+    assert report.icons_checked > 2500
+    assert report.known_icon_fallbacks == 58
 
 
 def test_flat_resource_aliases_resolve() -> None:

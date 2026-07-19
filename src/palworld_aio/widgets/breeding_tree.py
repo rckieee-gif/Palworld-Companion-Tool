@@ -1,6 +1,6 @@
 from collections.abc import Callable
 
-from PySide6.QtCore import QPointF, QRectF, QSize, Qt
+from PySide6.QtCore import QPointF, QRectF, QSize, Qt, Signal
 from PySide6.QtGui import (
     QBrush,
     QColor,
@@ -18,11 +18,16 @@ from PySide6.QtWidgets import QSizePolicy, QWidget
 from palworld_aio.breeding_analyzer import (
     BreedingPath,
     BreedingTreeNode,
+    breeding_tree_ancestors,
     build_breeding_tree,
+    expand_breeding_tree,
 )
 
 
 class BreedingTreeWidget(QWidget):
+    expansion_requested = Signal(object)
+    tree_changed = Signal(object)
+
     NODE_WIDTH = 112
     NODE_HEIGHT = 116
     ICON_SIZE = 58
@@ -39,12 +44,14 @@ class BreedingTreeWidget(QWidget):
         pal_info: dict,
         owned_species: set[str],
         icon_loader: Callable[[str, int], QPixmap | None],
+        expandable_species: set[str] | None = None,
         parent=None,
     ):
         super().__init__(parent)
         self._root = build_breeding_tree(path)
         self._pal_info = pal_info
         self._owned_species = set(owned_species)
+        self._expandable_species = set(expandable_species or ())
         self._icon_loader = icon_loader
         self._icon_cache: dict[str, QPixmap | None] = {}
         self._subtree_widths: dict[int, float] = {}
@@ -59,6 +66,10 @@ class BreedingTreeWidget(QWidget):
         self._layout_tree()
 
     def _layout_tree(self):
+        self._subtree_widths.clear()
+        self._placements.clear()
+        self._rects_by_node.clear()
+        self._max_depth = 0
         if not self._root:
             self.setMinimumSize(QSize(self._canvas_width, self._canvas_height))
             self.setFixedHeight(self._canvas_height)
@@ -76,6 +87,38 @@ class BreedingTreeWidget(QWidget):
         )
         self.setMinimumWidth(self._canvas_width)
         self.setFixedHeight(self._canvas_height)
+
+    @property
+    def root(self) -> BreedingTreeNode | None:
+        return self._root
+
+    @property
+    def owned_species(self) -> set[str]:
+        return set(self._owned_species)
+
+    def blocked_species_for(self, node: BreedingTreeNode) -> frozenset[str]:
+        if self._root is None:
+            return frozenset({node.species})
+        return breeding_tree_ancestors(self._root, node) | {node.species}
+
+    def expand_leaf(
+        self,
+        node: BreedingTreeNode,
+        parent_a: str,
+        parent_b: str,
+    ) -> None:
+        if self._root is None:
+            raise ValueError('This breeding tree has no root Pal.')
+        self._root = expand_breeding_tree(
+            self._root,
+            node,
+            parent_a,
+            parent_b,
+        )
+        self._layout_tree()
+        self.updateGeometry()
+        self.update()
+        self.tree_changed.emit(self._root)
 
     def _measure(self, node: BreedingTreeNode) -> float:
         if node.is_leaf:
@@ -195,7 +238,7 @@ class BreedingTreeWidget(QWidget):
         name_rect = QRectF(rect.left() + 5, rect.top() + 74, rect.width() - 10, 36)
         painter.drawText(name_rect, Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, name)
 
-        if node.is_leaf:
+        if node.is_leaf and (is_owned_leaf or self._can_expand(node)):
             self._draw_leaf_badge(painter, rect, is_owned_leaf)
 
     def _draw_icon(self, painter: QPainter, species: str, rect: QRectF, border: QColor):
@@ -271,6 +314,7 @@ class BreedingTreeWidget(QWidget):
     def mouseMoveEvent(self, event: QMouseEvent):
         point = QPointF(event.position().x() - self._horizontal_offset(), event.position().y())
         tooltip = ''
+        clickable_badge = False
         for node, rect in self._placements:
             if not rect.adjusted(-2, -2, 2, self.BADGE_RADIUS).contains(point):
                 continue
@@ -284,10 +328,51 @@ class BreedingTreeWidget(QWidget):
             else:
                 role = 'Unowned partner'
             tooltip = f'{name}\n{role}'
+            if (
+                self._can_expand(node)
+                and self._badge_contains(rect, point)
+            ):
+                tooltip += '\nClick + to choose breeding parents'
+                clickable_badge = True
             break
         self.setToolTip(tooltip)
+        self.setCursor(Qt.PointingHandCursor if clickable_badge else Qt.ArrowCursor)
         super().mouseMoveEvent(event)
+
+    def _can_expand(self, node: BreedingTreeNode) -> bool:
+        return (
+            node.is_leaf
+            and node.species not in self._owned_species
+            and node.species in self._expandable_species
+        )
+
+    @staticmethod
+    def _badge_contains(rect: QRectF, point: QPointF) -> bool:
+        center = QPointF(rect.center().x(), rect.bottom())
+        delta_x = point.x() - center.x()
+        delta_y = point.y() - center.y()
+        return (
+            (delta_x * delta_x) + (delta_y * delta_y)
+            <= BreedingTreeWidget.BADGE_RADIUS ** 2
+        )
+
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            point = QPointF(
+                event.position().x() - self._horizontal_offset(),
+                event.position().y(),
+            )
+            for node, rect in self._placements:
+                if (
+                    self._can_expand(node)
+                    and self._badge_contains(rect, point)
+                ):
+                    self.expansion_requested.emit(node)
+                    event.accept()
+                    return
+        super().mousePressEvent(event)
 
     def leaveEvent(self, event):
         self.setToolTip('')
+        self.setCursor(Qt.ArrowCursor)
         super().leaveEvent(event)

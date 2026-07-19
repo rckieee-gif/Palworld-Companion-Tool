@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
 )
 
 from app_info import (
+    GAME_DATA_VERSION,
     LICENSE_NAME,
     PRODUCT_NAME,
     PRODUCT_VERSION,
@@ -39,6 +40,9 @@ class AboutTab(QWidget):
         self.version_label = QLabel()
         self.version_label.setObjectName('pageSubtitle')
         root.addWidget(self.version_label)
+        self.data_version_label = QLabel()
+        self.data_version_label.setObjectName('pageSubtitle')
+        root.addWidget(self.data_version_label)
 
         body = QFrame()
         body.setObjectName('aboutPanel')
@@ -100,6 +104,11 @@ class AboutTab(QWidget):
                 'A focused Palworld companion for read-only world maps, breeding '
                 'planning, and game reference data.'
             ),
+        ))
+        self.data_version_label.setText(t(
+            'companion.about.data_version',
+            default='Bundled game data: Palworld {version}',
+            version=GAME_DATA_VERSION,
         ))
         self.safety_label.setText(t(
             'companion.about.safety',

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from collections import defaultdict
 from html import escape
-import os
 from pathlib import Path
 
 import palworld_coord
@@ -15,6 +14,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QGraphicsPixmapItem,
     QGraphicsScene,
+    QHeaderView,
     QHBoxLayout,
     QInputDialog,
     QLabel,
@@ -24,7 +24,6 @@ from PySide6.QtWidgets import (
     QPushButton,
     QSizePolicy,
     QSplitter,
-    QStackedWidget,
     QStyle,
     QTabWidget,
     QToolButton,
@@ -35,9 +34,14 @@ from PySide6.QtWidgets import (
 )
 
 from common import get_base_directory
-from i18n import t
+from palworld_aio.game_data import GameDataError
 from palworld_aio.map import annotations
 from palworld_aio.map.annotations import AnnotationStore
+from palworld_aio.map.locations import (
+    MapLocation,
+    load_fast_travel_locations,
+    location_from_annotation,
+)
 from palworld_aio.read_only_world import (
     BaseMarkerData,
     PlayerMarkerData,
@@ -48,9 +52,12 @@ from palworld_aio.ui.map_view.map_items import (
     ExclusionZoneItem,
     PolygonExclusionZoneItem,
 )
-from palworld_aio.ui.map_view.map_markers import BaseMarker, PlayerMarker
+from palworld_aio.ui.map_view.map_markers import (
+    BaseMarker,
+    LocationMarker,
+    PlayerMarker,
+)
 from palworld_aio.ui.map_view.map_view import MapGraphicsView
-from palworld_aio.ui.map_view.mapgenie_view import MapGenieView
 from resource_resolver import get_user_config_dir, resource_path
 
 
@@ -104,13 +111,12 @@ class MapTab(QWidget):
         super().__init__(parent)
         self.world: ReadOnlyWorldData | None = None
         self.current_map = 'world'
-        self._source = 'local'
         self._guild_filter: str | None = None
+        self._location_markers: dict[str, LocationMarker] = {}
         self._base_markers: dict[str, BaseMarker] = {}
         self._player_markers: dict[str, PlayerMarker] = {}
         self._radius_items: list[BaseRadiusRing] = []
         self._annotation_items: list = []
-        self._selected_mapgenie_pin = None
         try:
             self.annotation_store = AnnotationStore()
             self._annotation_error = ''
@@ -121,10 +127,16 @@ class MapTab(QWidget):
             )
             self.annotation_store._annotations = []
             self._annotation_error = str(exc)
+        try:
+            self._bundled_locations = load_fast_travel_locations()
+            self._location_error = ''
+        except GameDataError as exc:
+            self._bundled_locations = ()
+            self._location_error = str(exc)
         self._setup_ui()
         self._connect_signals()
         self._load_map_image('world')
-        self._update_source_page()
+        self._refresh_visible_data()
 
     def _setup_ui(self) -> None:
         root = QVBoxLayout(self)
@@ -154,14 +166,9 @@ class MapTab(QWidget):
         primary_row.addWidget(self.close_button)
 
         primary_row.addSpacing(8)
-        self.source_group = QButtonGroup(self)
-        self.source_group.setExclusive(True)
-        self.local_source_button = self._segment_button('Local map', True)
-        self.live_source_button = self._segment_button('Interactive map', False)
-        self.source_group.addButton(self.local_source_button, 0)
-        self.source_group.addButton(self.live_source_button, 1)
-        primary_row.addWidget(self.local_source_button)
-        primary_row.addWidget(self.live_source_button)
+        native_label = QLabel('Native map')
+        native_label.setObjectName('mapSourceLabel')
+        primary_row.addWidget(native_label)
 
         self.local_controls = QWidget()
         local_controls_layout = QHBoxLayout(self.local_controls)
@@ -176,6 +183,8 @@ class MapTab(QWidget):
         local_controls_layout.addWidget(self.world_button)
         local_controls_layout.addWidget(self.tree_button)
 
+        self.show_locations = QCheckBox('Locations')
+        self.show_locations.setChecked(True)
         self.show_bases = QCheckBox('Bases')
         self.show_bases.setChecked(True)
         self.show_players = QCheckBox('Players')
@@ -185,6 +194,7 @@ class MapTab(QWidget):
         self.show_annotations = QCheckBox('Annotations')
         self.show_annotations.setChecked(True)
         for toggle in (
+            self.show_locations,
             self.show_bases,
             self.show_players,
             self.show_radii,
@@ -214,8 +224,12 @@ class MapTab(QWidget):
 
         self.warning_label = QLabel()
         self.warning_label.setObjectName('mapWarning')
-        self.warning_label.setVisible(bool(self._annotation_error))
-        self.warning_label.setText(self._annotation_error)
+        initial_warning = ' | '.join(filter(None, (
+            self._annotation_error,
+            self._location_error,
+        )))
+        self.warning_label.setVisible(bool(initial_warning))
+        self.warning_label.setText(initial_warning)
         self.warning_label.setMaximumWidth(420)
         primary_row.addWidget(self.warning_label)
 
@@ -227,14 +241,8 @@ class MapTab(QWidget):
         toolbar_layout.addWidget(self.local_controls)
         root.addWidget(toolbar)
 
-        self.content_stack = QStackedWidget()
-        self.empty_page = self._create_empty_page()
         self.local_page = self._create_local_page()
-        self.mapgenie_view = MapGenieView(auto_load=False)
-        self.content_stack.addWidget(self.empty_page)
-        self.content_stack.addWidget(self.local_page)
-        self.content_stack.addWidget(self.mapgenie_view)
-        root.addWidget(self.content_stack, 1)
+        root.addWidget(self.local_page, 1)
 
         self.animation_timer = QTimer(self)
         self.animation_timer.setInterval(30)
@@ -250,42 +258,6 @@ class MapTab(QWidget):
         button.setMinimumWidth(72)
         return button
 
-    def _create_empty_page(self) -> QWidget:
-        page = QWidget()
-        layout = QVBoxLayout(page)
-        layout.setAlignment(Qt.AlignCenter)
-        icon = QLabel()
-        pixmap = QPixmap(resource_path(get_base_directory(), 'T_WorldMap.webp'))
-        if not pixmap.isNull():
-            icon.setPixmap(
-                pixmap.scaled(220, 140, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-            )
-        icon.setAlignment(Qt.AlignCenter)
-        layout.addWidget(icon)
-        title = QLabel('Map viewer')
-        title.setObjectName('emptyStateTitle')
-        title.setAlignment(Qt.AlignCenter)
-        layout.addWidget(title)
-        message = QLabel(
-            'Load a Palworld world save to view its map. This app opens saves '
-            'in read-only mode and will never modify them.'
-        )
-        message.setObjectName('emptyStateText')
-        message.setAlignment(Qt.AlignCenter)
-        message.setWordWrap(True)
-        message.setMaximumWidth(560)
-        layout.addWidget(message)
-        buttons = QHBoxLayout()
-        load = QPushButton('Load Level.sav')
-        load.setIcon(self.style().standardIcon(QStyle.SP_DialogOpenButton))
-        load.clicked.connect(self.load_requested.emit)
-        buttons.addWidget(load)
-        browse = QPushButton('Open interactive map')
-        browse.clicked.connect(lambda: self.live_source_button.click())
-        buttons.addWidget(browse)
-        layout.addLayout(buttons)
-        return page
-
     def _create_local_page(self) -> QWidget:
         page = QWidget()
         layout = QHBoxLayout(page)
@@ -299,12 +271,19 @@ class MapTab(QWidget):
         sidebar_layout = QVBoxLayout(sidebar)
         sidebar_layout.setContentsMargins(10, 10, 8, 10)
         sidebar_layout.setSpacing(8)
-        self.world_name_label = QLabel('No world loaded')
+        self.world_name_label = QLabel('Palworld map')
         self.world_name_label.setObjectName('mapWorldName')
         sidebar_layout.addWidget(self.world_name_label)
+        self.world_status_label = QLabel(
+            'Explore bundled locations. Load Level.sav to add read-only '
+            'base and player overlays.'
+        )
+        self.world_status_label.setObjectName('mapWorldStatus')
+        self.world_status_label.setWordWrap(True)
+        sidebar_layout.addWidget(self.world_status_label)
 
         self.search = QLineEdit()
-        self.search.setPlaceholderText('Search names, IDs, or coordinates')
+        self.search.setPlaceholderText('Search places, names, IDs, or coordinates')
         self.search.setClearButtonEnabled(True)
         sidebar_layout.addWidget(self.search)
 
@@ -321,20 +300,31 @@ class MapTab(QWidget):
         sidebar_layout.addLayout(filter_row)
 
         self.list_tabs = QTabWidget()
+        self.location_tree = QTreeWidget()
+        self.location_tree.setHeaderLabels(['Place', 'Location'])
+        self.location_tree.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.location_tree.header().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.location_tree.header().setSectionResizeMode(
+            1,
+            QHeaderView.ResizeToContents,
+        )
         self.base_tree = QTreeWidget()
         self.base_tree.setHeaderLabels(['Guild / Base', 'Location'])
         self.base_tree.setContextMenuPolicy(Qt.CustomContextMenu)
         self.player_tree = QTreeWidget()
         self.player_tree.setHeaderLabels(['Player', 'Level', 'Location'])
         self.player_tree.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.list_tabs.addTab(self.location_tree, 'Places')
         self.list_tabs.addTab(self.base_tree, 'Bases')
         self.list_tabs.addTab(self.player_tree, 'Players')
+        self.list_tabs.tabBar().setExpanding(True)
+        self.list_tabs.tabBar().setUsesScrollButtons(False)
         sidebar_layout.addWidget(self.list_tabs, 1)
 
         detail_title = QLabel('Marker details')
         detail_title.setObjectName('mapDetailTitle')
         sidebar_layout.addWidget(detail_title)
-        self.detail_label = QLabel('Select a base or player marker.')
+        self.detail_label = QLabel('Select a place, base, or player marker.')
         self.detail_label.setObjectName('mapDetail')
         self.detail_label.setWordWrap(True)
         self.detail_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
@@ -360,11 +350,14 @@ class MapTab(QWidget):
 
     def _create_annotation_menu(self) -> QMenu:
         menu = QMenu(self)
+        add_pin = menu.addAction('Add pin at coordinates')
+        menu.addSeparator()
         rectangle = menu.addAction('Draw rectangle')
         polygon = menu.addAction('Draw polygon')
         menu.addSeparator()
         stop = menu.addAction('Stop drawing')
         clear = menu.addAction('Clear annotations')
+        add_pin.triggered.connect(self._add_pin_at_coordinates)
         rectangle.triggered.connect(lambda: self._start_annotation('rect'))
         polygon.triggered.connect(lambda: self._start_annotation('polygon'))
         stop.triggered.connect(self._stop_annotation)
@@ -372,12 +365,12 @@ class MapTab(QWidget):
         return menu
 
     def _connect_signals(self) -> None:
-        self.source_group.idClicked.connect(self._switch_source)
         self.map_type_group.idClicked.connect(
             lambda index: self._switch_map_type('tree' if index else 'world')
         )
         self.search.textChanged.connect(self._refresh_visible_data)
         self.clear_filter_button.clicked.connect(self._clear_guild_filter)
+        self.show_locations.toggled.connect(self._refresh_markers)
         self.show_bases.toggled.connect(self._refresh_markers)
         self.show_players.toggled.connect(self._refresh_markers)
         self.show_radii.toggled.connect(self._refresh_radius_rings)
@@ -394,8 +387,13 @@ class MapTab(QWidget):
         self.view.polygon_closed.connect(self._on_polygon_created)
         self.view.zone_drawing_cancelled.connect(self._stop_annotation)
         self.view.zone_right_clicked.connect(self._show_annotation_menu)
+        self.view.empty_space_right_clicked.connect(self._show_empty_map_menu)
+        self.location_tree.itemDoubleClicked.connect(self._on_tree_item_activated)
         self.base_tree.itemDoubleClicked.connect(self._on_tree_item_activated)
         self.player_tree.itemDoubleClicked.connect(self._on_tree_item_activated)
+        self.location_tree.customContextMenuRequested.connect(
+            lambda point: self._show_tree_menu(self.location_tree, point)
+        )
         self.base_tree.customContextMenuRequested.connect(
             lambda point: self._show_tree_menu(self.base_tree, point)
         )
@@ -410,13 +408,22 @@ class MapTab(QWidget):
         warnings = list(world.warnings) if world else []
         if self._annotation_error:
             warnings.append(self._annotation_error)
+        if self._location_error:
+            warnings.append(self._location_error)
         self.warning_label.setVisible(bool(warnings))
         self.warning_label.setText(' | '.join(warnings))
-        self.world_name_label.setText(world.display_name if world else 'No world loaded')
+        self.world_name_label.setText(world.display_name if world else 'Palworld map')
+        self.world_status_label.setText(
+            'Save overlay loaded in read-only mode.'
+            if world
+            else (
+                'Explore bundled locations. Load Level.sav to add read-only '
+                'base and player overlays.'
+            )
+        )
         self._guild_filter = None
         self.search.clear()
         self._update_filter_label()
-        self._update_source_page()
         self._refresh_visible_data()
         if world:
             self.status_message.emit(
@@ -428,29 +435,14 @@ class MapTab(QWidget):
         self._refresh_visible_data()
 
     def refresh_labels(self) -> None:
-        self.mapgenie_view.refresh_labels()
-
-    def _switch_source(self, index: int) -> None:
-        self._source = 'mapgenie' if index == 1 else 'local'
-        self._update_source_page()
-
-    def _update_source_page(self) -> None:
-        is_local = self._source == 'local'
-        self.local_controls.setVisible(is_local)
-        if not is_local:
-            self.content_stack.setCurrentWidget(self.mapgenie_view)
-            self.mapgenie_view.ensure_loaded()
-        elif self.world is None:
-            self.content_stack.setCurrentWidget(self.empty_page)
-        else:
-            self.content_stack.setCurrentWidget(self.local_page)
-            QTimer.singleShot(0, self.view.reset_view)
+        pass
 
     def _switch_map_type(self, map_type: str) -> None:
         if map_type == self.current_map:
             return
         self.current_map = map_type
         self._load_map_image(map_type)
+        self._refresh_trees()
         self._refresh_markers()
         self._refresh_radius_rings()
         self._refresh_annotations()
@@ -459,6 +451,7 @@ class MapTab(QWidget):
         filename = 'T_TreeMap.webp' if map_type == 'tree' else 'T_WorldMap.webp'
         pixmap = QPixmap(resource_path(get_base_directory(), filename))
         self.scene.clear()
+        self._location_markers.clear()
         self._base_markers.clear()
         self._player_markers.clear()
         self._radius_items.clear()
@@ -507,6 +500,31 @@ class MapTab(QWidget):
             result.append(base)
         return result
 
+    def _local_pin_locations(self) -> list[MapLocation]:
+        return [
+            location_from_annotation(value)
+            for value in self.annotation_store.items()
+            if value.get('type') == 'point' and value.get('enabled', True)
+        ]
+
+    def _filtered_locations(self) -> list[MapLocation]:
+        needle = self.search.text().strip().casefold()
+        result = []
+        for location in (*self._bundled_locations, *self._local_pin_locations()):
+            haystack = ' '.join((
+                location.name,
+                location.internal_id,
+                location.location_id,
+                location.category,
+                location.description,
+                str(location.coordinates[0]),
+                str(location.coordinates[1]),
+            )).casefold()
+            if needle and needle not in haystack:
+                continue
+            result.append(location)
+        return result
+
     def _filtered_players(self) -> list[PlayerMarkerData]:
         if not self.world:
             return []
@@ -534,6 +552,34 @@ class MapTab(QWidget):
         self._refresh_annotations()
 
     def _refresh_trees(self) -> None:
+        self.location_tree.clear()
+        location_groups: dict[str, list[MapLocation]] = defaultdict(list)
+        for location in self._filtered_locations():
+            if location.map_type == self.current_map:
+                location_groups[location.category].append(location)
+        for category in ('Fast Travel', 'My Pins'):
+            locations = location_groups.get(category, [])
+            if not locations:
+                continue
+            category_item = QTreeWidgetItem([
+                category,
+                f'{len(locations)} places',
+            ])
+            category_item.setData(0, Qt.UserRole, ('location-category', category))
+            for location in sorted(locations, key=lambda item: item.name.casefold()):
+                child = QTreeWidgetItem([
+                    location.name,
+                    f'{location.coordinates[0]}, {location.coordinates[1]}',
+                ])
+                child.setData(0, Qt.UserRole, location)
+                child.setToolTip(0, location.name)
+                child.setForeground(
+                    0,
+                    QColor('#FFC857' if location.source == 'local' else '#49BBC6'),
+                )
+                category_item.addChild(child)
+            self.location_tree.addTopLevelItem(category_item)
+            category_item.setExpanded(True)
         self.base_tree.clear()
         grouped: dict[str, list[BaseMarkerData]] = defaultdict(list)
         for base in self._filtered_bases():
@@ -565,10 +611,27 @@ class MapTab(QWidget):
         self.player_tree.resizeColumnToContents(0)
 
     def _refresh_markers(self, *_args) -> None:
-        for marker in (*self._base_markers.values(), *self._player_markers.values()):
+        for marker in (
+            *self._location_markers.values(),
+            *self._base_markers.values(),
+            *self._player_markers.values(),
+        ):
             self.scene.removeItem(marker)
+        self._location_markers.clear()
         self._base_markers.clear()
         self._player_markers.clear()
+
+        if self.show_locations.isChecked():
+            for location in self._filtered_locations():
+                if location.map_type != self.current_map:
+                    continue
+                x, y = self._scene_coordinates(location.coordinates, location.map_type)
+                marker = LocationMarker(location, x, y)
+                marker.scale_to_zoom(self.view.current_zoom)
+                marker.setZValue(12 if location.source == 'local' else 9)
+                self.scene.addItem(marker)
+                self._location_markers[location.location_id] = marker
+
         if not self.world:
             return
         base_icon = QPixmap(resource_path(get_base_directory(), 'baseicon.webp'))
@@ -621,6 +684,8 @@ class MapTab(QWidget):
         for value in self.annotation_store.items():
             if not value.get('enabled', True):
                 continue
+            if value.get('type') == 'point':
+                continue
             if value.get('type') == 'polygon':
                 item = PolygonExclusionZoneItem(value, self.map_width, self.map_height)
             else:
@@ -629,16 +694,24 @@ class MapTab(QWidget):
             self._annotation_items.append(item)
 
     def _scale_markers(self, zoom: float) -> None:
-        for marker in (*self._base_markers.values(), *self._player_markers.values()):
+        for marker in (
+            *self._location_markers.values(),
+            *self._base_markers.values(),
+            *self._player_markers.values(),
+        ):
             marker.scale_to_zoom(zoom)
 
     def _update_marker_animations(self) -> None:
-        for marker in (*self._base_markers.values(), *self._player_markers.values()):
-            marker.update_glow()
+        for marker in (
+            *self._location_markers.values(),
+            *self._base_markers.values(),
+            *self._player_markers.values(),
+        ):
+            if marker.isSelected() or marker.is_hovered or marker.glow_alpha > 0:
+                marker.update_glow()
 
     def _on_marker_selected(self, data, _marker) -> None:
         self._show_details(data)
-        self._select_mapgenie_pin(data)
 
     def _show_details(self, data) -> None:
         if isinstance(data, PlayerMarkerData):
@@ -659,15 +732,37 @@ class MapTab(QWidget):
                 f'Coordinates: {data.coordinates[0]}, {data.coordinates[1]}<br>'
                 f'Base ID: {escape(data.base_id)}'
             )
+        elif isinstance(data, MapLocation):
+            source = 'Local pin' if data.source == 'local' else 'Bundled game data'
+            description = (
+                f'<br>{escape(data.description)}'
+                if data.description
+                else ''
+            )
+            self.detail_label.setText(
+                f'<b>{escape(data.name)}</b><br>'
+                f'{escape(data.category)} | {source}<br>'
+                f'Map: {escape(data.map_type.title())}<br>'
+                f'Coordinates: {data.coordinates[0]}, {data.coordinates[1]}<br>'
+                f'Location ID: {escape(data.internal_id)}'
+                f'{description}'
+            )
 
     def _show_marker_menu(self, data, global_position: QPointF) -> None:
         menu = QMenu(self)
         center_action = menu.addAction('Center on marker')
         copy_coordinates = menu.addAction('Copy coordinates')
         copy_identifier = menu.addAction('Copy identifier')
-        menu.addSeparator()
-        filter_action = menu.addAction('Filter by this guild')
-        mapgenie_action = menu.addAction('View on interactive map')
+        filter_action = None
+        rename_action = None
+        delete_action = None
+        if isinstance(data, (BaseMarkerData, PlayerMarkerData)):
+            menu.addSeparator()
+            filter_action = menu.addAction('Filter by this guild')
+        elif isinstance(data, MapLocation) and data.source == 'local':
+            menu.addSeparator()
+            rename_action = menu.addAction('Rename pin')
+            delete_action = menu.addAction('Delete pin')
         action = menu.exec(global_position.toPoint())
         if action == center_action:
             self._navigate_to(data)
@@ -676,13 +771,19 @@ class MapTab(QWidget):
                 f'{data.coordinates[0]}, {data.coordinates[1]}'
             )
         elif action == copy_identifier:
-            identifier = data.player_uid if isinstance(data, PlayerMarkerData) else data.base_id
+            if isinstance(data, PlayerMarkerData):
+                identifier = data.player_uid
+            elif isinstance(data, BaseMarkerData):
+                identifier = data.base_id
+            else:
+                identifier = data.internal_id
             QApplication.clipboard().setText(identifier)
         elif action == filter_action:
             self._set_guild_filter(data.guild_id, data.guild_name)
-        elif action == mapgenie_action:
-            self._select_mapgenie_pin(data)
-            self.live_source_button.click()
+        elif action == rename_action:
+            self._rename_pin(data)
+        elif action == delete_action:
+            self._delete_pin(data)
 
     def _show_tree_menu(self, tree: QTreeWidget, point) -> None:
         item = tree.itemAt(point)
@@ -701,12 +802,14 @@ class MapTab(QWidget):
             elif action == copy_action:
                 QApplication.clipboard().setText(guild_id)
             return
-        if isinstance(data, (BaseMarkerData, PlayerMarkerData)):
+        if isinstance(data, tuple) and data[0] == 'location-category':
+            return
+        if isinstance(data, (MapLocation, BaseMarkerData, PlayerMarkerData)):
             self._show_marker_menu(data, QPointF(QCursor.pos()))
 
     def _on_tree_item_activated(self, item: QTreeWidgetItem, _column: int) -> None:
         data = item.data(0, Qt.UserRole)
-        if isinstance(data, (BaseMarkerData, PlayerMarkerData)):
+        if isinstance(data, (MapLocation, BaseMarkerData, PlayerMarkerData)):
             self._navigate_to(data)
             self._show_details(data)
 
@@ -716,11 +819,12 @@ class MapTab(QWidget):
                 self.tree_button.click()
             else:
                 self.world_button.click()
-        marker = (
-            self._player_markers.get(data.player_uid)
-            if isinstance(data, PlayerMarkerData)
-            else self._base_markers.get(data.base_id)
-        )
+        if isinstance(data, PlayerMarkerData):
+            marker = self._player_markers.get(data.player_uid)
+        elif isinstance(data, BaseMarkerData):
+            marker = self._base_markers.get(data.base_id)
+        else:
+            marker = self._location_markers.get(data.location_id)
         if marker:
             self.view.animate_to_marker(marker, zoom_level=10.0)
 
@@ -740,13 +844,124 @@ class MapTab(QWidget):
         self.filter_label.setVisible(visible)
         self.clear_filter_button.setVisible(visible)
 
-    def _select_mapgenie_pin(self, data) -> None:
-        if isinstance(data, PlayerMarkerData):
-            name = f'Player: {data.player_name}'
+    def _coordinates_at_global_position(
+        self,
+        global_position: QPointF,
+    ) -> tuple[tuple[int, int], QPointF] | None:
+        viewport_position = self.view.viewport().mapFromGlobal(
+            global_position.toPoint()
+        )
+        scene_position = self.view.mapToScene(viewport_position)
+        if not self.scene.sceneRect().contains(scene_position):
+            return None
+        if self.current_map == 'tree':
+            x, y = palworld_coord.treemap_pixel_to_map(
+                scene_position.x(),
+                scene_position.y(),
+                self.map_width,
+                self.map_height,
+            )
         else:
-            name = f'{data.guild_name} - Base {data.base_position}'
-        self._selected_mapgenie_pin = (name, data.coordinates)
-        self.mapgenie_view.set_selected_location(name, data.coordinates)
+            x, y = annotations.scene_to_world(
+                scene_position.x(),
+                scene_position.y(),
+                self.map_width,
+                self.map_height,
+            )
+        return (round(x), round(y)), scene_position
+
+    def _show_empty_map_menu(self, global_position: QPointF) -> None:
+        location = self._coordinates_at_global_position(global_position)
+        if location is None:
+            return
+        coordinates, scene_position = location
+        menu = QMenu(self)
+        add_pin = menu.addAction('Add pin here')
+        copy_coordinates = menu.addAction('Copy coordinates')
+        center_here = menu.addAction('Center map here')
+        action = menu.exec(global_position.toPoint())
+        if action == add_pin:
+            self._create_pin(coordinates)
+        elif action == copy_coordinates:
+            QApplication.clipboard().setText(
+                f'{coordinates[0]}, {coordinates[1]}'
+            )
+        elif action == center_here:
+            self.view.animate_to_coords(
+                scene_position.x(),
+                scene_position.y(),
+                zoom_level=max(4.0, self.view.current_zoom),
+            )
+
+    def _add_pin_at_coordinates(self) -> None:
+        limit = 2500 if self.current_map == 'tree' else 1000
+        value, accepted = QInputDialog.getText(
+            self,
+            'Add map pin',
+            f'Coordinates (x, y; {-limit} to {limit}):',
+        )
+        if not accepted:
+            return
+        try:
+            parts = [part.strip() for part in value.split(',')]
+            if len(parts) != 2:
+                raise ValueError
+            coordinates = (round(float(parts[0])), round(float(parts[1])))
+        except ValueError:
+            QMessageBox.warning(
+                self,
+                'Invalid coordinates',
+                'Enter two numbers separated by a comma, for example: 125, -340.',
+            )
+            return
+        self._create_pin(coordinates)
+
+    def _create_pin(self, coordinates: tuple[int, int]) -> None:
+        name, accepted = QInputDialog.getText(self, 'Add map pin', 'Name:')
+        if not accepted:
+            return
+        try:
+            self.annotation_store.add({
+                'type': 'point',
+                'name': name.strip() or 'Map pin',
+                'map_type': self.current_map,
+                'x': coordinates[0],
+                'y': coordinates[1],
+            })
+        except ValueError as exc:
+            QMessageBox.warning(self, 'Invalid map pin', str(exc))
+            return
+        self._refresh_visible_data()
+        self.status_message.emit(
+            f'Local pin added at {coordinates[0]}, {coordinates[1]}.'
+        )
+
+    def _rename_pin(self, location: MapLocation) -> None:
+        value, accepted = QInputDialog.getText(
+            self,
+            'Rename pin',
+            'Name:',
+            text=location.name,
+        )
+        if accepted and value.strip():
+            self.annotation_store.update(
+                location.location_id,
+                {'name': value.strip()},
+            )
+            self._refresh_visible_data()
+
+    def _delete_pin(self, location: MapLocation) -> None:
+        answer = QMessageBox.question(
+            self,
+            'Delete pin',
+            f'Delete the local pin "{location.name}"?',
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+        if answer == QMessageBox.Yes:
+            self.annotation_store.remove(location.location_id)
+            self.detail_label.setText('Select a place, base, or player marker.')
+            self._refresh_visible_data()
 
     def _start_annotation(self, kind: str) -> None:
         if self.current_map != 'world':
@@ -828,4 +1043,4 @@ class MapTab(QWidget):
         )
         if answer == QMessageBox.Yes:
             self.annotation_store.clear()
-            self._refresh_annotations()
+            self._refresh_visible_data()

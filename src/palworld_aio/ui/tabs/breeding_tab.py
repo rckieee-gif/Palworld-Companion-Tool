@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QLineEdit,
+    QMessageBox,
     QPushButton,
     QScrollArea,
     QSizePolicy,
@@ -22,10 +23,21 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from palworld_aio.breeding_analyzer import BreedingAnalyzer, BreedingPath
+from palworld_aio.breeding_analyzer import (
+    BreedCombination,
+    BreedingAnalyzer,
+    BreedingPath,
+    BreedingTreeNode,
+    breeding_steps_from_tree,
+    breeding_tree_depth,
+)
 from palworld_aio.game_data import GameDataError, load_breeding_data
 from palworld_aio.ui.pal_assets import pal_pixmap, pixmap_for_icon
 from palworld_aio.ui.pal_selector import select_pal
+from palworld_aio.ui.parent_pair_selector import (
+    build_parent_pair_options,
+    select_parent_pair,
+)
 from palworld_aio.widgets.breeding_tree import BreedingTreeWidget
 from palworld_aio.widgets.required_pals import RequiredPalsEditor
 
@@ -42,6 +54,8 @@ class BreedingTab(QWidget):
         self.desired_child: str | None = None
         self.path_start: str | None = None
         self.path_target: str | None = None
+        self._path_tree: BreedingTreeWidget | None = None
+        self._path_steps_label: QLabel | None = None
         self._unique_pairs: set[tuple[str, str]] = set()
         self._load_data()
         self._setup_ui()
@@ -421,18 +435,97 @@ class BreedingTab(QWidget):
             self.pal_info,
             owned,
             pixmap_for_icon,
+            expandable_species=set(self.analyzer.parents_by_child),
         )
+        tree.expansion_requested.connect(
+            lambda node, widget=tree: self._expand_path_leaf(widget, node)
+        )
+        tree.tree_changed.connect(self._path_tree_changed)
+        self._path_tree = tree
         self.path_result_layout.addWidget(tree)
-        if path.steps:
-            steps = QLabel(self._format_steps(path))
-            steps.setObjectName('breedingSteps')
-            steps.setTextInteractionFlags(Qt.TextSelectableByMouse)
-            steps.setWordWrap(True)
-            self.path_result_layout.addWidget(steps)
+        steps = QLabel(self._format_steps(path.steps))
+        steps.setObjectName('breedingSteps')
+        steps.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        steps.setWordWrap(True)
+        steps.setVisible(bool(path.steps))
+        self._path_steps_label = steps
+        self.path_result_layout.addWidget(steps)
 
-    def _format_steps(self, path: BreedingPath) -> str:
+    def _expand_path_leaf(
+        self,
+        tree: BreedingTreeWidget,
+        node: BreedingTreeNode,
+    ) -> None:
+        if not node.is_leaf or node.species in tree.owned_species:
+            return
+        pairs = tuple(self.analyzer.parents_by_child.get(node.species, ()))
+        options = build_parent_pair_options(
+            pairs,
+            self.pal_info,
+            tree.owned_species,
+            self._unique_pairs,
+            tree.blocked_species_for(node),
+        )
+        if not options:
+            name = str(
+                self.pal_info.get(node.species, {}).get('name') or node.species
+            )
+            self_only = bool(pairs) and all(
+                parent_a == node.species and parent_b == node.species
+                for parent_a, parent_b in pairs
+            )
+            message = (
+                f'{name} can only be bred from two {name} parents in the '
+                'current game data, so it cannot be expanded into a path '
+                f'for obtaining your first {name}.'
+                if self_only
+                else (
+                    f'No cycle-safe parent combination is available for {name} '
+                    'in this branch.'
+                )
+            )
+            QMessageBox.information(self, 'No breeding path', message)
+            return
+        pair = select_parent_pair(
+            child_species=node.species,
+            pairs=pairs,
+            pal_info=self.pal_info,
+            owned_species=tree.owned_species,
+            unique_pairs=self._unique_pairs,
+            blocked_species=tree.blocked_species_for(node),
+            parent=self,
+            options=options,
+        )
+        if pair is None:
+            return
+        if self.analyzer.pair_to_child.get(
+            self.analyzer.pair_key(*pair)
+        ) != node.species:
+            QMessageBox.warning(
+                self,
+                'Invalid breeding pair',
+                'The selected pair no longer produces this Pal in the bundled data.',
+            )
+            return
+        try:
+            tree.expand_leaf(node, *pair)
+        except ValueError as exc:
+            QMessageBox.warning(self, 'Cannot add branch', str(exc))
+
+    def _path_tree_changed(self, root: BreedingTreeNode) -> None:
+        steps = breeding_steps_from_tree(root)
+        generation = breeding_tree_depth(root)
+        self.path_status.setText(
+            f'Expanded path: {generation} generations, '
+            f'{len(steps)} breeding steps.'
+        )
+        if self._path_steps_label is not None:
+            self._path_steps_label.setText(self._format_steps(steps))
+            self._path_steps_label.setVisible(bool(steps))
+
+    def _format_steps(self, steps: tuple[BreedCombination, ...]) -> str:
         lines = []
-        for index, step in enumerate(path.steps, start=1):
+        for index, step in enumerate(steps, start=1):
             parent_a = self.pal_info.get(step.parent_a, {}).get('name', step.parent_a)
             parent_b = self.pal_info.get(step.parent_b, {}).get('name', step.parent_b)
             child = self.pal_info.get(step.child, {}).get('name', step.child)
@@ -440,6 +533,8 @@ class BreedingTab(QWidget):
         return '\n'.join(lines)
 
     def _clear_path_result(self) -> None:
+        self._path_tree = None
+        self._path_steps_label = None
         while self.path_result_layout.count():
             item = self.path_result_layout.takeAt(0)
             widget = item.widget()

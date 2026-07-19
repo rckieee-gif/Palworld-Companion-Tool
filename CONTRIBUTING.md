@@ -36,6 +36,14 @@ Run tests:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe scripts\validate_game_data.py
+```
+
+When bundled game data changes, regenerate and review its deterministic manifest:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\generate_game_data_manifest.py
+.\.venv\Scripts\python.exe scripts\validate_game_data.py
 ```
 
 Build the Python-free Windows distribution and installer:
@@ -57,8 +65,9 @@ same version prefixed with `v`, for example `v1.0.0`.
 2. Keep changes inside the companion-only product boundary.
 3. Add or update tests for behavior changes.
 4. Run the full test suite.
-5. Explain user impact and read-only implications in the pull request.
-6. Do not include game saves, logs, credentials, build output, or user data.
+5. Run game-data validation when resources or data loaders change.
+6. Explain user impact and read-only implications in the pull request.
+7. Do not include game saves, logs, credentials, build output, or user data.
 
 Changes that touch world loading or map inspection must prove that input bytes,
 size, hash, and modification time remain unchanged.

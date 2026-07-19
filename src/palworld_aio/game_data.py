@@ -30,3 +30,10 @@ def load_breeding_data() -> dict:
     if not isinstance(data.get('pal_info'), dict):
         raise GameDataError('Breeding data does not contain Pal information.')
     return data
+
+
+def load_game_data_manifest() -> dict:
+    data = load_game_data('manifest.json')
+    if not isinstance(data.get('files'), dict):
+        raise GameDataError('Game-data manifest does not contain file information.')
+    return data

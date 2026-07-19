@@ -84,3 +84,13 @@ def test_prohibited_commands_are_not_registered_in_retained_ui(src_dir: Path) ->
             if phrase in text:
                 findings.append(f'{path.relative_to(src_dir)}: {phrase}')
     assert findings == []
+
+
+def test_native_map_has_no_third_party_browser_integration(src_dir: Path) -> None:
+    findings: list[str] = []
+    for path in (src_dir / 'palworld_aio').rglob('*.py'):
+        text = path.read_text(encoding='utf-8').lower()
+        for token in ('mapgenie', 'qtwebengine'):
+            if token in text:
+                findings.append(f'{path.relative_to(src_dir)}: {token}')
+    assert findings == []

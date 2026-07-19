@@ -13,7 +13,12 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from app_info import GAME_DATA_VERSION
 from i18n import get_config_value, get_language, set_config_value, t
+from palworld_aio.game_data_validation import (
+    GameDataValidationReport,
+    validate_game_data,
+)
 
 
 LANGUAGES = {
@@ -35,6 +40,8 @@ class SettingsTab(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self._data_validation_report: GameDataValidationReport | None = None
+        self._data_validation_error = ''
         self._setup_ui()
 
     def _setup_ui(self) -> None:
@@ -96,6 +103,24 @@ class SettingsTab(QWidget):
         updates_layout.addWidget(self.update_status_label)
         self.updates_label = QLabel()
         form.addRow(self.updates_label, updates_widget)
+
+        game_data_widget = QWidget()
+        game_data_layout = QVBoxLayout(game_data_widget)
+        game_data_layout.setContentsMargins(0, 0, 0, 0)
+        game_data_layout.setSpacing(8)
+        self.game_data_status_label = QLabel()
+        self.game_data_status_label.setObjectName('pageSubtitle')
+        self.game_data_status_label.setWordWrap(True)
+        game_data_layout.addWidget(self.game_data_status_label)
+        game_data_actions = QHBoxLayout()
+        game_data_actions.setContentsMargins(0, 0, 0, 0)
+        self.validate_data_button = QPushButton()
+        self.validate_data_button.setObjectName('validateGameDataButton')
+        game_data_actions.addWidget(self.validate_data_button)
+        game_data_actions.addStretch()
+        game_data_layout.addLayout(game_data_actions)
+        self.game_data_label = QLabel()
+        form.addRow(self.game_data_label, game_data_widget)
         root.addWidget(form_host)
         root.addStretch()
 
@@ -103,6 +128,7 @@ class SettingsTab(QWidget):
         self.language_combo.currentIndexChanged.connect(self._on_language_changed)
         self.auto_updates_checkbox.toggled.connect(self._on_auto_updates_changed)
         self.check_updates_button.clicked.connect(self.check_updates_requested.emit)
+        self.validate_data_button.clicked.connect(self._validate_game_data)
         self.refresh_labels()
 
     def _on_theme_changed(self, _index: int) -> None:
@@ -116,6 +142,80 @@ class SettingsTab(QWidget):
 
     def _on_auto_updates_changed(self, checked: bool) -> None:
         set_config_value('check_updates_automatically', checked)
+
+    def _validate_game_data(self) -> None:
+        self.validate_data_button.setEnabled(False)
+        self.game_data_status_label.setText(t(
+            'companion.settings.data_checking',
+            default='Validating bundled game data...',
+        ))
+        self._data_validation_error = ''
+        try:
+            self._data_validation_report = validate_game_data()
+        except OSError as exc:
+            self._data_validation_report = None
+            self._data_validation_error = str(exc)
+        finally:
+            self.validate_data_button.setEnabled(True)
+        self._refresh_data_validation_status()
+
+    def _refresh_data_validation_status(self) -> None:
+        report = self._data_validation_report
+        if self._data_validation_error:
+            self.game_data_status_label.setText(t(
+                'companion.settings.data_failed_read',
+                default='Game data could not be validated: {error}',
+                error=self._data_validation_error,
+            ))
+            self.game_data_status_label.setToolTip(self._data_validation_error)
+            return
+        if report is None:
+            self.game_data_status_label.setText(t(
+                'companion.settings.data_ready',
+                default='Bundled game data version {version}.',
+                version=GAME_DATA_VERSION,
+            ))
+            self.game_data_status_label.setToolTip('')
+            return
+        if report.is_valid:
+            if report.known_icon_fallbacks:
+                status = t(
+                    'companion.settings.data_valid_fallbacks',
+                    default=(
+                        'Game data {version} is valid: {files} files and {icons} '
+                        'icons checked. {fallbacks} known icon paths use the fallback.'
+                    ),
+                    version=report.game_data_version,
+                    files=report.files_checked,
+                    icons=report.icons_checked,
+                    fallbacks=report.known_icon_fallbacks,
+                )
+            else:
+                status = t(
+                    'companion.settings.data_valid',
+                    default=(
+                        'Game data {version} is valid: {files} files and '
+                        '{icons} icons checked.'
+                    ),
+                    version=report.game_data_version,
+                    files=report.files_checked,
+                    icons=report.icons_checked,
+                )
+            self.game_data_status_label.setText(status)
+        else:
+            self.game_data_status_label.setText(t(
+                'companion.settings.data_invalid',
+                default=(
+                    'Game data validation found {count} errors. Reinstall or '
+                    'update the application before relying on calculator results.'
+                ),
+                count=len(report.errors),
+            ))
+        details = [
+            f'{issue.severity}: {issue.code}: {issue.message}'
+            for issue in report.issues[:10]
+        ]
+        self.game_data_status_label.setToolTip('\n'.join(details))
 
     def set_update_status(self, text: str, *, checking: bool = False) -> None:
         self.update_status_label.setText(text)
@@ -141,6 +241,14 @@ class SettingsTab(QWidget):
             'companion.settings.updates_check',
             default='Check now',
         ))
+        self.game_data_label.setText(t(
+            'companion.settings.data',
+            default='Game data',
+        ))
+        self.validate_data_button.setText(t(
+            'companion.settings.data_validate',
+            default='Validate data',
+        ))
         if not self.update_status_label.text():
             self.update_status_label.setText(t(
                 'companion.settings.updates_help',
@@ -154,3 +262,4 @@ class SettingsTab(QWidget):
             self.theme_combo.findData('light'),
             t('companion.settings.light', default='Light'),
         )
+        self._refresh_data_validation_status()

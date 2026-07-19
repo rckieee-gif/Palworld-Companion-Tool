@@ -47,6 +47,10 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         run: python -m pytest -q
 
+      - name: Validate bundled game data
+        shell: pwsh
+        run: python scripts/validate_game_data.py
+
       - name: Compile retained source
         shell: pwsh
-        run: python -m compileall -q src start.py build/nuitka/build_nuitka.py build/installer/build_installer.py build/package_release.py build/verify_build.py
+        run: python -m compileall -q src scripts/generate_game_data_manifest.py scripts/validate_game_data.py start.py build/nuitka/build_nuitka.py build/installer/build_installer.py build/package_release.py build/verify_build.py

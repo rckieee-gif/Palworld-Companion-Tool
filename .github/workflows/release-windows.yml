@@ -43,6 +43,10 @@ jobs:
           QT_QPA_PLATFORM: offscreen
         run: python -m pytest -q
 
+      - name: Validate bundled game data
+        shell: pwsh
+        run: python scripts/validate_game_data.py
+
       - name: Read and validate version
         shell: pwsh
         run: |

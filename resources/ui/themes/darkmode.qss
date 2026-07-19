@@ -271,7 +271,7 @@ QFrame#settingsPanel, QFrame#aboutPanel, QFrame#breedingControls {
     border: 1px solid #343a40;
     border-radius: 7px;
 }
-QFrame#mapToolbar, QFrame#mapGenieToolbar {
+QFrame#mapToolbar {
     background-color: #202428;
     border-bottom: 1px solid #343a40;
 }
@@ -284,7 +284,8 @@ QLabel#readOnlyBadge {
     padding: 4px 8px;
 }
 QLabel#mapWarning { color: #ffbd6b; }
-QLabel#mapWorldName, QLabel#mapDetailTitle { color: #ffffff; font-weight: 650; }
+QLabel#mapSourceLabel, QLabel#mapWorldName, QLabel#mapDetailTitle { color: #ffffff; font-weight: 650; }
+QLabel#mapWorldStatus { color: #aeb5bc; }
 QLabel#mapFilterLabel { color: #8ee1d1; }
 QLabel#mapDetail {
     background-color: #111416;
@@ -292,11 +293,9 @@ QLabel#mapDetail {
     border-radius: 5px;
     padding: 8px;
 }
-QLabel#emptyStateTitle { color: #ffffff; font-size: 15pt; font-weight: 650; }
-QLabel#emptyStateText, QLabel#breedingEmptyState, QLabel#mapGenieFallbackStatus { color: #aeb5bc; }
+QLabel#breedingEmptyState { color: #aeb5bc; }
 QLabel#breedingOperator { color: #64d3c1; font-size: 16pt; font-weight: 700; }
-QLabel#breedingSteps, QLabel#mapGeniePin { color: #b8c0c7; }
-QWidget#mapGenieFallback { background-color: #181b1e; }
+QLabel#breedingSteps { color: #b8c0c7; }
 
 QMenu {
     background-color: #22272b;
@@ -315,6 +314,4 @@ QScrollBar::handle:horizontal { background: #4b545c; border-radius: 5px; min-wid
 QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
 QSplitter::handle { background-color: #30353a; }
 QStatusBar { background-color: #111315; color: #9fa7af; border-top: 1px solid #30353a; }
-QProgressBar#mapGenieProgress { border: 0; background: #202428; }
-QProgressBar#mapGenieProgress::chunk { background: #49bbc6; }
 QToolTip { background-color: #f4f6f7; color: #16191b; border: 1px solid #7d858c; padding: 5px; }

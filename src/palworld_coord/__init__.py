@@ -50,6 +50,14 @@ def treemap_to_pixel(x_world: int, y_world: int, width: int, height: int) -> tup
     img_x = int((x_world - x_min) * x_scale) + __treemap_pixel_offset_x
     img_y = int((y_max - y_world) * y_scale) + __treemap_pixel_offset_y
     return (max(0, min(width - 1, img_x)), max(0, min(height - 1, img_y)))
+def treemap_pixel_to_map(img_x: float, img_y: float, width: int, height: int) -> tuple[float, float]:
+    x_min, x_max = (-__treemap_coord_range, __treemap_coord_range)
+    y_min, y_max = (-__treemap_coord_range, __treemap_coord_range)
+    x_scale = width / (x_max - x_min)
+    y_scale = height / (y_max - y_min)
+    x_world = (img_x - __treemap_pixel_offset_x) / x_scale + x_min
+    y_world = y_max - (img_y - __treemap_pixel_offset_y) / y_scale
+    return (x_world, y_world)
 def treemap_pixel_to_cursor(img_x: float, img_y: float, width: int, height: int) -> tuple[float, float]:
     coord_range = __treemap_coord_range
     x_world = img_x / width * (coord_range * 2) - coord_range + __treemap_cursor_offset_x

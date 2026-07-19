@@ -1,7 +1,7 @@
 import math
 from PySide6.QtWidgets import QGraphicsItem, QGraphicsPixmapItem
 from PySide6.QtCore import Qt, QRectF, QPointF
-from PySide6.QtGui import QPixmap, QColor, QRadialGradient, QPainter, QPen, QBrush
+from PySide6.QtGui import QPixmap, QColor, QRadialGradient, QPainter, QPainterPath, QPen
 class BaseMarker(QGraphicsPixmapItem):
     def __init__(self, base_data, x, y, base_icon_pixmap, config):
         super().__init__()
@@ -210,4 +210,112 @@ class PlayerMarker(QGraphicsPixmapItem):
             if self.glow_alpha < 0:
                 self.glow_alpha = 0
         self.shine_pos = (self.shine_pos + 2) % 100
+        self.update()
+
+
+class LocationMarker(QGraphicsItem):
+    SIZE_MIN = 12
+    SIZE_MAX = 26
+    BASE_SIZE = 12
+
+    def __init__(self, location_data, x, y):
+        super().__init__()
+        self.location_data = location_data
+        self.current_size = self.BASE_SIZE
+        self.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
+        self.center_x = x
+        self.center_y = y
+        self.setPos(x, y)
+        self.setFlag(QGraphicsItem.ItemIsSelectable, True)
+        self.setAcceptHoverEvents(True)
+        self.setToolTip(location_data.name)
+        self.glow_alpha = 0
+        self.glow_increasing = True
+        self.is_hovered = False
+
+    def boundingRect(self):
+        radius = self.current_size * 1.4
+        return QRectF(-radius, -radius, radius * 2, radius * 2)
+
+    def scale_to_zoom(self, zoom_level):
+        clamped_zoom = max(0.05, min(zoom_level, 30.0))
+        raw_size = 10 + math.sqrt(clamped_zoom) * 2.5
+        new_size = max(self.SIZE_MIN, min(self.SIZE_MAX, int(raw_size)))
+        if new_size != self.current_size:
+            self.prepareGeometryChange()
+            self.current_size = new_size
+            self.update()
+
+    def paint(self, painter, option, widget=None):
+        painter.setRenderHint(QPainter.Antialiasing)
+        color = (
+            QColor('#FFC857')
+            if self.location_data.source == 'local'
+            else QColor('#49BBC6')
+        )
+        if self.isSelected() or self.glow_alpha > 0 or self.is_hovered:
+            alpha = max(self.glow_alpha, 90 if self.is_hovered else 0)
+            glow_radius = self.current_size * 1.35
+            gradient = QRadialGradient(0, 0, glow_radius)
+            gradient.setColorAt(
+                0,
+                QColor(color.red(), color.green(), color.blue(), alpha),
+            )
+            gradient.setColorAt(
+                0.55,
+                QColor(color.red(), color.green(), color.blue(), alpha // 2),
+            )
+            gradient.setColorAt(1, QColor(color.red(), color.green(), color.blue(), 0))
+            painter.setBrush(gradient)
+            painter.setPen(Qt.NoPen)
+            painter.drawEllipse(QRectF(
+                -glow_radius,
+                -glow_radius,
+                glow_radius * 2,
+                glow_radius * 2,
+            ))
+
+        half = self.current_size / 2
+        path = QPainterPath()
+        path.moveTo(0, half)
+        path.cubicTo(-half * 0.3, half * 0.2, -half, 0, -half, -half * 0.25)
+        path.cubicTo(-half, -half * 0.8, -half * 0.55, -half, 0, -half)
+        path.cubicTo(half * 0.55, -half, half, -half * 0.8, half, -half * 0.25)
+        path.cubicTo(half, 0, half * 0.3, half * 0.2, 0, half)
+        path.closeSubpath()
+        painter.setPen(QPen(QColor('#EAF7F8'), max(1.0, self.current_size / 12)))
+        painter.setBrush(color)
+        painter.drawPath(path)
+        inner_radius = max(2.0, self.current_size * 0.16)
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(QColor('#142126'))
+        painter.drawEllipse(
+            QPointF(0, -half * 0.3),
+            inner_radius,
+            inner_radius,
+        )
+
+    def hoverEnterEvent(self, event):
+        self.is_hovered = True
+        self.update()
+
+    def hoverLeaveEvent(self, event):
+        self.is_hovered = False
+        self.update()
+
+    def start_glow(self):
+        self.glow_alpha = 180
+
+    def update_glow(self):
+        if self.isSelected():
+            if self.glow_increasing:
+                self.glow_alpha += 8
+                if self.glow_alpha >= 180:
+                    self.glow_increasing = False
+            else:
+                self.glow_alpha -= 8
+                if self.glow_alpha <= 80:
+                    self.glow_increasing = True
+        elif self.glow_alpha > 0:
+            self.glow_alpha = max(0, self.glow_alpha - 12)
         self.update()

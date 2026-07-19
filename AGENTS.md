@@ -13,7 +13,8 @@ editing, inventory editing, or server administration code.
 ## Retained architecture
 
 - `src/palworld_aio/read_only_world.py`: immutable map-facing save boundary.
-- `src/palworld_aio/ui/tabs/map_tab.py`: local map and MapGenie viewer.
+- `src/palworld_aio/ui/tabs/map_tab.py`: fully local World/Tree map explorer.
+- `src/palworld_aio/map/locations.py`: bundled locations and local map-pin records.
 - `src/palworld_aio/ui/tabs/breeding_tab.py`: standalone breeding tools.
 - `src/palworld_aio/ui/tabs/docs/wiki_tab.py`: bundled Wiki.
 - `src/palworld_aio/game_data.py`: read-only bundled data access.
