@@ -1,0 +1,2 @@
+# Integrity-checked game data must have identical bytes on every platform.
+resources/game_data/*.json text eol=lf
