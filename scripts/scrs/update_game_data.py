@@ -160,7 +160,7 @@ def load_resource_json(filename: str) -> dict:
     return {}
 def save_resource_json(filename: str, data: dict | list):
     path = RESOURCES_DIR / filename
-    with open(path, 'w', encoding='utf-8') as f:
+    with open(path, 'w', encoding='utf-8', newline='\n') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
     print(f'  Saved: {filename} ({(len(data.get(list(data.keys())[0]) if isinstance(data, dict) and data else data) if isinstance(data, list) else len(data))} entries)')
 def get_rows(data: list | dict) -> dict:

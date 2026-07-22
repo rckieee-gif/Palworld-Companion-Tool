@@ -356,8 +356,8 @@
       }
     },
     "pal_spawns.json": {
-      "bytes": 2486598,
-      "sha256": "1944843e73de12176559adf307049226de6280745b35e3a409350a3445195e9b",
+      "bytes": 2486597,
+      "sha256": "3509d0c63d23d23ed6bca82d419a0f955bb1f5f30ea4e8d1f44b26db52194f94",
       "sections": {
         "counts": 6,
         "game_version": 1,
