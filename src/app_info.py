@@ -3,7 +3,7 @@
 PRODUCT_NAME = 'Palworld Companion Tools'
 PRODUCT_SLUG = 'PalworldCompanionTools'
 EXECUTABLE_NAME = 'PalworldCompanionTools'
-PRODUCT_VERSION = '1.0.2'
+PRODUCT_VERSION = '1.0.3'
 GAME_DATA_VERSION = '1.0.1'
 
 REPOSITORY_SLUG = 'rckieee-gif/Palworld-Companion-Tool'
@@ -18,5 +18,5 @@ UPSTREAM_REPOSITORY = 'https://github.com/deafdudecomputers/PalworldSaveTools'
 LICENSE_NAME = 'MIT'
 
 PRODUCT_DESCRIPTION = (
-    'Read-only Palworld map viewer, breeding calculator, and built-in wiki'
+    'Read-only Palworld map viewer, breeding and stats calculators, team builder, and wiki'
 )

@@ -19,6 +19,7 @@ REQUIRED_RESOURCES = (
     'resources/game_data/characters.json',
     'resources/game_data/items.json',
     'resources/game_data/manifest.json',
+    'resources/game_data/pal_spawns.json',
     'resources/i18n/en_US.json',
     'resources/ui/themes/darkmode.qss',
     'resources/ui/themes/lightmode.qss',

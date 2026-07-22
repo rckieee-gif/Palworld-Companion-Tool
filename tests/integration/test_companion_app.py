@@ -9,7 +9,15 @@ from palworld_aio.ui.main_window import MainWindow
 from palworld_aio.update_service import ReleaseInfo
 
 
-EXPECTED_NAVIGATION = ('map', 'breeding', 'wiki', 'settings', 'about')
+EXPECTED_NAVIGATION = (
+    'map',
+    'breeding',
+    'stats_calculator',
+    'team_builder',
+    'wiki',
+    'settings',
+    'about',
+)
 MAP_NO_SAVE_MESSAGE = (
     'Explore bundled locations. Load Level.sav to add read-only '
     'base and player overlays.'
@@ -38,7 +46,7 @@ def test_app_starts_without_a_save(qapp) -> None:
     try:
         assert window.loaded_world is None
         assert window.navigation_ids == EXPECTED_NAVIGATION
-        assert window.stack.count() == 5
+        assert window.stack.count() == 7
         assert window.stack.currentWidget() is window.breeding_tab
     finally:
         window.close()
@@ -48,8 +56,64 @@ def test_only_allowed_navigation_entries_are_registered(qapp) -> None:
     window = MainWindow(schedule_update_check=False)
     try:
         labels = tuple(button.text().lower() for button in window._nav_buttons.values())
-        assert labels == EXPECTED_NAVIGATION
+        assert labels == (
+            'map',
+            'breeding',
+            'stats calculator',
+            'team builder',
+            'wiki',
+            'settings',
+            'about',
+        )
         assert set(window._pages) == set(EXPECTED_NAVIGATION)
+    finally:
+        window.close()
+
+
+def test_stats_calculator_uses_bundled_data_and_calculates_iv(qapp) -> None:
+    window = MainWindow(schedule_update_check=False)
+    try:
+        window.navigate('stats_calculator')
+        calculator = window.stats_calculator_tab
+        calculator.pal_combo.setCurrentText('mElPaCa')
+        calculator._fields['level'].setText('50')
+        calculator._fields['current_hp'].setText('3337')
+        calculator._fields['current_attack'].setText('423')
+        calculator._fields['current_defense'].setText('438')
+        calculator.calculate_button.click()
+
+        assert window.stack.currentWidget() is calculator
+        assert window.page_title.text() == 'Stats Calculator'
+        assert calculator._lookup().record.pal_id == 'Alpaca'
+        assert calculator.manual_base_section.isHidden() is True
+        assert all(
+            widgets['value'].text() == '50 IV'
+            for widgets in calculator._result_widgets.values()
+        )
+        assert calculator.formula_notice.isHidden() is True
+
+        for field_name in ('current_hp', 'current_attack', 'current_defense'):
+            calculator._fields[field_name].setText('1')
+        calculator.calculate_button.click()
+        assert all(
+            widgets['value'].text() == 'Unable to determine'
+            for widgets in calculator._result_widgets.values()
+        )
+        assert window.status_bar.currentMessage() == (
+            'No IV range matched the entered stats and modifiers.'
+        )
+
+        calculator._fields['level'].setText('51')
+        assert calculator.stale_label.isHidden() is False
+
+        calculator.reset_button.click()
+        assert all(
+            widgets['value'].property('resultState') == 'empty'
+            for widgets in calculator._result_widgets.values()
+        )
+
+        calculator.pal_combo.setCurrentText('Unknown manual Pal')
+        assert calculator.manual_base_section.isHidden() is False
     finally:
         window.close()
 
@@ -68,6 +132,24 @@ def test_breeding_and_wiki_work_without_world_data(qapp) -> None:
         assert len(wiki._pages) == 8
         assert wiki._pages['pals']._loaded is True
         assert wiki._pages['pals']._all_data
+    finally:
+        window.close()
+
+
+def test_team_builder_works_without_world_data_and_restores_share_url(qapp) -> None:
+    window = MainWindow(schedule_update_check=False)
+    try:
+        window.open_team_url(
+            'palworld-companion://team-builder?team=elecsnail,elecsnail,anubis'
+        )
+
+        assert window.stack.currentWidget() is window.team_builder_tab
+        assert window.team_builder_tab.team_ids == (
+            'ElecSnail',
+            'ElecSnail',
+            'Anubis',
+        )
+        assert window.page_title.text() == 'Team Builder'
     finally:
         window.close()
 
@@ -116,6 +198,58 @@ def test_native_map_searches_both_maps_and_renders_personal_pins(qapp) -> None:
         assert map_tab.world is None
     finally:
         window.map_tab.annotation_store.clear()
+        window.close()
+
+
+def test_native_map_renders_pal_heatmap_on_both_maps(qapp) -> None:
+    window = MainWindow(schedule_update_check=False)
+    try:
+        map_tab = window.map_tab
+        map_tab.tree_button.click()
+        map_tab.show_heatmap.click()
+        assert map_tab.show_heatmap_outline.isChecked() is True
+        index = map_tab.heatmap_pal_combo.findText('Aegidron')
+        assert index >= 0
+        map_tab.heatmap_pal_combo.setCurrentIndex(index)
+        qapp.processEvents()
+
+        assert map_tab._heatmap_item is not None
+        assert map_tab._heatmap_item.scene() is map_tab.scene
+        assert 'Aegidron' in map_tab.heatmap_status_label.text()
+        assert 'spawn areas' in map_tab.heatmap_status_label.text()
+
+        map_tab.world_button.click()
+        assert map_tab.current_map == 'world'
+        assert map_tab._heatmap_item is None
+    finally:
+        window.close()
+
+
+def test_native_map_pin_popup_tracks_found_progress(qapp) -> None:
+    window = MainWindow(schedule_update_check=False)
+    try:
+        map_tab = window.map_tab
+        map_tab.progress_store.clear()
+        location_id, marker = next(iter(map_tab._location_markers.items()))
+
+        map_tab._on_marker_selected(marker.location_data, marker)
+
+        assert map_tab.location_popup.isHidden() is False
+        assert map_tab.location_popup.location is marker.location_data
+        assert map_tab.location_popup.found_button.text() == 'Mark as found'
+
+        map_tab.location_popup.found_button.click()
+
+        assert map_tab.progress_store.is_found(location_id) is True
+        assert marker.found is True
+        assert map_tab.location_popup.found_button.text() == 'Marked as found'
+
+        map_tab.location_popup.found_button.click()
+
+        assert map_tab.progress_store.is_found(location_id) is False
+        assert marker.found is False
+    finally:
+        window.map_tab.progress_store.clear()
         window.close()
 
 

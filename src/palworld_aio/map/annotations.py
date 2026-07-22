@@ -6,6 +6,8 @@ import math
 from pathlib import Path
 import uuid
 
+import palworld_coord
+
 from resource_resolver import get_user_config_dir
 
 
@@ -105,10 +107,19 @@ class AnnotationStore:
             y = float(value['y'])
             if not math.isfinite(x) or not math.isfinite(y):
                 raise ValueError('Map pin coordinates must be finite numbers.')
-            limit = 2500 if map_type == 'tree' else 1000
-            if abs(x) > limit or abs(y) > limit:
+            if map_type == 'tree':
+                min_x, min_y, max_x, max_y = (
+                    palworld_coord.get_treemap_map_bounds()
+                )
+                if not min_x <= x <= max_x or not min_y <= y <= max_y:
+                    raise ValueError(
+                        'Tree map pin coordinates must be within '
+                        f'x {min_x:.0f} to {max_x:.0f} and '
+                        f'y {min_y:.0f} to {max_y:.0f}.'
+                    )
+            elif abs(x) > 1000 or abs(y) > 1000:
                 raise ValueError(
-                    f'Map pin coordinates must be between {-limit} and {limit}.'
+                    'World map pin coordinates must be between -1000 and 1000.'
                 )
             value.update({'map_type': map_type, 'x': x, 'y': y})
             value['description'] = str(value.get('description') or '')

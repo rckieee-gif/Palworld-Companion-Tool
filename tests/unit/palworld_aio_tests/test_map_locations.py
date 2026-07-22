@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import palworld_coord
+
 from palworld_aio.map.locations import (
     coordinates_from_save,
     load_fast_travel_locations,
@@ -20,9 +22,29 @@ def test_bundled_fast_travel_locations_cover_both_maps() -> None:
 
 def test_fast_travel_coordinates_stay_inside_their_map() -> None:
     for location in load_fast_travel_locations():
-        limit = 2500 if location.map_type == 'tree' else 1000
-        assert abs(location.coordinates[0]) <= limit
-        assert abs(location.coordinates[1]) <= limit
+        if location.map_type == 'tree':
+            min_x, min_y, max_x, max_y = palworld_coord.get_treemap_map_bounds()
+            assert min_x <= location.coordinates[0] <= max_x
+            assert min_y <= location.coordinates[1] <= max_y
+        else:
+            assert abs(location.coordinates[0]) <= 1000
+            assert abs(location.coordinates[1]) <= 1000
+
+
+def test_tree_fast_travel_markers_use_the_full_map_extent() -> None:
+    pixels = [
+        palworld_coord.treemap_to_pixel(
+            location.coordinates[0],
+            location.coordinates[1],
+            8192,
+            8192,
+        )
+        for location in load_fast_travel_locations()
+        if location.map_type == 'tree'
+    ]
+
+    assert max(x for x, _y in pixels) - min(x for x, _y in pixels) > 5000
+    assert max(y for _x, y in pixels) - min(y for _x, y in pixels) > 5000
 
 
 def test_save_coordinates_are_classified_consistently() -> None:

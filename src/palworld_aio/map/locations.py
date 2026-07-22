@@ -37,7 +37,7 @@ def coordinates_from_save(
         return (world_point.x, world_point.y), 'world'
 
     tree_point = palworld_coord.sav_to_treemap(x, y)
-    if abs(tree_point.x) <= 2500 and abs(tree_point.y) <= 2500:
+    if palworld_coord.is_treemap_save_position(x, y):
         return (tree_point.x, tree_point.y), 'tree'
 
     raise GameDataError(

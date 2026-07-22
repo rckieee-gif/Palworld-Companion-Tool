@@ -17,6 +17,7 @@ from i18n import init_language
 from resource_resolver import resource_path
 
 from palworld_aio.ui.main_window import MainWindow
+from palworld_aio.team_builder import is_team_share_url
 
 
 def _install_font() -> None:
@@ -59,11 +60,21 @@ def run_aio(argv: list[str] | None = None) -> int:
     window = MainWindow()
     window.show()
 
-    file_arg = next(
-        (arg for arg in args[1:] if not arg.startswith('-')),
+    team_url_arg = next(
+        (arg for arg in args[1:] if is_team_share_url(arg)),
         None,
     )
-    if file_arg:
+    file_arg = next(
+        (
+            arg
+            for arg in args[1:]
+            if not arg.startswith('-') and not is_team_share_url(arg)
+        ),
+        None,
+    )
+    if team_url_arg:
+        QTimer.singleShot(0, lambda: window.open_team_url(team_url_arg))
+    elif file_arg:
         QTimer.singleShot(0, lambda: window.load_world_path(file_arg))
 
     return app.exec()

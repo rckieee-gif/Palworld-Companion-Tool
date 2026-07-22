@@ -31,7 +31,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 90,
+                "attack": 75,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -86,7 +86,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 70,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -145,7 +145,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 70,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 4.0,
@@ -1597,7 +1597,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 150,
+                "attack": 100,
                 "defense": 85
             },
             "friendship_hp": 4.3,
@@ -1659,7 +1659,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 150,
+                "attack": 105,
                 "defense": 85
             },
             "friendship_hp": 4.3,
@@ -1721,7 +1721,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 70,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -1776,7 +1776,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 70,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -2274,7 +2274,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 70,
+                "attack": 75,
                 "defense": 90
             },
             "friendship_hp": 4.0,
@@ -2338,7 +2338,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -2402,7 +2402,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 120,
                 "defense": 95
             },
             "friendship_hp": 4.5,
@@ -2460,7 +2460,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 145,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -2515,7 +2515,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 130,
+                "attack": 120,
                 "defense": 140
             },
             "friendship_hp": 3.0,
@@ -2579,7 +2579,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 125,
                 "defense": 125
             },
             "friendship_hp": 4.0,
@@ -2642,7 +2642,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 90,
                 "defense": 85
             },
             "friendship_hp": 4.8,
@@ -2706,7 +2706,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 4.8,
@@ -2805,7 +2805,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 70,
+                "attack": 100,
                 "defense": 100
             },
             "friendship_hp": 3.5,
@@ -2871,7 +2871,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 3.3,
@@ -2937,7 +2937,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 100,
+                "attack": 85,
                 "defense": 60
             },
             "friendship_hp": 6.0,
@@ -2998,7 +2998,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 135,
                 "defense": 120
             },
             "friendship_hp": 2.0,
@@ -3056,7 +3056,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 2.5,
@@ -3117,7 +3117,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 3.8,
@@ -3230,7 +3230,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 5.0,
@@ -3396,7 +3396,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 75,
                 "defense": 80
             },
             "friendship_hp": 5.5,
@@ -3454,7 +3454,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -3518,7 +3518,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 90,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -3582,7 +3582,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 125,
                 "defense": 90
             },
             "friendship_hp": 3.8,
@@ -3646,7 +3646,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 70,
+                "attack": 95,
                 "defense": 95
             },
             "friendship_hp": 4.3,
@@ -3967,7 +3967,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 95,
                 "defense": 80
             },
             "friendship_hp": 4.3,
@@ -4022,7 +4022,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 105,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -4091,7 +4091,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 105,
                 "defense": 90
             },
             "friendship_hp": 4.3,
@@ -4149,7 +4149,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -4207,7 +4207,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 70,
+                "attack": 60,
                 "defense": 60
             },
             "friendship_hp": 6.0,
@@ -4262,7 +4262,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 100,
+                "attack": 70,
                 "defense": 65
             },
             "friendship_hp": 5.8,
@@ -4326,7 +4326,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 65,
                 "defense": 65
             },
             "friendship_hp": 5.0,
@@ -4384,7 +4384,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 110,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -4450,7 +4450,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 80,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 6.0,
@@ -4505,7 +4505,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 50,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -4681,7 +4681,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 5.5,
@@ -4794,7 +4794,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 100,
+                "attack": 80,
                 "defense": 50
             },
             "friendship_hp": 5.8,
@@ -4853,7 +4853,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 75,
                 "defense": 60
             },
             "friendship_hp": 5.5,
@@ -4908,7 +4908,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 125,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -4966,7 +4966,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 80,
+                "attack": 95,
                 "defense": 80
             },
             "friendship_hp": 5.3,
@@ -5027,7 +5027,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 3.5,
@@ -5091,7 +5091,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 120,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -5274,7 +5274,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 105,
                 "defense": 130
             },
             "friendship_hp": 4.0,
@@ -5372,7 +5372,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 70,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 4.3,
@@ -5434,7 +5434,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 70,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 4.3,
@@ -5533,7 +5533,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 125,
                 "defense": 140
             },
             "friendship_hp": 3.8,
@@ -5591,7 +5591,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 75,
                 "defense": 60
             },
             "friendship_hp": 5.5,
@@ -5646,7 +5646,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 80,
+                "attack": 95,
                 "defense": 120
             },
             "friendship_hp": 5.0,
@@ -5711,7 +5711,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 120,
+                "attack": 85,
                 "defense": 60
             },
             "friendship_hp": 5.3,
@@ -5766,7 +5766,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 60,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 6.0,
@@ -5824,7 +5824,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 110,
                 "defense": 70
             },
             "friendship_hp": 4.0,
@@ -5879,7 +5879,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.0,
@@ -5937,7 +5937,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 120,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 3.0,
@@ -5992,7 +5992,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -6050,7 +6050,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 5.8,
@@ -6114,7 +6114,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 5.8,
@@ -7068,7 +7068,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 4.3,
@@ -8511,7 +8511,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 110,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 3.5,
@@ -8924,7 +8924,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 110,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 4.0,
@@ -8989,7 +8989,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 110,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 4.0,
@@ -9048,7 +9048,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 5.3,
@@ -9106,7 +9106,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 95,
                 "defense": 95
             },
             "friendship_hp": 4.8,
@@ -9167,7 +9167,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 90,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 3.5,
@@ -9289,7 +9289,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -9360,7 +9360,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 4.3,
@@ -9431,7 +9431,7 @@
             },
             "scaling": {
                 "hp": 125,
-                "attack": 100,
+                "attack": 135,
                 "defense": 110
             },
             "friendship_hp": 2.8,
@@ -9496,7 +9496,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -9551,7 +9551,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 100,
+                "attack": 80,
                 "defense": 55
             },
             "friendship_hp": 6.0,
@@ -9606,7 +9606,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 5.0,
@@ -9667,7 +9667,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 75,
                 "defense": 80
             },
             "friendship_hp": 5.0,
@@ -9722,7 +9722,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 125,
                 "defense": 105
             },
             "friendship_hp": 3.5,
@@ -9780,7 +9780,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 50,
+                "attack": 110,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -9855,7 +9855,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 50,
+                "attack": 110,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -9924,7 +9924,7 @@
             },
             "scaling": {
                 "hp": 125,
-                "attack": 120,
+                "attack": 110,
                 "defense": 105
             },
             "friendship_hp": 2.8,
@@ -9979,7 +9979,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 70,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -10044,7 +10044,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 110,
+                "attack": 90,
                 "defense": 75
             },
             "friendship_hp": 5.0,
@@ -10105,7 +10105,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 125,
                 "defense": 105
             },
             "friendship_hp": 4.5,
@@ -10169,7 +10169,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 130,
                 "defense": 105
             },
             "friendship_hp": 4.5,
@@ -10227,7 +10227,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 50,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 5.3,
@@ -10285,7 +10285,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 95,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -10346,7 +10346,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 100,
+                "attack": 125,
                 "defense": 120
             },
             "friendship_hp": 3.3,
@@ -10410,7 +10410,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 100,
+                "attack": 130,
                 "defense": 120
             },
             "friendship_hp": 3.3,
@@ -10468,7 +10468,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 95,
                 "defense": 105
             },
             "friendship_hp": 3.8,
@@ -10526,7 +10526,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 95,
                 "defense": 105
             },
             "friendship_hp": 3.5,
@@ -10584,7 +10584,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 110,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -10678,7 +10678,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 110,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -10743,7 +10743,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 110,
+                "attack": 100,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -10842,7 +10842,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 105,
                 "defense": 125
             },
             "friendship_hp": 3.5,
@@ -10903,7 +10903,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 110,
                 "defense": 125
             },
             "friendship_hp": 3.5,
@@ -10964,7 +10964,7 @@
             },
             "scaling": {
                 "hp": 150,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 1.5,
@@ -11037,7 +11037,7 @@
             },
             "scaling": {
                 "hp": 150,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 1.5,
@@ -11104,7 +11104,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 3.5,
@@ -11228,7 +11228,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 4.0,
@@ -11338,7 +11338,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -11396,7 +11396,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 4.3,
@@ -11524,7 +11524,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 80,
+                "attack": 85,
                 "defense": 85
             },
             "friendship_hp": 4.8,
@@ -11582,7 +11582,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 125,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -11647,7 +11647,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 125,
                 "defense": 100
             },
             "friendship_hp": 3.8,
@@ -11706,7 +11706,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 95,
                 "defense": 80
             },
             "friendship_hp": 4.0,
@@ -11761,7 +11761,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 70,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -11816,7 +11816,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 70,
+                "attack": 75,
                 "defense": 80
             },
             "friendship_hp": 5.5,
@@ -12075,7 +12075,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 3.0,
@@ -12133,7 +12133,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 5.5,
@@ -12191,7 +12191,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 3.8,
@@ -12253,7 +12253,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 3.5,
@@ -14219,7 +14219,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 80,
                 "defense": 85
             },
             "friendship_hp": 5.3,
@@ -14278,7 +14278,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 80,
+                "attack": 85,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -14333,7 +14333,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 95,
                 "defense": 105
             },
             "friendship_hp": 4.5,
@@ -14391,7 +14391,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 140,
                 "defense": 120
             },
             "friendship_hp": 2.0,
@@ -14451,7 +14451,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 140,
                 "defense": 135
             },
             "friendship_hp": 2.0,
@@ -14517,7 +14517,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 3.8,
@@ -14583,7 +14583,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 3.8,
@@ -14649,7 +14649,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 4.3,
@@ -14713,7 +14713,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 4.3,
@@ -14771,7 +14771,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 4.3,
@@ -14875,7 +14875,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 90,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -14942,7 +14942,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 75,
                 "defense": 75
             },
             "friendship_hp": 4.5,
@@ -15002,7 +15002,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 100,
+                "attack": 140,
                 "defense": 120
             },
             "friendship_hp": 3.3,
@@ -15057,7 +15057,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 120,
                 "defense": 100
             },
             "friendship_hp": 3.8,
@@ -15115,7 +15115,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -15173,7 +15173,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -15299,7 +15299,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 110,
                 "defense": 90
             },
             "friendship_hp": 4.8,
@@ -15357,7 +15357,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -15416,7 +15416,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -15475,7 +15475,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 150,
+                "attack": 125,
                 "defense": 120
             },
             "friendship_hp": 4.0,
@@ -15539,7 +15539,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 150,
+                "attack": 130,
                 "defense": 125
             },
             "friendship_hp": 3.8,
@@ -15597,7 +15597,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 90,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -15658,7 +15658,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 95,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -15719,7 +15719,7 @@
             },
             "scaling": {
                 "hp": 180,
-                "attack": 100,
+                "attack": 120,
                 "defense": 200
             },
             "friendship_hp": 0.1,
@@ -15774,7 +15774,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 110,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 5.0,
@@ -15832,7 +15832,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 110,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 5.0,
@@ -15891,7 +15891,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 70,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.8,
@@ -15946,7 +15946,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 70,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.8,
@@ -16065,7 +16065,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 6.0,
@@ -16129,7 +16129,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 70,
                 "defense": 95
             },
             "friendship_hp": 4.0,
@@ -16193,7 +16193,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 75,
                 "defense": 100
             },
             "friendship_hp": 3.8,
@@ -16257,7 +16257,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 110,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -16318,7 +16318,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 110,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -16379,7 +16379,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 75,
                 "defense": 75
             },
             "friendship_hp": 5.0,
@@ -16441,7 +16441,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -16499,7 +16499,7 @@
             },
             "scaling": {
                 "hp": 135,
-                "attack": 100,
+                "attack": 130,
                 "defense": 110
             },
             "friendship_hp": 2.3,
@@ -16554,7 +16554,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -16616,7 +16616,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 100,
+                "attack": 120,
                 "defense": 115
             },
             "friendship_hp": 3.3,
@@ -16736,7 +16736,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 90,
+                "attack": 80,
                 "defense": 50
             },
             "friendship_hp": 5.0,
@@ -16798,7 +16798,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 90,
+                "attack": 80,
                 "defense": 50
             },
             "friendship_hp": 5.0,
@@ -16860,7 +16860,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -16921,7 +16921,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 115,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -19394,7 +19394,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 110,
                 "defense": 80
             },
             "friendship_hp": 3.8,
@@ -19462,7 +19462,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 115,
                 "defense": 80
             },
             "friendship_hp": 3.8,
@@ -19524,7 +19524,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 100,
+                "attack": 60,
                 "defense": 130
             },
             "friendship_hp": 6.0,
@@ -19684,7 +19684,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 5.0,
@@ -19739,7 +19739,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.0,
@@ -19800,7 +19800,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 115,
                 "defense": 115
             },
             "friendship_hp": 3.5,
@@ -19858,7 +19858,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 90,
                 "defense": 60
             },
             "friendship_hp": 5.0,
@@ -19922,7 +19922,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 2.5,
@@ -19981,7 +19981,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 100,
+                "attack": 60,
                 "defense": 60
             },
             "friendship_hp": 6.0,
@@ -20036,7 +20036,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 4.0,
@@ -20094,7 +20094,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 2.0,
@@ -20159,7 +20159,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 120,
                 "defense": 105
             },
             "friendship_hp": 3.8,
@@ -20214,7 +20214,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 80,
                 "defense": 90
             },
             "friendship_hp": 3.5,
@@ -20275,7 +20275,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 3.5,
@@ -20333,7 +20333,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 3.8,
@@ -20391,7 +20391,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 80,
+                "attack": 100,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -20450,7 +20450,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 4.3,
@@ -20578,7 +20578,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 3.5,
@@ -20704,7 +20704,7 @@
             },
             "scaling": {
                 "hp": 60,
-                "attack": 100,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 6.0,
@@ -20765,7 +20765,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -20914,7 +20914,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 3.5,
@@ -20973,7 +20973,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 70,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -21028,7 +21028,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 150,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -21090,7 +21090,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 150,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -21508,7 +21508,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -21572,7 +21572,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -21630,7 +21630,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 5.5,
@@ -21863,7 +21863,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 115,
                 "defense": 95
             },
             "friendship_hp": 4.0,
@@ -21927,7 +21927,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 70,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -21988,7 +21988,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -22214,7 +22214,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -22273,7 +22273,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 5.0,
@@ -22338,7 +22338,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -22403,7 +22403,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 95,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -23266,7 +23266,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 145,
                 "defense": 125
             },
             "friendship_hp": 3.8,
@@ -23376,7 +23376,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 4.5,
@@ -23750,7 +23750,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 110,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -23811,7 +23811,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 110,
+                "attack": 80,
                 "defense": 75
             },
             "friendship_hp": 5.5,
@@ -23901,7 +23901,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 4.3,
@@ -23960,7 +23960,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 4.8,
@@ -24963,7 +24963,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -25027,7 +25027,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -25085,7 +25085,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 4.0,
@@ -25143,7 +25143,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 110,
                 "defense": 120
             },
             "friendship_hp": 4.0,
@@ -25201,7 +25201,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 125,
                 "defense": 80
             },
             "friendship_hp": 5.0,
@@ -25269,7 +25269,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 130,
                 "defense": 80
             },
             "friendship_hp": 5.0,
@@ -25334,7 +25334,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 110,
+                "attack": 120,
                 "defense": 145
             },
             "friendship_hp": 2.5,
@@ -25389,7 +25389,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 80,
+                "attack": 90,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -25453,7 +25453,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 80,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -25721,7 +25721,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -25960,7 +25960,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 110,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -26024,7 +26024,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -26093,7 +26093,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 3.5,
@@ -26152,7 +26152,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 70,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -26207,7 +26207,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 70,
+                "attack": 90,
                 "defense": 100
             },
             "friendship_hp": 4.5,
@@ -26570,7 +26570,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 3.8,
@@ -26687,7 +26687,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 70,
                 "defense": 90
             },
             "friendship_hp": 5.3,
@@ -26745,7 +26745,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 75,
                 "defense": 85
             },
             "friendship_hp": 5.0,
@@ -26800,7 +26800,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 5.0,
@@ -26916,7 +26916,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 130,
                 "defense": 120
             },
             "friendship_hp": 2.0,
@@ -26971,7 +26971,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 5.0,
@@ -27026,7 +27026,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 5.3,
@@ -27101,7 +27101,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 5.3,
@@ -27160,7 +27160,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 100,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 3.3,
@@ -27218,7 +27218,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 3.0,
@@ -27276,7 +27276,7 @@
             },
             "scaling": {
                 "hp": 125,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 2.8,
@@ -27392,7 +27392,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 70,
                 "defense": 95
             },
             "friendship_hp": 5.5,
@@ -27518,7 +27518,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 5.5,
@@ -27580,7 +27580,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 75,
                 "defense": 115
             },
             "friendship_hp": 5.3,
@@ -27644,7 +27644,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 85,
                 "defense": 125
             },
             "friendship_hp": 4.8,
@@ -27738,7 +27738,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 115,
                 "defense": 95
             },
             "friendship_hp": 3.5,
@@ -27796,7 +27796,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 115,
                 "defense": 80
             },
             "friendship_hp": 3.8,
@@ -27856,7 +27856,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 115,
                 "defense": 85
             },
             "friendship_hp": 3.8,
@@ -27974,7 +27974,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -28039,7 +28039,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 130,
                 "defense": 115
             },
             "friendship_hp": 3.0,
@@ -28097,7 +28097,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 5.3,
@@ -28155,7 +28155,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 3.8,
@@ -28219,7 +28219,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 150,
+                "attack": 120,
                 "defense": 100
             },
             "friendship_hp": 2.5,
@@ -28284,7 +28284,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 150,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 2.5,
@@ -28344,7 +28344,7 @@
             },
             "scaling": {
                 "hp": 85,
-                "attack": 100,
+                "attack": 90,
                 "defense": 85
             },
             "friendship_hp": 4.8,
@@ -28925,7 +28925,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 105,
                 "defense": 130
             },
             "friendship_hp": 3.5,
@@ -28989,7 +28989,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 3.5,
@@ -29053,7 +29053,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 125,
                 "defense": 115
             },
             "friendship_hp": 3.5,
@@ -29117,7 +29117,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 125,
                 "defense": 120
             },
             "friendship_hp": 3.5,
@@ -29216,7 +29216,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -29281,7 +29281,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -29340,7 +29340,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 130,
+                "attack": 100,
                 "defense": 80
             },
             "friendship_hp": 5.0,
@@ -29405,7 +29405,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 130,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 5.0,
@@ -29470,7 +29470,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 120,
                 "defense": 130
             },
             "friendship_hp": 3.5,
@@ -29528,7 +29528,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 110,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -29587,7 +29587,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -29714,7 +29714,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 100,
+                "attack": 90,
                 "defense": 100
             },
             "friendship_hp": 3.3,
@@ -29772,7 +29772,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 3.0,
@@ -29831,7 +29831,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 140,
+                "attack": 100,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -29893,7 +29893,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 140,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -30006,7 +30006,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 70,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.0,
@@ -30061,7 +30061,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 110,
                 "defense": 135
             },
             "friendship_hp": 3.8,
@@ -30131,7 +30131,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 115,
                 "defense": 135
             },
             "friendship_hp": 3.8,
@@ -30259,7 +30259,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 5.5,
@@ -30310,7 +30310,7 @@
             },
             "scaling": {
                 "hp": 200,
-                "attack": 100,
+                "attack": 200,
                 "defense": 200
             },
             "friendship_hp": 0.1,
@@ -30365,7 +30365,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 105,
                 "defense": 95
             },
             "friendship_hp": 3.5,
@@ -30420,7 +30420,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 110,
                 "defense": 95
             },
             "friendship_hp": 3.8,
@@ -30478,7 +30478,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 5.8,
@@ -30533,7 +30533,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 5.5,
@@ -30588,7 +30588,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 75,
                 "defense": 85
             },
             "friendship_hp": 5.0,
@@ -30643,7 +30643,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 5.3,
@@ -30698,7 +30698,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 95,
                 "defense": 105
             },
             "friendship_hp": 3.8,
@@ -30753,7 +30753,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 75,
                 "defense": 85
             },
             "friendship_hp": 5.5,
@@ -30808,7 +30808,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 100,
+                "attack": 105,
                 "defense": 90
             },
             "friendship_hp": 4.3,
@@ -30870,7 +30870,7 @@
             },
             "scaling": {
                 "hp": 65,
-                "attack": 100,
+                "attack": 75,
                 "defense": 80
             },
             "friendship_hp": 5.8,
@@ -30925,7 +30925,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 80,
                 "defense": 95
             },
             "friendship_hp": 5.0,
@@ -31155,7 +31155,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 80,
                 "defense": 100
             },
             "friendship_hp": 2.0,
@@ -31213,7 +31213,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 80,
                 "defense": 110
             },
             "friendship_hp": 2.0,
@@ -31271,7 +31271,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 70,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 4.0,
@@ -31326,7 +31326,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 70,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 4.0,
@@ -31436,7 +31436,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 90,
+                "attack": 75,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -31491,7 +31491,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 70,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -31550,7 +31550,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 3.0,
@@ -31728,7 +31728,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 150,
+                "attack": 100,
                 "defense": 85
             },
             "friendship_hp": 3.3,
@@ -31790,7 +31790,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 150,
+                "attack": 105,
                 "defense": 85
             },
             "friendship_hp": 3.3,
@@ -31852,7 +31852,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 70,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -31907,7 +31907,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 70,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -32075,7 +32075,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 75,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -32139,7 +32139,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -32203,7 +32203,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 120,
                 "defense": 95
             },
             "friendship_hp": 3.6,
@@ -32261,7 +32261,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 100,
+                "attack": 145,
                 "defense": 120
             },
             "friendship_hp": 1.2,
@@ -32322,7 +32322,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 100,
+                "attack": 130,
                 "defense": 110
             },
             "friendship_hp": 1.2,
@@ -32377,7 +32377,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 130,
+                "attack": 120,
                 "defense": 140
             },
             "friendship_hp": 1.8,
@@ -32496,7 +32496,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 125,
                 "defense": 125
             },
             "friendship_hp": 3.0,
@@ -32559,7 +32559,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 90,
                 "defense": 85
             },
             "friendship_hp": 3.9,
@@ -32623,7 +32623,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 3.9,
@@ -32687,7 +32687,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 70,
+                "attack": 100,
                 "defense": 100
             },
             "friendship_hp": 2.4,
@@ -32753,7 +32753,7 @@
             },
             "scaling": {
                 "hp": 138,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 2.1,
@@ -32874,7 +32874,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 100,
+                "attack": 85,
                 "defense": 60
             },
             "friendship_hp": 5.4,
@@ -32935,7 +32935,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 135,
                 "defense": 120
             },
             "friendship_hp": 0.6,
@@ -32999,7 +32999,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 120,
+                "attack": 135,
                 "defense": 120
             },
             "friendship_hp": 0.6,
@@ -33054,7 +33054,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 1.2,
@@ -33170,7 +33170,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 2.7,
@@ -33228,7 +33228,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 4.2,
@@ -33290,7 +33290,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 75,
                 "defense": 80
             },
             "friendship_hp": 4.8,
@@ -33348,7 +33348,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -33412,7 +33412,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 90,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -33476,7 +33476,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 125,
                 "defense": 90
             },
             "friendship_hp": 2.7,
@@ -33601,7 +33601,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 70,
+                "attack": 95,
                 "defense": 95
             },
             "friendship_hp": 3.3,
@@ -33782,7 +33782,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 95,
                 "defense": 80
             },
             "friendship_hp": 3.3,
@@ -33837,7 +33837,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 105,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -33906,7 +33906,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 90
             },
             "friendship_hp": 3.3,
@@ -33964,7 +33964,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -34022,7 +34022,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 70,
+                "attack": 60,
                 "defense": 60
             },
             "friendship_hp": 5.4,
@@ -34077,7 +34077,7 @@
             },
             "scaling": {
                 "hp": 78,
-                "attack": 100,
+                "attack": 70,
                 "defense": 65
             },
             "friendship_hp": 5.1,
@@ -34141,7 +34141,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 65,
                 "defense": 65
             },
             "friendship_hp": 4.2,
@@ -34199,7 +34199,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 110,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -34265,7 +34265,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 80,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.4,
@@ -34320,7 +34320,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 50,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -34496,7 +34496,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 4.8,
@@ -34609,7 +34609,7 @@
             },
             "scaling": {
                 "hp": 78,
-                "attack": 100,
+                "attack": 80,
                 "defense": 50
             },
             "friendship_hp": 5.1,
@@ -34723,7 +34723,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 75,
                 "defense": 60
             },
             "friendship_hp": 4.8,
@@ -34778,7 +34778,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 125,
                 "defense": 85
             },
             "friendship_hp": 3.6,
@@ -34836,7 +34836,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 80,
+                "attack": 95,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -34897,7 +34897,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 2.4,
@@ -34961,7 +34961,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 100,
+                "attack": 120,
                 "defense": 120
             },
             "friendship_hp": 1.2,
@@ -35144,7 +35144,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 105,
                 "defense": 130
             },
             "friendship_hp": 3.0,
@@ -35207,7 +35207,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 70,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 3.3,
@@ -35269,7 +35269,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 70,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 3.3,
@@ -35333,7 +35333,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 125,
                 "defense": 140
             },
             "friendship_hp": 2.7,
@@ -35391,7 +35391,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 75,
                 "defense": 60
             },
             "friendship_hp": 4.8,
@@ -35446,7 +35446,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 80,
+                "attack": 95,
                 "defense": 120
             },
             "friendship_hp": 4.2,
@@ -35511,7 +35511,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 120,
+                "attack": 85,
                 "defense": 60
             },
             "friendship_hp": 4.5,
@@ -35566,7 +35566,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 60,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.4,
@@ -35624,7 +35624,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 110,
                 "defense": 70
             },
             "friendship_hp": 3.0,
@@ -35679,7 +35679,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 4.2,
@@ -35737,7 +35737,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 120,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 1.8,
@@ -35792,7 +35792,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 120,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 1.8,
@@ -35847,7 +35847,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -35905,7 +35905,7 @@
             },
             "scaling": {
                 "hp": 78,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 5.1,
@@ -36024,7 +36024,7 @@
             },
             "scaling": {
                 "hp": 78,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 5.1,
@@ -36208,7 +36208,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 3.3,
@@ -36321,7 +36321,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 2.4,
@@ -36384,7 +36384,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 110,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -36449,7 +36449,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 110,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -36508,7 +36508,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 4.5,
@@ -36566,7 +36566,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 95,
                 "defense": 95
             },
             "friendship_hp": 3.9,
@@ -36627,7 +36627,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 90,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 2.4,
@@ -36749,7 +36749,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -36820,7 +36820,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 3.3,
@@ -36891,7 +36891,7 @@
             },
             "scaling": {
                 "hp": 150,
-                "attack": 100,
+                "attack": 135,
                 "defense": 110
             },
             "friendship_hp": 1.5,
@@ -36956,7 +36956,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -37011,7 +37011,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 100,
+                "attack": 80,
                 "defense": 55
             },
             "friendship_hp": 5.4,
@@ -37066,7 +37066,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -37127,7 +37127,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 75,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -37182,7 +37182,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 125,
                 "defense": 105
             },
             "friendship_hp": 2.4,
@@ -37240,7 +37240,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 50,
+                "attack": 110,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -37315,7 +37315,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 50,
+                "attack": 110,
                 "defense": 85
             },
             "friendship_hp": 3.6,
@@ -37439,7 +37439,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 70,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -37504,7 +37504,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 110,
+                "attack": 90,
                 "defense": 75
             },
             "friendship_hp": 4.2,
@@ -37565,7 +37565,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 125,
                 "defense": 105
             },
             "friendship_hp": 3.6,
@@ -37629,7 +37629,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 130,
                 "defense": 105
             },
             "friendship_hp": 3.6,
@@ -37687,7 +37687,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 50,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -37745,7 +37745,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 95,
                 "defense": 70
             },
             "friendship_hp": 3.9,
@@ -37806,7 +37806,7 @@
             },
             "scaling": {
                 "hp": 138,
-                "attack": 100,
+                "attack": 125,
                 "defense": 120
             },
             "friendship_hp": 2.1,
@@ -37870,7 +37870,7 @@
             },
             "scaling": {
                 "hp": 138,
-                "attack": 100,
+                "attack": 130,
                 "defense": 120
             },
             "friendship_hp": 2.1,
@@ -37928,7 +37928,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 95,
                 "defense": 105
             },
             "friendship_hp": 2.7,
@@ -37986,7 +37986,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 95,
                 "defense": 105
             },
             "friendship_hp": 2.4,
@@ -38044,7 +38044,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 110,
                 "defense": 110
             },
             "friendship_hp": 1.8,
@@ -38103,7 +38103,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 110,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -38168,7 +38168,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 110,
+                "attack": 100,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -38226,7 +38226,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 80,
+                "attack": 120,
                 "defense": 90
             },
             "friendship_hp": 1.2,
@@ -38287,7 +38287,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 105,
                 "defense": 125
             },
             "friendship_hp": 2.4,
@@ -38348,7 +38348,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 110,
                 "defense": 125
             },
             "friendship_hp": 2.4,
@@ -38409,7 +38409,7 @@
             },
             "scaling": {
                 "hp": 180,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 0.1,
@@ -38482,7 +38482,7 @@
             },
             "scaling": {
                 "hp": 180,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 0.1,
@@ -38549,7 +38549,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 2.4,
@@ -38673,7 +38673,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -38783,7 +38783,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -38841,7 +38841,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 3.3,
@@ -38899,7 +38899,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 80,
+                "attack": 85,
                 "defense": 85
             },
             "friendship_hp": 3.9,
@@ -38957,7 +38957,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 125,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -39022,7 +39022,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 125,
                 "defense": 100
             },
             "friendship_hp": 2.7,
@@ -39081,7 +39081,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 95,
                 "defense": 80
             },
             "friendship_hp": 3.0,
@@ -39136,7 +39136,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 70,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -39191,7 +39191,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 70,
+                "attack": 75,
                 "defense": 80
             },
             "friendship_hp": 4.8,
@@ -39310,7 +39310,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 1.8,
@@ -39368,7 +39368,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 4.8,
@@ -39426,7 +39426,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 2.7,
@@ -39488,7 +39488,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 120,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 2.7,
@@ -39543,7 +39543,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 2.4,
@@ -39611,7 +39611,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 80,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -39670,7 +39670,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 80,
+                "attack": 85,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -39725,7 +39725,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 95,
                 "defense": 105
             },
             "friendship_hp": 3.6,
@@ -39783,7 +39783,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 140,
                 "defense": 120
             },
             "friendship_hp": 0.6,
@@ -39843,7 +39843,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 140,
                 "defense": 135
             },
             "friendship_hp": 0.6,
@@ -39909,7 +39909,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 2.7,
@@ -39975,7 +39975,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 2.7,
@@ -40041,7 +40041,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 3.3,
@@ -40105,7 +40105,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 3.3,
@@ -40224,7 +40224,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 3.3,
@@ -40293,7 +40293,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 90,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -40360,7 +40360,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 75,
                 "defense": 75
             },
             "friendship_hp": 3.6,
@@ -40420,7 +40420,7 @@
             },
             "scaling": {
                 "hp": 138,
-                "attack": 100,
+                "attack": 140,
                 "defense": 120
             },
             "friendship_hp": 2.1,
@@ -40475,7 +40475,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 120,
                 "defense": 100
             },
             "friendship_hp": 2.7,
@@ -40533,7 +40533,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -40591,7 +40591,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -40717,7 +40717,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 110,
                 "defense": 90
             },
             "friendship_hp": 3.9,
@@ -40775,7 +40775,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 1.8,
@@ -40834,7 +40834,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 1.8,
@@ -40893,7 +40893,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 150,
+                "attack": 125,
                 "defense": 120
             },
             "friendship_hp": 3.0,
@@ -40957,7 +40957,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 150,
+                "attack": 130,
                 "defense": 125
             },
             "friendship_hp": 2.7,
@@ -41070,7 +41070,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 90,
                 "defense": 85
             },
             "friendship_hp": 3.6,
@@ -41131,7 +41131,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 95,
                 "defense": 85
             },
             "friendship_hp": 3.6,
@@ -41192,7 +41192,7 @@
             },
             "scaling": {
                 "hp": 216,
-                "attack": 100,
+                "attack": 120,
                 "defense": 200
             },
             "friendship_hp": 0.1,
@@ -41247,7 +41247,7 @@
             },
             "scaling": {
                 "hp": 200,
-                "attack": 100,
+                "attack": 120,
                 "defense": 180
             },
             "friendship_hp": 3.0,
@@ -41302,7 +41302,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 110,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 4.2,
@@ -41360,7 +41360,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 110,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 4.2,
@@ -41419,7 +41419,7 @@
             },
             "scaling": {
                 "hp": 78,
-                "attack": 70,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 5.1,
@@ -41474,7 +41474,7 @@
             },
             "scaling": {
                 "hp": 78,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 5.1,
@@ -41593,7 +41593,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 100,
+                "attack": 70,
                 "defense": 80
             },
             "friendship_hp": 5.4,
@@ -41657,7 +41657,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 70,
                 "defense": 95
             },
             "friendship_hp": 3.0,
@@ -41721,7 +41721,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 75,
                 "defense": 100
             },
             "friendship_hp": 2.7,
@@ -41785,7 +41785,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 110,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 1.8,
@@ -41846,7 +41846,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 110,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 1.8,
@@ -41962,7 +41962,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 75,
                 "defense": 75
             },
             "friendship_hp": 4.2,
@@ -42024,7 +42024,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -42082,7 +42082,7 @@
             },
             "scaling": {
                 "hp": 162,
-                "attack": 100,
+                "attack": 130,
                 "defense": 110
             },
             "friendship_hp": 0.9,
@@ -42137,7 +42137,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 1.8,
@@ -42254,7 +42254,7 @@
             },
             "scaling": {
                 "hp": 138,
-                "attack": 100,
+                "attack": 120,
                 "defense": 115
             },
             "friendship_hp": 2.1,
@@ -42374,7 +42374,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 90,
+                "attack": 80,
                 "defense": 50
             },
             "friendship_hp": 4.2,
@@ -42436,7 +42436,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 90,
+                "attack": 80,
                 "defense": 50
             },
             "friendship_hp": 4.2,
@@ -42498,7 +42498,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -42559,7 +42559,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 100,
+                "attack": 115,
                 "defense": 120
             },
             "friendship_hp": 1.2,
@@ -42617,7 +42617,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 110,
                 "defense": 80
             },
             "friendship_hp": 2.7,
@@ -42685,7 +42685,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 115,
                 "defense": 80
             },
             "friendship_hp": 2.7,
@@ -42863,7 +42863,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 100,
+                "attack": 60,
                 "defense": 130
             },
             "friendship_hp": 5.4,
@@ -42918,7 +42918,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 4.2,
@@ -42973,7 +42973,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 4.2,
@@ -43028,7 +43028,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 4.2,
@@ -43150,7 +43150,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 115,
                 "defense": 115
             },
             "friendship_hp": 2.4,
@@ -43208,7 +43208,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 90,
                 "defense": 60
             },
             "friendship_hp": 4.2,
@@ -43272,7 +43272,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 100,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 1.2,
@@ -43337,7 +43337,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 120,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 1.2,
@@ -43392,7 +43392,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 100,
+                "attack": 60,
                 "defense": 60
             },
             "friendship_hp": 5.4,
@@ -43447,7 +43447,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -43505,7 +43505,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 0.6,
@@ -43570,7 +43570,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 120,
                 "defense": 105
             },
             "friendship_hp": 2.7,
@@ -43625,7 +43625,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 80,
                 "defense": 90
             },
             "friendship_hp": 2.4,
@@ -43686,7 +43686,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 2.4,
@@ -43744,7 +43744,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 2.7,
@@ -43802,7 +43802,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 80,
+                "attack": 100,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -43861,7 +43861,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 3.3,
@@ -43919,7 +43919,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 2.4,
@@ -44045,7 +44045,7 @@
             },
             "scaling": {
                 "hp": 72,
-                "attack": 100,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 5.4,
@@ -44106,7 +44106,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 60,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -44220,7 +44220,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 2.4,
@@ -44279,7 +44279,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 70,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -44334,7 +44334,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 150,
                 "defense": 100
             },
             "friendship_hp": 1.8,
@@ -44396,7 +44396,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 150,
                 "defense": 100
             },
             "friendship_hp": 1.8,
@@ -44464,7 +44464,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -44528,7 +44528,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 85,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -44586,7 +44586,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 4.8,
@@ -44644,7 +44644,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 115,
                 "defense": 95
             },
             "friendship_hp": 3.0,
@@ -44708,7 +44708,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 70,
+                "attack": 75,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -44769,7 +44769,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -44995,7 +44995,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 4.5,
@@ -45054,7 +45054,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 4.2,
@@ -45119,7 +45119,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -45184,7 +45184,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -45249,7 +45249,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 100,
+                "attack": 95,
                 "defense": 120
             },
             "friendship_hp": 1.2,
@@ -45307,7 +45307,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 145,
                 "defense": 125
             },
             "friendship_hp": 2.7,
@@ -45417,7 +45417,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 3.6,
@@ -45476,7 +45476,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 110,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -45537,7 +45537,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 80,
                 "defense": 75
             },
             "friendship_hp": 4.8,
@@ -45592,7 +45592,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 3.3,
@@ -45651,7 +45651,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 3.9,
@@ -45709,7 +45709,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -45773,7 +45773,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -45831,7 +45831,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 3.0,
@@ -45889,7 +45889,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 110,
                 "defense": 120
             },
             "friendship_hp": 3.0,
@@ -46002,7 +46002,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 125,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -46070,7 +46070,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 130,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -46135,7 +46135,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 110,
+                "attack": 120,
                 "defense": 145
             },
             "friendship_hp": 1.2,
@@ -46190,7 +46190,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 80,
+                "attack": 90,
                 "defense": 100
             },
             "friendship_hp": 1.8,
@@ -46254,7 +46254,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 80,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 1.8,
@@ -46312,7 +46312,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 4.8,
@@ -46376,7 +46376,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 110,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -46440,7 +46440,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -46509,7 +46509,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 2.4,
@@ -46568,7 +46568,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 70,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -46623,7 +46623,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 70,
+                "attack": 90,
                 "defense": 100
             },
             "friendship_hp": 3.6,
@@ -46986,7 +46986,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 2.7,
@@ -47103,7 +47103,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 70,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -47161,7 +47161,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 75,
                 "defense": 85
             },
             "friendship_hp": 4.2,
@@ -47216,7 +47216,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 4.2,
@@ -47387,7 +47387,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 130,
                 "defense": 120
             },
             "friendship_hp": 0.6,
@@ -47442,7 +47442,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 120,
+                "attack": 130,
                 "defense": 120
             },
             "friendship_hp": 0.6,
@@ -47497,7 +47497,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 4.2,
@@ -47607,7 +47607,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -47682,7 +47682,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -47741,7 +47741,7 @@
             },
             "scaling": {
                 "hp": 138,
-                "attack": 100,
+                "attack": 95,
                 "defense": 100
             },
             "friendship_hp": 2.1,
@@ -47799,7 +47799,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 1.8,
@@ -47857,7 +47857,7 @@
             },
             "scaling": {
                 "hp": 150,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 1.5,
@@ -48099,7 +48099,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 4.8,
@@ -48161,7 +48161,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 75,
                 "defense": 115
             },
             "friendship_hp": 4.5,
@@ -48225,7 +48225,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 85,
                 "defense": 125
             },
             "friendship_hp": 3.9,
@@ -48284,7 +48284,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 115,
                 "defense": 95
             },
             "friendship_hp": 2.4,
@@ -48342,7 +48342,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 115,
                 "defense": 80
             },
             "friendship_hp": 2.7,
@@ -48402,7 +48402,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 115,
                 "defense": 85
             },
             "friendship_hp": 2.7,
@@ -48520,7 +48520,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -48585,7 +48585,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 130,
                 "defense": 115
             },
             "friendship_hp": 1.8,
@@ -48649,7 +48649,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 120,
+                "attack": 130,
                 "defense": 115
             },
             "friendship_hp": 1.8,
@@ -48704,7 +48704,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -48762,7 +48762,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 2.7,
@@ -48826,7 +48826,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 150,
+                "attack": 120,
                 "defense": 100
             },
             "friendship_hp": 1.2,
@@ -48891,7 +48891,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 150,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 1.2,
@@ -48951,7 +48951,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 90,
                 "defense": 85
             },
             "friendship_hp": 3.9,
@@ -49077,7 +49077,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 2.4,
@@ -49141,7 +49141,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 105,
                 "defense": 130
             },
             "friendship_hp": 2.4,
@@ -49266,7 +49266,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 125,
                 "defense": 115
             },
             "friendship_hp": 2.4,
@@ -49330,7 +49330,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 125,
                 "defense": 120
             },
             "friendship_hp": 2.4,
@@ -49388,7 +49388,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 120,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -49449,7 +49449,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 80,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -49514,7 +49514,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 85,
                 "defense": 80
             },
             "friendship_hp": 3.6,
@@ -49573,7 +49573,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 130,
+                "attack": 100,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -49638,7 +49638,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -49703,7 +49703,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 120,
                 "defense": 130
             },
             "friendship_hp": 2.4,
@@ -49761,7 +49761,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 110,
                 "defense": 100
             },
             "friendship_hp": 1.8,
@@ -49820,7 +49820,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 1.8,
@@ -50005,7 +50005,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 1.8,
@@ -50064,7 +50064,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 140,
+                "attack": 100,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -50126,7 +50126,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -50239,7 +50239,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 70,
+                "attack": 80,
                 "defense": 70
             },
             "friendship_hp": 4.2,
@@ -50294,7 +50294,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 110,
                 "defense": 135
             },
             "friendship_hp": 2.7,
@@ -50364,7 +50364,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 115,
                 "defense": 135
             },
             "friendship_hp": 2.7,
@@ -50492,7 +50492,7 @@
             },
             "scaling": {
                 "hp": 84,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 4.8,
@@ -50543,7 +50543,7 @@
             },
             "scaling": {
                 "hp": 240,
-                "attack": 100,
+                "attack": 200,
                 "defense": 200
             },
             "friendship_hp": 0.1,
@@ -50598,7 +50598,7 @@
             },
             "scaling": {
                 "hp": 125,
-                "attack": 100,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 2.8,
@@ -50653,7 +50653,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 80,
                 "defense": 100
             },
             "friendship_hp": 0.6,
@@ -50711,7 +50711,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 80,
                 "defense": 110
             },
             "friendship_hp": 0.6,
@@ -50769,7 +50769,7 @@
             },
             "scaling": {
                 "hp": 95,
-                "attack": 150,
+                "attack": 105,
                 "defense": 85
             },
             "friendship_hp": 4.3,
@@ -50892,7 +50892,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 130,
                 "defense": 110
             },
             "friendship_hp": 2.5,
@@ -51118,7 +51118,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 125,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -51286,7 +51286,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 130,
+                "attack": 120,
                 "defense": 140
             },
             "friendship_hp": 3.0,
@@ -51344,7 +51344,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 130,
+                "attack": 120,
                 "defense": 140
             },
             "friendship_hp": 3.0,
@@ -51402,7 +51402,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 130,
+                "attack": 120,
                 "defense": 140
             },
             "friendship_hp": 3.0,
@@ -51466,7 +51466,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 135,
                 "defense": 120
             },
             "friendship_hp": 0.6,
@@ -51695,7 +51695,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -51753,7 +51753,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -51811,7 +51811,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 110,
                 "defense": 105
             },
             "friendship_hp": 3.5,
@@ -51873,7 +51873,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 110,
                 "defense": 105
             },
             "friendship_hp": 3.5,
@@ -51941,7 +51941,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 2.5,
@@ -52006,7 +52006,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 2.5,
@@ -52071,7 +52071,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 115,
                 "defense": 110
             },
             "friendship_hp": 2.5,
@@ -52130,7 +52130,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 130,
                 "defense": 120
             },
             "friendship_hp": 2.0,
@@ -52185,7 +52185,7 @@
             },
             "scaling": {
                 "hp": 140,
-                "attack": 100,
+                "attack": 130,
                 "defense": 120
             },
             "friendship_hp": 2.0,
@@ -52246,7 +52246,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -52310,7 +52310,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 110
             },
             "friendship_hp": 4.0,
@@ -52361,7 +52361,7 @@
             },
             "scaling": {
                 "hp": 240,
-                "attack": 100,
+                "attack": 200,
                 "defense": 200
             },
             "friendship_hp": 1.0,
@@ -52409,7 +52409,7 @@
             },
             "scaling": {
                 "hp": 288,
-                "attack": 100,
+                "attack": 200,
                 "defense": 200
             },
             "friendship_hp": 1.0,
@@ -52464,7 +52464,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 80,
+                "attack": 120,
                 "defense": 90
             },
             "friendship_hp": 2.5,
@@ -52574,7 +52574,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 125,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -52633,7 +52633,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 100,
+                "attack": 110,
                 "defense": 115
             },
             "friendship_hp": 3.8,
@@ -52817,7 +52817,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 110,
+                "attack": 120,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -52927,7 +52927,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 90,
+                "attack": 80,
                 "defense": 50
             },
             "friendship_hp": 5.0,
@@ -53105,7 +53105,7 @@
             },
             "scaling": {
                 "hp": 80,
-                "attack": 100,
+                "attack": 70,
                 "defense": 75
             },
             "friendship_hp": 5.0,
@@ -53221,7 +53221,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 95,
                 "defense": 80
             },
             "friendship_hp": 4.0,
@@ -53334,7 +53334,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 70,
+                "attack": 115,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -53394,7 +53394,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 150,
+                "attack": 105,
                 "defense": 85
             },
             "friendship_hp": 3.3,
@@ -53462,7 +53462,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 115,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -53526,7 +53526,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 125,
                 "defense": 90
             },
             "friendship_hp": 2.7,
@@ -53653,7 +53653,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 80,
+                "attack": 95,
                 "defense": 120
             },
             "friendship_hp": 4.2,
@@ -53780,7 +53780,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 90,
                 "defense": 80
             },
             "friendship_hp": 3.3,
@@ -53844,7 +53844,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 90,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 2.4,
@@ -53902,7 +53902,7 @@
             },
             "scaling": {
                 "hp": 75,
-                "attack": 100,
+                "attack": 65,
                 "defense": 70
             },
             "friendship_hp": 5.3,
@@ -53957,7 +53957,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 110,
+                "attack": 90,
                 "defense": 75
             },
             "friendship_hp": 4.2,
@@ -54012,7 +54012,7 @@
             },
             "scaling": {
                 "hp": 115,
-                "attack": 110,
+                "attack": 90,
                 "defense": 75
             },
             "friendship_hp": 3.3,
@@ -54067,7 +54067,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 50,
+                "attack": 105,
                 "defense": 80
             },
             "friendship_hp": 4.5,
@@ -54126,7 +54126,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 110,
                 "defense": 110
             },
             "friendship_hp": 1.8,
@@ -54185,7 +54185,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 110,
+                "attack": 95,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -54256,7 +54256,7 @@
             },
             "scaling": {
                 "hp": 180,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 0.1,
@@ -54369,7 +54369,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 3.0,
@@ -54424,7 +54424,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 115,
                 "defense": 105
             },
             "friendship_hp": 3.3,
@@ -54488,7 +54488,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 125,
                 "defense": 100
             },
             "friendship_hp": 2.7,
@@ -54546,7 +54546,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 105,
                 "defense": 110
             },
             "friendship_hp": 2.4,
@@ -54610,7 +54610,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 110,
+                "attack": 100,
                 "defense": 70
             },
             "friendship_hp": 1.8,
@@ -54671,7 +54671,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 115,
                 "defense": 80
             },
             "friendship_hp": 2.7,
@@ -54735,7 +54735,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 115,
                 "defense": 115
             },
             "friendship_hp": 2.4,
@@ -54799,7 +54799,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 120,
                 "defense": 105
             },
             "friendship_hp": 2.7,
@@ -54854,7 +54854,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 80,
                 "defense": 90
             },
             "friendship_hp": 2.4,
@@ -54909,7 +54909,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 100
             },
             "friendship_hp": 3.3,
@@ -55026,7 +55026,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 115,
                 "defense": 95
             },
             "friendship_hp": 3.0,
@@ -55255,7 +55255,7 @@
             },
             "scaling": {
                 "hp": 114,
-                "attack": 100,
+                "attack": 105,
                 "defense": 120
             },
             "friendship_hp": 3.3,
@@ -55314,7 +55314,7 @@
             },
             "scaling": {
                 "hp": 102,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 3.9,
@@ -55378,7 +55378,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 125,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -55449,7 +55449,7 @@
             },
             "scaling": {
                 "hp": 108,
-                "attack": 100,
+                "attack": 110,
                 "defense": 90
             },
             "friendship_hp": 3.6,
@@ -55562,7 +55562,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 100,
+                "attack": 85,
                 "defense": 90
             },
             "friendship_hp": 4.2,
@@ -55620,7 +55620,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 100,
+                "attack": 105,
                 "defense": 105
             },
             "friendship_hp": 1.8,
@@ -55742,7 +55742,7 @@
             },
             "scaling": {
                 "hp": 156,
-                "attack": 150,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 1.2,
@@ -55806,7 +55806,7 @@
             },
             "scaling": {
                 "hp": 187,
-                "attack": 150,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 0.1,
@@ -55867,7 +55867,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 105,
                 "defense": 130
             },
             "friendship_hp": 2.4,
@@ -55931,7 +55931,7 @@
             },
             "scaling": {
                 "hp": 132,
-                "attack": 100,
+                "attack": 125,
                 "defense": 115
             },
             "friendship_hp": 2.4,
@@ -55989,7 +55989,7 @@
             },
             "scaling": {
                 "hp": 96,
-                "attack": 130,
+                "attack": 100,
                 "defense": 80
             },
             "friendship_hp": 4.2,
@@ -56054,7 +56054,7 @@
             },
             "scaling": {
                 "hp": 144,
-                "attack": 150,
+                "attack": 105,
                 "defense": 85
             },
             "friendship_hp": 1.8,
@@ -56112,7 +56112,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 140,
+                "attack": 100,
                 "defense": 110
             },
             "friendship_hp": 3.0,
@@ -56174,7 +56174,7 @@
             },
             "scaling": {
                 "hp": 168,
-                "attack": 100,
+                "attack": 80,
                 "defense": 100
             },
             "friendship_hp": 0.6,
@@ -56238,7 +56238,7 @@
             },
             "scaling": {
                 "hp": 70,
-                "attack": 100,
+                "attack": 70,
                 "defense": 70
             },
             "friendship_hp": 5.5,
@@ -56416,7 +56416,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 120,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -56480,7 +56480,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 120,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -56544,7 +56544,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 150,
+                "attack": 130,
                 "defense": 125
             },
             "friendship_hp": 3.8,
@@ -56608,7 +56608,7 @@
             },
             "scaling": {
                 "hp": 105,
-                "attack": 150,
+                "attack": 130,
                 "defense": 125
             },
             "friendship_hp": 3.8,
@@ -56672,7 +56672,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 120,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -56733,7 +56733,7 @@
             },
             "scaling": {
                 "hp": 130,
-                "attack": 100,
+                "attack": 120,
                 "defense": 120
             },
             "friendship_hp": 2.5,
@@ -56788,7 +56788,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 140,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -56850,7 +56850,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 150,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -56912,7 +56912,7 @@
             },
             "scaling": {
                 "hp": 120,
-                "attack": 100,
+                "attack": 150,
                 "defense": 100
             },
             "friendship_hp": 3.0,
@@ -56967,7 +56967,7 @@
             },
             "scaling": {
                 "hp": 135,
-                "attack": 100,
+                "attack": 130,
                 "defense": 115
             },
             "friendship_hp": 2.3,
@@ -57015,7 +57015,7 @@
             },
             "scaling": {
                 "hp": 135,
-                "attack": 100,
+                "attack": 145,
                 "defense": 115
             },
             "friendship_hp": 2.3,
@@ -57063,7 +57063,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57111,7 +57111,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57159,7 +57159,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57207,7 +57207,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57255,7 +57255,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57303,7 +57303,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57351,7 +57351,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57399,7 +57399,7 @@
             },
             "scaling": {
                 "hp": 100,
-                "attack": 100,
+                "attack": 130,
                 "defense": 100
             },
             "friendship_hp": 4.0,
@@ -57509,7 +57509,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 125,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -57567,7 +57567,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 100,
+                "attack": 125,
                 "defense": 85
             },
             "friendship_hp": 4.5,
@@ -57625,7 +57625,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 120,
                 "defense": 130
             },
             "friendship_hp": 3.5,
@@ -57683,7 +57683,7 @@
             },
             "scaling": {
                 "hp": 110,
-                "attack": 100,
+                "attack": 120,
                 "defense": 130
             },
             "friendship_hp": 3.5,
@@ -57912,7 +57912,7 @@
             },
             "scaling": {
                 "hp": 90,
-                "attack": 120,
+                "attack": 90,
                 "defense": 90
             },
             "friendship_hp": 4.5,
@@ -57967,7 +57967,7 @@
             },
             "scaling": {
                 "hp": 126,
-                "attack": 100,
+                "attack": 110,
                 "defense": 135
             },
             "friendship_hp": 2.7,

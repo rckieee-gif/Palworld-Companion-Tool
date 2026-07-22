@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "palworld-companion-tools"
-version = "1.0.2"
-description = "Read-only Palworld map viewer, breeding calculator, and built-in wiki"
+version = "1.0.3"
+description = "Read-only Palworld map viewer, breeding and stats calculators, team builder, and wiki"
 readme = "README.md"
 license = { file = "license" }
 authors = [{ name = "Pylar" }]

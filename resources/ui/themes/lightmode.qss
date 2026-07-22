@@ -250,6 +250,10 @@ QFrame#settingsPanel, QFrame#aboutPanel, QFrame#breedingControls {
     border-radius: 7px;
 }
 QFrame#mapToolbar { background-color: #ffffff; border-bottom: 1px solid #d0d6da; }
+QFrame#mapHeatmapBar { background-color: transparent; border-top: 1px solid #d0d6da; }
+QLabel#mapHeatmapLabel { color: #314049; font-weight: 650; }
+QLabel#mapHeatmapStatus { color: #68757d; }
+QComboBox#mapHeatmapPal { min-width: 220px; }
 QLabel#readOnlyBadge {
     background-color: #dff5ea; border: 1px solid #29996f; border-radius: 4px;
     color: #176c50; font-weight: 700; padding: 4px 8px;
@@ -259,6 +263,56 @@ QLabel#mapSourceLabel, QLabel#mapWorldName, QLabel#mapDetailTitle { color: #1820
 QLabel#mapWorldStatus { color: #626d74; }
 QLabel#mapFilterLabel { color: #176c61; }
 QLabel#mapDetail { background-color: #ffffff; border: 1px solid #d0d6da; border-radius: 5px; padding: 8px; }
+QFrame#mapLocationPopup {
+    background-color: #ffffff;
+    border: 1px solid #b7c5d0;
+    border-radius: 7px;
+}
+QFrame#mapLocationPopup QLabel { background-color: transparent; }
+QLabel#mapPopupBadge {
+    background-color: #2f80ed;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 2px 7px;
+}
+QToolButton#mapPopupClose {
+    background-color: transparent;
+    border: 0;
+    min-height: 22px;
+    padding: 0;
+}
+QToolButton#mapPopupClose:hover { background-color: #e8eef2; }
+QLabel#mapPopupIcon {
+    background-color: #e6f0fd;
+    border: 1px solid #b8d3f6;
+    border-radius: 6px;
+}
+QLabel#mapPopupTitle {
+    color: #17242d;
+    font-size: 12pt;
+    font-weight: 700;
+}
+QFrame#mapPopupDivider { background-color: #d8e0e6; border: 0; }
+QLabel#mapPopupDescription { color: #4c5a64; }
+QLabel#mapPopupCoordinateCaption { color: #8b969e; }
+QLabel#mapPopupCoordinates { color: #26343d; font-weight: 700; }
+QPushButton#mapFoundButton {
+    background-color: #e0f4f1;
+    border-color: #66bdb2;
+    color: #176e62;
+    font-weight: 700;
+}
+QPushButton#mapFoundButton:hover {
+    background-color: #d2ece8;
+    border-color: #389f91;
+}
+QPushButton#mapFoundButton[found="true"] {
+    background-color: #d9f3e7;
+    border-color: #58ae82;
+    color: #176b48;
+}
 QLabel#breedingEmptyState { color: #626d74; }
 QLabel#breedingOperator { color: #168a77; font-size: 16pt; font-weight: 700; }
 QLabel#breedingSteps { color: #515c63; }
@@ -276,3 +330,162 @@ QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
 QSplitter::handle { background-color: #d0d6da; }
 QStatusBar { background-color: #ffffff; color: #68727a; border-top: 1px solid #d7dce0; }
 QToolTip { background-color: #20262a; color: #ffffff; border: 1px solid #555f66; padding: 5px; }
+
+QScrollArea#teamBuilderScroll, QWidget#teamBuilderContent,
+QWidget#teamOverview, QWidget#teamSlots, QWidget#teamLibraryPage {
+    background-color: #f3f5f6;
+    border: 0;
+}
+QLabel#teamPageTitle { color: #1f2529; font-size: 18pt; font-weight: 700; }
+QLabel#teamCounter {
+    background-color: #d8efec;
+    border: 1px solid #91c9c0;
+    border-radius: 4px;
+    color: #175b53;
+    font-weight: 700;
+    padding: 4px 8px;
+}
+QLabel#teamNotice {
+    background-color: #e1f3eb;
+    border-left: 3px solid #319978;
+    color: #205d4b;
+    padding: 7px 9px;
+}
+QFrame#teamSlot {
+    background-color: #ffffff;
+    border: 1px solid #cbd3d8;
+    border-radius: 6px;
+}
+QFrame#teamSlot[slotState="empty"] {
+    background-color: #f7f9fa;
+    border: 1px dashed #9ca8af;
+}
+QFrame#teamSlot:hover { border-color: #6f9196; }
+QLabel#teamSlotNumber { color: #68747b; font-size: 8pt; font-weight: 700; }
+QLabel#teamQuantityBadge {
+    background-color: #cdebd9;
+    border-radius: 4px;
+    color: #17623e;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 2px 5px;
+}
+QToolButton#teamMemberButton {
+    background-color: transparent;
+    border: 0;
+    color: #252b2f;
+    font-weight: 700;
+    padding: 3px;
+}
+QToolButton#teamMemberButton:hover { background-color: #e8edef; }
+QToolButton#teamMemberButton:focus { border: 1px solid #278e82; }
+QToolButton#teamSlotAction, QToolButton#teamHistoryButton {
+    min-width: 27px;
+    max-width: 27px;
+    min-height: 27px;
+    max-height: 27px;
+    padding: 0;
+}
+QLabel#teamSlotMeta { color: #177e72; font-size: 9pt; font-weight: 650; }
+QLabel#teamSlotSkill { color: #657078; font-size: 8pt; }
+QFrame#teamDivider { background-color: #cbd2d6; border: 0; max-height: 1px; }
+QLabel#teamSectionTitle { color: #2d3438; font-size: 13pt; font-weight: 700; }
+QLabel#teamMetric {
+    background-color: #ffffff;
+    border: 1px solid #d0d7db;
+    border-radius: 5px;
+    color: #333a3e;
+    padding: 7px 9px;
+}
+QLabel#teamOverviewText { color: #5d6870; }
+QLabel#teamEmptyText { color: #737f86; padding: 16px; }
+QTreeWidget#teamEffects, QTreeWidget#teamPresetTree, QTreeWidget#teamSavedTree {
+    background-color: #ffffff;
+    border: 1px solid #ccd4d8;
+    border-radius: 5px;
+    alternate-background-color: #f2f5f6;
+}
+QTreeWidget#teamEffects::item, QTreeWidget#teamPresetTree::item,
+QTreeWidget#teamSavedTree::item { padding: 5px 4px; }
+QTreeWidget#teamEffects::item:selected, QTreeWidget#teamPresetTree::item:selected,
+QTreeWidget#teamSavedTree::item:selected {
+    background-color: #cde9ed;
+    color: #16363b;
+}
+QTabWidget#teamLibraryTabs::pane { border: 1px solid #ccd4d8; }
+QDialog#teamMemberSelector { background-color: #f3f5f6; }
+QLineEdit#teamMemberSearch { min-height: 34px; }
+QLabel#teamSelectorCount { color: #68747b; font-weight: 650; }
+QListWidget#teamMemberResults {
+    background-color: #edf1f2;
+    border: 1px solid #ccd4d8;
+    border-radius: 5px;
+}
+QListWidget#teamMemberResults::item {
+    background-color: #ffffff;
+    border: 1px solid #cbd3d8;
+    border-radius: 5px;
+    color: #30373b;
+    margin: 3px;
+    padding: 6px;
+}
+QListWidget#teamMemberResults::item:hover { background-color: #e5ecee; }
+QListWidget#teamMemberResults::item:selected {
+    background-color: #cde9ed;
+    border-color: #4caaa0;
+    color: #16363b;
+}
+QPushButton#teamLoadMoreButton { min-width: 130px; }
+QLabel#teamFormError { color: #ad3636; }
+
+QScrollArea#statsCalculatorScroll, QWidget#statsCalculatorContent {
+    background-color: #f3f5f6;
+    border: 0;
+}
+QLabel#statsPageTitle { color: #20262a; font-size: 18pt; font-weight: 700; }
+QLabel#statsProfileBadge {
+    background-color: #e3f3f1;
+    border: 1px solid #83bdb5;
+    border-radius: 4px;
+    color: #236e66;
+    font-size: 9pt;
+    font-weight: 650;
+    padding: 4px 8px;
+}
+QLabel#statsFormulaNotice, QLabel#statsStaleNotice {
+    background-color: #fff2dc;
+    border-left: 3px solid #c98321;
+    color: #775019;
+    padding: 8px 10px;
+}
+QFrame#statsSection, QFrame#statsResultCard, QFrame#statsOverallCard {
+    background-color: #ffffff;
+    border: 1px solid #d0d7dc;
+    border-radius: 7px;
+}
+QFrame#statsSection QLabel, QFrame#statsResultCard QLabel,
+QFrame#statsOverallCard QLabel, QWidget#statsSectionBody,
+QWidget#statsFieldHost { background-color: transparent; }
+QLabel#statsSectionHeading { color: #293136; font-size: 12pt; font-weight: 700; }
+QLabel#statsSectionHelp { color: #68737b; font-size: 9pt; }
+QLabel#statsFieldError { color: #b83333; font-size: 8pt; }
+QLabel#statsDataStatus { color: #657078; font-size: 9pt; }
+QLabel#statsDataStatus[dataState="found"] { color: #237b58; }
+QLabel#statsDataStatus[dataState="warning"] { color: #9b671e; }
+QLabel#statsCardTitle { color: #68737b; font-size: 9pt; font-weight: 700; }
+QLabel#statsCardValue { color: #232a2e; font-size: 18pt; font-weight: 700; }
+QLabel#statsCardValue[resultState="ready"] { color: #177d71; }
+QLabel#statsCardValue[resultState="invalid"] { color: #b83333; }
+QLabel#statsCardValue[resultState="missing_base_stats"],
+QLabel#statsCardValue[resultState="formula_incomplete"] { color: #956018; }
+QLabel#statsCardMeta { color: #58636b; }
+QLabel#statsCardRating { color: #257e73; font-weight: 650; }
+QLabel#statsCardNote { color: #707b83; font-size: 9pt; }
+QLabel#statsOverallValue { color: #232a2e; font-size: 14pt; font-weight: 700; }
+QPushButton#statsCalculateButton {
+    background-color: #247f78;
+    border-color: #1b6f68;
+    color: #ffffff;
+    font-weight: 700;
+}
+QPushButton#statsCalculateButton:hover { background-color: #1d6e68; }

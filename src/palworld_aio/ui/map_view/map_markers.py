@@ -2,6 +2,77 @@ import math
 from PySide6.QtWidgets import QGraphicsItem, QGraphicsPixmapItem
 from PySide6.QtCore import Qt, QRectF, QPointF
 from PySide6.QtGui import QPixmap, QColor, QRadialGradient, QPainter, QPainterPath, QPen
+
+
+def location_pin_color(source: str, found: bool = False) -> QColor:
+    if source == 'local':
+        return QColor('#E77A20')
+    if found:
+        return QColor('#27A875')
+    return QColor('#2F80ED')
+
+
+def _location_pin_path(size: float) -> QPainterPath:
+    half = size / 2
+    path = QPainterPath()
+    path.moveTo(0, half)
+    path.cubicTo(-half * 0.3, half * 0.2, -half, 0, -half, -half * 0.25)
+    path.cubicTo(-half, -half * 0.8, -half * 0.55, -half, 0, -half)
+    path.cubicTo(half * 0.55, -half, half, -half * 0.8, half, -half * 0.25)
+    path.cubicTo(half, 0, half * 0.3, half * 0.2, 0, half)
+    path.closeSubpath()
+    return path
+
+
+def _paint_location_pin(
+    painter: QPainter,
+    size: float,
+    color: QColor,
+    found: bool,
+) -> None:
+    half = size / 2
+    painter.setPen(QPen(QColor('#F5FAFF'), max(1.0, size / 12)))
+    painter.setBrush(color)
+    painter.drawPath(_location_pin_path(size))
+    if found:
+        check = QPainterPath()
+        check.moveTo(-half * 0.38, -half * 0.28)
+        check.lineTo(-half * 0.08, 0)
+        check.lineTo(half * 0.38, -half * 0.48)
+        pen = QPen(QColor('#FFFFFF'), max(1.6, size / 9))
+        pen.setCapStyle(Qt.RoundCap)
+        pen.setJoinStyle(Qt.RoundJoin)
+        painter.setPen(pen)
+        painter.setBrush(Qt.NoBrush)
+        painter.drawPath(check)
+        return
+
+    inner_radius = max(2.0, size * 0.16)
+    painter.setPen(Qt.NoPen)
+    painter.setBrush(QColor('#15345E'))
+    painter.drawEllipse(
+        QPointF(0, -half * 0.3),
+        inner_radius,
+        inner_radius,
+    )
+
+
+def location_pin_pixmap(
+    size: int = 30,
+    source: str = 'bundled',
+    found: bool = False,
+) -> QPixmap:
+    padding = 4
+    pixmap = QPixmap(size + padding * 2, size + padding * 2)
+    pixmap.fill(Qt.transparent)
+    painter = QPainter(pixmap)
+    painter.setRenderHint(QPainter.Antialiasing)
+    painter.translate(pixmap.width() / 2, pixmap.height() / 2)
+    _paint_location_pin(painter, size, location_pin_color(source, found), found)
+    painter.end()
+    return pixmap
+
+
 class BaseMarker(QGraphicsPixmapItem):
     def __init__(self, base_data, x, y, base_icon_pixmap, config):
         super().__init__()
@@ -214,13 +285,14 @@ class PlayerMarker(QGraphicsPixmapItem):
 
 
 class LocationMarker(QGraphicsItem):
-    SIZE_MIN = 12
-    SIZE_MAX = 26
-    BASE_SIZE = 12
+    SIZE_MIN = 16
+    SIZE_MAX = 34
+    BASE_SIZE = 16
 
-    def __init__(self, location_data, x, y):
+    def __init__(self, location_data, x, y, found=False):
         super().__init__()
         self.location_data = location_data
+        self.found = found
         self.current_size = self.BASE_SIZE
         self.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
         self.center_x = x
@@ -239,7 +311,7 @@ class LocationMarker(QGraphicsItem):
 
     def scale_to_zoom(self, zoom_level):
         clamped_zoom = max(0.05, min(zoom_level, 30.0))
-        raw_size = 10 + math.sqrt(clamped_zoom) * 2.5
+        raw_size = 12 + math.sqrt(clamped_zoom) * 5
         new_size = max(self.SIZE_MIN, min(self.SIZE_MAX, int(raw_size)))
         if new_size != self.current_size:
             self.prepareGeometryChange()
@@ -248,11 +320,7 @@ class LocationMarker(QGraphicsItem):
 
     def paint(self, painter, option, widget=None):
         painter.setRenderHint(QPainter.Antialiasing)
-        color = (
-            QColor('#FFC857')
-            if self.location_data.source == 'local'
-            else QColor('#49BBC6')
-        )
+        color = location_pin_color(self.location_data.source, self.found)
         if self.isSelected() or self.glow_alpha > 0 or self.is_hovered:
             alpha = max(self.glow_alpha, 90 if self.is_hovered else 0)
             glow_radius = self.current_size * 1.35
@@ -275,25 +343,18 @@ class LocationMarker(QGraphicsItem):
                 glow_radius * 2,
             ))
 
-        half = self.current_size / 2
-        path = QPainterPath()
-        path.moveTo(0, half)
-        path.cubicTo(-half * 0.3, half * 0.2, -half, 0, -half, -half * 0.25)
-        path.cubicTo(-half, -half * 0.8, -half * 0.55, -half, 0, -half)
-        path.cubicTo(half * 0.55, -half, half, -half * 0.8, half, -half * 0.25)
-        path.cubicTo(half, 0, half * 0.3, half * 0.2, 0, half)
-        path.closeSubpath()
-        painter.setPen(QPen(QColor('#EAF7F8'), max(1.0, self.current_size / 12)))
-        painter.setBrush(color)
-        painter.drawPath(path)
-        inner_radius = max(2.0, self.current_size * 0.16)
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(QColor('#142126'))
-        painter.drawEllipse(
-            QPointF(0, -half * 0.3),
-            inner_radius,
-            inner_radius,
+        _paint_location_pin(
+            painter,
+            self.current_size,
+            color,
+            self.found,
         )
+
+    def set_found(self, found: bool) -> None:
+        if self.found == found:
+            return
+        self.found = found
+        self.update()
 
     def hoverEnterEvent(self, event):
         self.is_hovered = True

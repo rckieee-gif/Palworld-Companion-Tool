@@ -275,6 +275,13 @@ QFrame#mapToolbar {
     background-color: #202428;
     border-bottom: 1px solid #343a40;
 }
+QFrame#mapHeatmapBar {
+    background-color: transparent;
+    border-top: 1px solid #343a40;
+}
+QLabel#mapHeatmapLabel { color: #d6dde3; font-weight: 650; }
+QLabel#mapHeatmapStatus { color: #9aa7b1; }
+QComboBox#mapHeatmapPal { min-width: 220px; }
 QLabel#readOnlyBadge {
     background-color: #133a30;
     border: 1px solid #3dbf92;
@@ -292,6 +299,56 @@ QLabel#mapDetail {
     border: 1px solid #343a40;
     border-radius: 5px;
     padding: 8px;
+}
+QFrame#mapLocationPopup {
+    background-color: #293744;
+    border: 1px solid #4a6274;
+    border-radius: 7px;
+}
+QFrame#mapLocationPopup QLabel { background-color: transparent; }
+QLabel#mapPopupBadge {
+    background-color: #2f80ed;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 2px 7px;
+}
+QToolButton#mapPopupClose {
+    background-color: transparent;
+    border: 0;
+    min-height: 22px;
+    padding: 0;
+}
+QToolButton#mapPopupClose:hover { background-color: #3a4a58; }
+QLabel#mapPopupIcon {
+    background-color: #344b65;
+    border: 1px solid #486886;
+    border-radius: 6px;
+}
+QLabel#mapPopupTitle {
+    color: #ffffff;
+    font-size: 12pt;
+    font-weight: 700;
+}
+QFrame#mapPopupDivider { background-color: #485968; border: 0; }
+QLabel#mapPopupDescription { color: #d6dde3; }
+QLabel#mapPopupCoordinateCaption { color: #8997a4; }
+QLabel#mapPopupCoordinates { color: #edf2f5; font-weight: 700; }
+QPushButton#mapFoundButton {
+    background-color: #245c63;
+    border-color: #3aa9a2;
+    color: #80ead5;
+    font-weight: 700;
+}
+QPushButton#mapFoundButton:hover {
+    background-color: #2b6c72;
+    border-color: #62c7bb;
+}
+QPushButton#mapFoundButton[found="true"] {
+    background-color: #1f664c;
+    border-color: #3fbd87;
+    color: #a7f1cf;
 }
 QLabel#breedingEmptyState { color: #aeb5bc; }
 QLabel#breedingOperator { color: #64d3c1; font-size: 16pt; font-weight: 700; }
@@ -315,3 +372,159 @@ QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
 QSplitter::handle { background-color: #30353a; }
 QStatusBar { background-color: #111315; color: #9fa7af; border-top: 1px solid #30353a; }
 QToolTip { background-color: #f4f6f7; color: #16191b; border: 1px solid #7d858c; padding: 5px; }
+
+QScrollArea#teamBuilderScroll, QWidget#teamBuilderContent,
+QWidget#teamOverview, QWidget#teamSlots, QWidget#teamLibraryPage {
+    background-color: #181b1e;
+    border: 0;
+}
+QLabel#teamPageTitle { color: #ffffff; font-size: 18pt; font-weight: 700; }
+QLabel#teamCounter {
+    background-color: #183b40;
+    border: 1px solid #2e666b;
+    border-radius: 4px;
+    color: #96e6d8;
+    font-weight: 700;
+    padding: 4px 8px;
+}
+QLabel#teamNotice {
+    background-color: #173b32;
+    border-left: 3px solid #56c9aa;
+    color: #a9ead8;
+    padding: 7px 9px;
+}
+QFrame#teamSlot {
+    background-color: #202529;
+    border: 1px solid #384149;
+    border-radius: 6px;
+}
+QFrame#teamSlot[slotState="empty"] {
+    background-color: #1b1f22;
+    border: 1px dashed #4d5962;
+}
+QFrame#teamSlot:hover { border-color: #5e747e; }
+QLabel#teamSlotNumber { color: #8f9aa2; font-size: 8pt; font-weight: 700; }
+QLabel#teamQuantityBadge {
+    background-color: #236848;
+    border-radius: 4px;
+    color: #b7f5d5;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 2px 5px;
+}
+QToolButton#teamMemberButton {
+    background-color: transparent;
+    border: 0;
+    color: #f0f3f4;
+    font-weight: 700;
+    padding: 3px;
+}
+QToolButton#teamMemberButton:hover { background-color: #293036; }
+QToolButton#teamMemberButton:focus { border: 1px solid #64d3c1; }
+QToolButton#teamSlotAction, QToolButton#teamHistoryButton {
+    min-width: 27px;
+    max-width: 27px;
+    min-height: 27px;
+    max-height: 27px;
+    padding: 0;
+}
+QLabel#teamSlotMeta { color: #7fd7c8; font-size: 9pt; font-weight: 650; }
+QLabel#teamSlotSkill { color: #adb5bb; font-size: 8pt; }
+QFrame#teamDivider { background-color: #343b41; border: 0; max-height: 1px; }
+QLabel#teamSectionTitle { color: #e8ecee; font-size: 13pt; font-weight: 700; }
+QLabel#teamMetric {
+    background-color: #202529;
+    border: 1px solid #353d43;
+    border-radius: 5px;
+    color: #d5dadd;
+    padding: 7px 9px;
+}
+QLabel#teamOverviewText { color: #aeb7bd; }
+QLabel#teamEmptyText { color: #8f99a1; padding: 16px; }
+QTreeWidget#teamEffects, QTreeWidget#teamPresetTree, QTreeWidget#teamSavedTree {
+    background-color: #171a1d;
+    border: 1px solid #353d43;
+    border-radius: 5px;
+    alternate-background-color: #1e2327;
+}
+QTreeWidget#teamEffects::item, QTreeWidget#teamPresetTree::item,
+QTreeWidget#teamSavedTree::item { padding: 5px 4px; }
+QTreeWidget#teamEffects::item:selected, QTreeWidget#teamPresetTree::item:selected,
+QTreeWidget#teamSavedTree::item:selected { background-color: #285963; }
+QTabWidget#teamLibraryTabs::pane { border: 1px solid #353d43; }
+QDialog#teamMemberSelector { background-color: #181b1e; }
+QLineEdit#teamMemberSearch { min-height: 34px; }
+QLabel#teamSelectorCount { color: #94a0a8; font-weight: 650; }
+QListWidget#teamMemberResults {
+    background-color: #15181b;
+    border: 1px solid #353d43;
+    border-radius: 5px;
+}
+QListWidget#teamMemberResults::item {
+    background-color: #202529;
+    border: 1px solid #384149;
+    border-radius: 5px;
+    color: #dfe4e7;
+    margin: 3px;
+    padding: 6px;
+}
+QListWidget#teamMemberResults::item:hover { background-color: #283036; }
+QListWidget#teamMemberResults::item:selected {
+    background-color: #24545d;
+    border-color: #66c8ba;
+    color: #ffffff;
+}
+QPushButton#teamLoadMoreButton { min-width: 130px; }
+QLabel#teamFormError { color: #f08b8b; }
+
+QScrollArea#statsCalculatorScroll, QWidget#statsCalculatorContent {
+    background-color: #181b1e;
+    border: 0;
+}
+QLabel#statsPageTitle { color: #ffffff; font-size: 18pt; font-weight: 700; }
+QLabel#statsProfileBadge {
+    background-color: #202f34;
+    border: 1px solid #3b656c;
+    border-radius: 4px;
+    color: #91ddd1;
+    font-size: 9pt;
+    font-weight: 650;
+    padding: 4px 8px;
+}
+QLabel#statsFormulaNotice, QLabel#statsStaleNotice {
+    background-color: #3b2f1d;
+    border-left: 3px solid #d79a43;
+    color: #f1ca91;
+    padding: 8px 10px;
+}
+QFrame#statsSection, QFrame#statsResultCard, QFrame#statsOverallCard {
+    background-color: #202428;
+    border: 1px solid #353d43;
+    border-radius: 7px;
+}
+QFrame#statsSection QLabel, QFrame#statsResultCard QLabel,
+QFrame#statsOverallCard QLabel, QWidget#statsSectionBody,
+QWidget#statsFieldHost { background-color: transparent; }
+QLabel#statsSectionHeading { color: #eef1f2; font-size: 12pt; font-weight: 700; }
+QLabel#statsSectionHelp { color: #909aa2; font-size: 9pt; }
+QLabel#statsFieldError { color: #f08b8b; font-size: 8pt; }
+QLabel#statsDataStatus { color: #9aa4ab; font-size: 9pt; }
+QLabel#statsDataStatus[dataState="found"] { color: #78d8b0; }
+QLabel#statsDataStatus[dataState="warning"] { color: #e2b36f; }
+QLabel#statsCardTitle { color: #9ba5ad; font-size: 9pt; font-weight: 700; }
+QLabel#statsCardValue { color: #f4f6f7; font-size: 18pt; font-weight: 700; }
+QLabel#statsCardValue[resultState="ready"] { color: #7ce1cf; }
+QLabel#statsCardValue[resultState="invalid"] { color: #f08b8b; }
+QLabel#statsCardValue[resultState="missing_base_stats"],
+QLabel#statsCardValue[resultState="formula_incomplete"] { color: #e8bd78; }
+QLabel#statsCardMeta { color: #aab2b8; }
+QLabel#statsCardRating { color: #81d6c6; font-weight: 650; }
+QLabel#statsCardNote { color: #8f99a1; font-size: 9pt; }
+QLabel#statsOverallValue { color: #f4f6f7; font-size: 14pt; font-weight: 700; }
+QPushButton#statsCalculateButton {
+    background-color: #1d615d;
+    border-color: #49b9ac;
+    color: #eafffb;
+    font-weight: 700;
+}
+QPushButton#statsCalculateButton:hover { background-color: #24736d; }

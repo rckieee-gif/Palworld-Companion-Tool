@@ -37,6 +37,9 @@ def test_installer_is_per_user_and_points_to_project_releases(
     assert 'recursesubdirs createallsubdirs' in script
     assert r'Name: "{app}\PalworldCompanionTools-V*-win.exe"' in script
     assert 'UninstallDisplayIcon=' in script
+    assert r'Software\Classes\palworld-companion' in script
+    assert 'URL Protocol' in script
+    assert r'""%1""' in script
     assert 'PrivilegesRequired=admin' not in script
 
 

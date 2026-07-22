@@ -20,6 +20,7 @@ REQUIRED_FILES = (
     'game_data/characters.json',
     'game_data/items.json',
     'game_data/manifest.json',
+    'game_data/pal_spawns.json',
     'game_data/skills.json',
     'game_data/work_suitability.json',
     'game_data/icons/T_icon_unknown.webp',
@@ -58,7 +59,7 @@ def test_bundled_game_data_manifest_is_valid() -> None:
 
     assert report.is_valid, report.summary()
     assert report.game_data_version == GAME_DATA_VERSION
-    assert report.files_checked == 15
+    assert report.files_checked == 16
     assert report.icons_checked > 2500
     assert report.known_icon_fallbacks == 58
 

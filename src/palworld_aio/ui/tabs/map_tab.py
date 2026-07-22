@@ -11,6 +11,8 @@ from PySide6.QtWidgets import (
     QApplication,
     QButtonGroup,
     QCheckBox,
+    QComboBox,
+    QCompleter,
     QFrame,
     QGraphicsPixmapItem,
     QGraphicsScene,
@@ -42,6 +44,12 @@ from palworld_aio.map.locations import (
     load_fast_travel_locations,
     location_from_annotation,
 )
+from palworld_aio.map.progress import MapProgressStore
+from palworld_aio.map.spawns import (
+    PalSpawnRepository,
+    PalSpawnSpecies,
+    SpawnTimeFilter,
+)
 from palworld_aio.read_only_world import (
     BaseMarkerData,
     PlayerMarkerData,
@@ -52,12 +60,18 @@ from palworld_aio.ui.map_view.map_items import (
     ExclusionZoneItem,
     PolygonExclusionZoneItem,
 )
+from palworld_aio.ui.map_view.location_popup import LocationPopup
 from palworld_aio.ui.map_view.map_markers import (
     BaseMarker,
     LocationMarker,
     PlayerMarker,
+    location_pin_pixmap,
 )
 from palworld_aio.ui.map_view.map_view import MapGraphicsView
+from palworld_aio.ui.map_view.spawn_heatmap import (
+    SpawnHeatmapItem,
+    render_spawn_heatmap,
+)
 from resource_resolver import get_user_config_dir, resource_path
 
 
@@ -117,6 +131,9 @@ class MapTab(QWidget):
         self._player_markers: dict[str, PlayerMarker] = {}
         self._radius_items: list[BaseRadiusRing] = []
         self._annotation_items: list = []
+        self._heatmap_item: SpawnHeatmapItem | None = None
+        self._map_image_loaded = False
+        self._popup_marker: LocationMarker | None = None
         try:
             self.annotation_store = AnnotationStore()
             self._annotation_error = ''
@@ -128,11 +145,27 @@ class MapTab(QWidget):
             self.annotation_store._annotations = []
             self._annotation_error = str(exc)
         try:
+            self.progress_store = MapProgressStore()
+            self._progress_error = ''
+        except ValueError as exc:
+            self.progress_store = MapProgressStore.__new__(MapProgressStore)
+            self.progress_store.path = (
+                Path(get_user_config_dir()) / 'map_progress.json'
+            )
+            self.progress_store._found_location_ids = set()
+            self._progress_error = str(exc)
+        try:
             self._bundled_locations = load_fast_travel_locations()
             self._location_error = ''
         except GameDataError as exc:
             self._bundled_locations = ()
             self._location_error = str(exc)
+        try:
+            self._spawn_repository = PalSpawnRepository.from_game_data()
+            self._spawn_error = ''
+        except GameDataError as exc:
+            self._spawn_repository = None
+            self._spawn_error = str(exc)
         self._setup_ui()
         self._connect_signals()
         self._load_map_image('world')
@@ -226,7 +259,9 @@ class MapTab(QWidget):
         self.warning_label.setObjectName('mapWarning')
         initial_warning = ' | '.join(filter(None, (
             self._annotation_error,
+            self._progress_error,
             self._location_error,
+            self._spawn_error,
         )))
         self.warning_label.setVisible(bool(initial_warning))
         self.warning_label.setText(initial_warning)
@@ -239,6 +274,54 @@ class MapTab(QWidget):
         primary_row.addWidget(self.read_only_label)
         toolbar_layout.addLayout(primary_row)
         toolbar_layout.addWidget(self.local_controls)
+
+        self.heatmap_controls = QFrame()
+        self.heatmap_controls.setObjectName('mapHeatmapBar')
+        heatmap_layout = QHBoxLayout(self.heatmap_controls)
+        heatmap_layout.setContentsMargins(8, 0, 0, 0)
+        heatmap_layout.setSpacing(8)
+        self.show_heatmap = QCheckBox('Pal heatmap')
+        self.show_heatmap.setObjectName('mapHeatmapToggle')
+        self.show_heatmap.setEnabled(self._spawn_repository is not None)
+        heatmap_layout.addWidget(self.show_heatmap)
+        heatmap_label = QLabel('Pal')
+        heatmap_label.setObjectName('mapHeatmapLabel')
+        heatmap_layout.addWidget(heatmap_label)
+        self.heatmap_pal_combo = QComboBox()
+        self.heatmap_pal_combo.setObjectName('mapHeatmapPal')
+        self.heatmap_pal_combo.setEditable(True)
+        self.heatmap_pal_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.heatmap_pal_combo.setMaxVisibleItems(18)
+        self.heatmap_pal_combo.setMinimumWidth(220)
+        self.heatmap_pal_combo.lineEdit().setClearButtonEnabled(True)
+        self.heatmap_pal_combo.lineEdit().setPlaceholderText('Search Pals')
+        heatmap_layout.addWidget(self.heatmap_pal_combo)
+        self.heatmap_time_combo = QComboBox()
+        self.heatmap_time_combo.setObjectName('mapHeatmapTime')
+        self.heatmap_time_combo.addItem('All times', 'all')
+        self.heatmap_time_combo.addItem('Day', 'day')
+        self.heatmap_time_combo.addItem('Night', 'night')
+        heatmap_layout.addWidget(self.heatmap_time_combo)
+        self.show_heatmap_outline = QCheckBox('Outline')
+        self.show_heatmap_outline.setObjectName('mapHeatmapOutline')
+        self.show_heatmap_outline.setChecked(True)
+        heatmap_layout.addWidget(self.show_heatmap_outline)
+        self.heatmap_status_label = QLabel()
+        self.heatmap_status_label.setObjectName('mapHeatmapStatus')
+        heatmap_layout.addWidget(self.heatmap_status_label, 1)
+        self._populate_heatmap_pals()
+        self.heatmap_completer = QCompleter(
+            self.heatmap_pal_combo.model(),
+            self,
+        )
+        self.heatmap_completer.setCaseSensitivity(Qt.CaseInsensitive)
+        self.heatmap_completer.setFilterMode(Qt.MatchContains)
+        self.heatmap_completer.setCompletionMode(
+            QCompleter.CompletionMode.PopupCompletion
+        )
+        self.heatmap_pal_combo.setCompleter(self.heatmap_completer)
+        self._set_heatmap_controls_enabled(False)
+        toolbar_layout.addWidget(self.heatmap_controls)
         root.addWidget(toolbar)
 
         self.local_page = self._create_local_page()
@@ -257,6 +340,116 @@ class MapTab(QWidget):
         button.setProperty('segmentButton', True)
         button.setMinimumWidth(72)
         return button
+
+    def _populate_heatmap_pals(self) -> None:
+        selected_id = self.heatmap_pal_combo.currentData()
+        self.heatmap_pal_combo.blockSignals(True)
+        self.heatmap_pal_combo.clear()
+        if self._spawn_repository is not None:
+            for record in self._spawn_repository.records_for_map(self.current_map):
+                self.heatmap_pal_combo.addItem(record.name, record.pal_id)
+        selected_index = self.heatmap_pal_combo.findData(selected_id)
+        self.heatmap_pal_combo.setCurrentIndex(selected_index)
+        if selected_index < 0:
+            self.heatmap_pal_combo.setEditText('')
+        self.heatmap_pal_combo.blockSignals(False)
+
+    def _set_heatmap_controls_enabled(self, enabled: bool) -> None:
+        available = self._spawn_repository is not None
+        self.heatmap_pal_combo.setEnabled(available and enabled)
+        self.heatmap_time_combo.setEnabled(available and enabled)
+        self.show_heatmap_outline.setEnabled(available and enabled)
+        if not available:
+            self.heatmap_status_label.setText(
+                self._spawn_error or 'Pal spawn data is unavailable.'
+            )
+        elif not enabled:
+            self.heatmap_status_label.setText('Heatmap off')
+        elif self.heatmap_pal_combo.currentIndex() < 0:
+            count = self.heatmap_pal_combo.count()
+            self.heatmap_status_label.setText(
+                f'{count} Pals available on the {self.current_map.title()} map.'
+            )
+
+    def _selected_heatmap_pal(self) -> PalSpawnSpecies | None:
+        if self._spawn_repository is None:
+            return None
+        index = self.heatmap_pal_combo.currentIndex()
+        displayed_text = self.heatmap_pal_combo.currentText().strip()
+        selected_id = self.heatmap_pal_combo.currentData()
+        query = (
+            str(selected_id)
+            if index >= 0 and displayed_text == self.heatmap_pal_combo.itemText(index)
+            else displayed_text
+        )
+        record = self._spawn_repository.resolve(query)
+        if record is None:
+            return None
+        resolved_index = self.heatmap_pal_combo.findData(record.pal_id)
+        if resolved_index >= 0 and resolved_index != index:
+            self.heatmap_pal_combo.blockSignals(True)
+            self.heatmap_pal_combo.setCurrentIndex(resolved_index)
+            self.heatmap_pal_combo.blockSignals(False)
+        return record
+
+    def _on_heatmap_toggled(self, checked: bool) -> None:
+        self._set_heatmap_controls_enabled(checked)
+        self._refresh_heatmap()
+
+    def _refresh_heatmap(self, *_args) -> None:
+        if self._heatmap_item is not None:
+            try:
+                if self._heatmap_item.scene() is self.scene:
+                    self.scene.removeItem(self._heatmap_item)
+            except RuntimeError:
+                pass
+            self._heatmap_item = None
+        if not self.show_heatmap.isChecked():
+            self._set_heatmap_controls_enabled(False)
+            return
+        if self._spawn_repository is None:
+            self._set_heatmap_controls_enabled(True)
+            return
+        if not self._map_image_loaded:
+            self.heatmap_status_label.setText('Map image is unavailable.')
+            return
+        record = self._selected_heatmap_pal()
+        if record is None:
+            self.heatmap_status_label.setText('Select a Pal to show its spawn areas.')
+            return
+        time_value = str(self.heatmap_time_combo.currentData() or 'all')
+        time_filter: SpawnTimeFilter = (
+            time_value if time_value in ('all', 'day', 'night') else 'all'
+        )
+        points = record.points_for(self.current_map, time_filter)
+        if not points:
+            self.heatmap_status_label.setText(
+                f'No {time_filter} spawn areas are recorded for {record.name}.'
+            )
+            return
+        pixmap = render_spawn_heatmap(
+            points,
+            self.current_map,
+            self._spawn_repository.bounds_for(self.current_map),
+            outline=self.show_heatmap_outline.isChecked(),
+        )
+        if pixmap.isNull():
+            self.heatmap_status_label.setText('The heatmap could not be rendered.')
+            return
+        self._heatmap_item = SpawnHeatmapItem(
+            pixmap,
+            self.map_width,
+            self.map_height,
+        )
+        self.scene.addItem(self._heatmap_item)
+        period = {
+            'all': 'all times',
+            'day': 'daytime',
+            'night': 'nighttime',
+        }[time_filter]
+        self.heatmap_status_label.setText(
+            f'{len(points):,} recorded spawn areas for {record.name} ({period}).'
+        )
 
     def _create_local_page(self) -> QWidget:
         page = QWidget()
@@ -341,6 +534,8 @@ class MapTab(QWidget):
         self.view.setScene(self.scene)
         self.view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         map_layout.addWidget(self.view)
+        self.location_popup = LocationPopup(self.view.viewport())
+        self.view.overlay_position_callback = self._position_location_popup
         splitter.addWidget(map_host)
         splitter.setStretchFactor(0, 0)
         splitter.setStretchFactor(1, 1)
@@ -375,6 +570,13 @@ class MapTab(QWidget):
         self.show_players.toggled.connect(self._refresh_markers)
         self.show_radii.toggled.connect(self._refresh_radius_rings)
         self.show_annotations.toggled.connect(self._refresh_annotations)
+        self.show_heatmap.toggled.connect(self._on_heatmap_toggled)
+        self.heatmap_pal_combo.currentIndexChanged.connect(self._refresh_heatmap)
+        self.heatmap_pal_combo.lineEdit().returnPressed.connect(
+            self._refresh_heatmap
+        )
+        self.heatmap_time_combo.currentIndexChanged.connect(self._refresh_heatmap)
+        self.show_heatmap_outline.toggled.connect(self._refresh_heatmap)
         self.reset_button.clicked.connect(self.view.reset_view)
         self.view.zoom_changed.connect(self._scale_markers)
         self.view.marker_clicked.connect(self._on_marker_selected)
@@ -383,11 +585,19 @@ class MapTab(QWidget):
         self.view.marker_hover_entered.connect(
             lambda data, _position: self._show_details(data)
         )
+        self.view.empty_space_clicked.connect(self._hide_location_popup)
         self.view.zone_created.connect(self._on_rectangle_created)
         self.view.polygon_closed.connect(self._on_polygon_created)
         self.view.zone_drawing_cancelled.connect(self._stop_annotation)
         self.view.zone_right_clicked.connect(self._show_annotation_menu)
         self.view.empty_space_right_clicked.connect(self._show_empty_map_menu)
+        self.view.horizontalScrollBar().valueChanged.connect(
+            self._position_location_popup
+        )
+        self.view.verticalScrollBar().valueChanged.connect(
+            self._position_location_popup
+        )
+        self.location_popup.found_toggled.connect(self._set_location_found)
         self.location_tree.itemDoubleClicked.connect(self._on_tree_item_activated)
         self.base_tree.itemDoubleClicked.connect(self._on_tree_item_activated)
         self.player_tree.itemDoubleClicked.connect(self._on_tree_item_activated)
@@ -408,8 +618,12 @@ class MapTab(QWidget):
         warnings = list(world.warnings) if world else []
         if self._annotation_error:
             warnings.append(self._annotation_error)
+        if self._progress_error:
+            warnings.append(self._progress_error)
         if self._location_error:
             warnings.append(self._location_error)
+        if self._spawn_error:
+            warnings.append(self._spawn_error)
         self.warning_label.setVisible(bool(warnings))
         self.warning_label.setText(' | '.join(warnings))
         self.world_name_label.setText(world.display_name if world else 'Palworld map')
@@ -441,6 +655,7 @@ class MapTab(QWidget):
         if map_type == self.current_map:
             return
         self.current_map = map_type
+        self._populate_heatmap_pals()
         self._load_map_image(map_type)
         self._refresh_trees()
         self._refresh_markers()
@@ -448,8 +663,11 @@ class MapTab(QWidget):
         self._refresh_annotations()
 
     def _load_map_image(self, map_type: str) -> None:
+        self._hide_location_popup()
         filename = 'T_TreeMap.webp' if map_type == 'tree' else 'T_WorldMap.webp'
         pixmap = QPixmap(resource_path(get_base_directory(), filename))
+        self._heatmap_item = None
+        self._map_image_loaded = False
         self.scene.clear()
         self._location_markers.clear()
         self._base_markers.clear()
@@ -460,6 +678,7 @@ class MapTab(QWidget):
             self.map_width = self.map_height = 2048
             self.scene.setSceneRect(0, 0, self.map_width, self.map_height)
             self.status_message.emit(f'Map image is missing: {filename}')
+            self._refresh_heatmap()
             return
         self.map_width = pixmap.width()
         self.map_height = pixmap.height()
@@ -467,8 +686,10 @@ class MapTab(QWidget):
         image_item.setZValue(0)
         self.scene.addItem(image_item)
         self.scene.setSceneRect(0, 0, self.map_width, self.map_height)
+        self._map_image_loaded = True
         coordinate_range = palworld_coord.get_treemap_coord_range() if map_type == 'tree' else 1000
         self.view.set_map_type(map_type, coordinate_range)
+        self._refresh_heatmap()
         QTimer.singleShot(0, self.view.reset_view)
 
     def _scene_coordinates(self, coordinates: tuple[int, int], map_type: str) -> tuple[float, float]:
@@ -561,9 +782,19 @@ class MapTab(QWidget):
             locations = location_groups.get(category, [])
             if not locations:
                 continue
+            found_count = sum(
+                self.progress_store.is_found(location.location_id)
+                for location in locations
+                if location.source == 'bundled'
+            )
+            summary = (
+                f'{found_count}/{len(locations)} found'
+                if category == 'Fast Travel'
+                else f'{len(locations)} places'
+            )
             category_item = QTreeWidgetItem([
                 category,
-                f'{len(locations)} places',
+                summary,
             ])
             category_item.setData(0, Qt.UserRole, ('location-category', category))
             for location in sorted(locations, key=lambda item: item.name.casefold()):
@@ -573,9 +804,22 @@ class MapTab(QWidget):
                 ])
                 child.setData(0, Qt.UserRole, location)
                 child.setToolTip(0, location.name)
+                found = self.progress_store.is_found(location.location_id)
+                child.setIcon(
+                    0,
+                    QIcon(location_pin_pixmap(
+                        15,
+                        location.source,
+                        found,
+                    )),
+                )
                 child.setForeground(
                     0,
-                    QColor('#FFC857' if location.source == 'local' else '#49BBC6'),
+                    QColor(
+                        '#E77A20'
+                        if location.source == 'local'
+                        else '#27A875' if found else '#2F80ED'
+                    ),
                 )
                 category_item.addChild(child)
             self.location_tree.addTopLevelItem(category_item)
@@ -611,6 +855,7 @@ class MapTab(QWidget):
         self.player_tree.resizeColumnToContents(0)
 
     def _refresh_markers(self, *_args) -> None:
+        self._hide_location_popup()
         for marker in (
             *self._location_markers.values(),
             *self._base_markers.values(),
@@ -626,7 +871,12 @@ class MapTab(QWidget):
                 if location.map_type != self.current_map:
                     continue
                 x, y = self._scene_coordinates(location.coordinates, location.map_type)
-                marker = LocationMarker(location, x, y)
+                marker = LocationMarker(
+                    location,
+                    x,
+                    y,
+                    self.progress_store.is_found(location.location_id),
+                )
                 marker.scale_to_zoom(self.view.current_zoom)
                 marker.setZValue(12 if location.source == 'local' else 9)
                 self.scene.addItem(marker)
@@ -700,6 +950,7 @@ class MapTab(QWidget):
             *self._player_markers.values(),
         ):
             marker.scale_to_zoom(zoom)
+        self._position_location_popup()
 
     def _update_marker_animations(self) -> None:
         for marker in (
@@ -710,8 +961,77 @@ class MapTab(QWidget):
             if marker.isSelected() or marker.is_hovered or marker.glow_alpha > 0:
                 marker.update_glow()
 
-    def _on_marker_selected(self, data, _marker) -> None:
+    def _on_marker_selected(self, data, marker) -> None:
         self._show_details(data)
+        if isinstance(data, MapLocation):
+            self._show_location_popup(data, marker)
+        else:
+            self._hide_location_popup()
+
+    def _show_location_popup(
+        self,
+        location: MapLocation,
+        marker: LocationMarker,
+    ) -> None:
+        self._popup_marker = marker
+        self.location_popup.set_location(
+            location,
+            self.progress_store.is_found(location.location_id),
+        )
+        self.location_popup.show()
+        self.location_popup.raise_()
+        self._position_location_popup()
+
+    def _hide_location_popup(self, *_args) -> None:
+        if hasattr(self, 'location_popup'):
+            self.location_popup.hide()
+        self._popup_marker = None
+
+    def _position_location_popup(self, *_args) -> None:
+        if (
+            not hasattr(self, 'location_popup')
+            or self.location_popup.isHidden()
+            or self._popup_marker is None
+            or self._popup_marker.scene() is None
+        ):
+            return
+        anchor = self.view.mapFromScene(self._popup_marker.scenePos())
+        popup = self.location_popup
+        popup.adjustSize()
+        margin = 12
+        gap = 18
+        x = anchor.x() - popup.width() // 2
+        y = anchor.y() - popup.height() - gap
+        if y < margin:
+            y = anchor.y() + gap
+        x = max(margin, min(x, self.view.viewport().width() - popup.width() - margin))
+        y = max(margin, min(y, self.view.viewport().height() - popup.height() - margin))
+        popup.move(x, y)
+        popup.raise_()
+
+    def _set_location_found(self, location_id: str, found: bool) -> None:
+        try:
+            self.progress_store.set_found(location_id, found)
+        except (OSError, ValueError) as exc:
+            if self.location_popup.location is not None:
+                self.location_popup.set_found(not found)
+            QMessageBox.warning(
+                self,
+                'Map progress',
+                f'Could not store map progress: {exc}',
+            )
+            return
+        marker = self._location_markers.get(location_id)
+        if marker is not None:
+            marker.set_found(found)
+        if (
+            self.location_popup.location is not None
+            and self.location_popup.location.location_id == location_id
+        ):
+            self.location_popup.set_found(found)
+        self._refresh_trees()
+        state = 'found' if found else 'not found'
+        self.status_message.emit(f'Map location marked as {state}.')
 
     def _show_details(self, data) -> None:
         if isinstance(data, PlayerMarkerData):
@@ -754,11 +1074,18 @@ class MapTab(QWidget):
         copy_coordinates = menu.addAction('Copy coordinates')
         copy_identifier = menu.addAction('Copy identifier')
         filter_action = None
+        found_action = None
         rename_action = None
         delete_action = None
         if isinstance(data, (BaseMarkerData, PlayerMarkerData)):
             menu.addSeparator()
             filter_action = menu.addAction('Filter by this guild')
+        elif isinstance(data, MapLocation) and data.source == 'bundled':
+            menu.addSeparator()
+            is_found = self.progress_store.is_found(data.location_id)
+            found_action = menu.addAction(
+                'Mark as not found' if is_found else 'Mark as found'
+            )
         elif isinstance(data, MapLocation) and data.source == 'local':
             menu.addSeparator()
             rename_action = menu.addAction('Rename pin')
@@ -778,11 +1105,13 @@ class MapTab(QWidget):
             else:
                 identifier = data.internal_id
             QApplication.clipboard().setText(identifier)
-        elif action == filter_action:
+        elif filter_action is not None and action == filter_action:
             self._set_guild_filter(data.guild_id, data.guild_name)
-        elif action == rename_action:
+        elif found_action is not None and action == found_action:
+            self._set_location_found(data.location_id, not is_found)
+        elif rename_action is not None and action == rename_action:
             self._rename_pin(data)
-        elif action == delete_action:
+        elif delete_action is not None and action == delete_action:
             self._delete_pin(data)
 
     def _show_tree_menu(self, tree: QTreeWidget, point) -> None:
@@ -810,10 +1139,14 @@ class MapTab(QWidget):
     def _on_tree_item_activated(self, item: QTreeWidgetItem, _column: int) -> None:
         data = item.data(0, Qt.UserRole)
         if isinstance(data, (MapLocation, BaseMarkerData, PlayerMarkerData)):
-            self._navigate_to(data)
+            marker = self._navigate_to(data)
             self._show_details(data)
+            if isinstance(data, MapLocation) and isinstance(marker, LocationMarker):
+                self._show_location_popup(data, marker)
+            else:
+                self._hide_location_popup()
 
-    def _navigate_to(self, data) -> None:
+    def _navigate_to(self, data):
         if data.map_type != self.current_map:
             if data.map_type == 'tree':
                 self.tree_button.click()
@@ -827,6 +1160,7 @@ class MapTab(QWidget):
             marker = self._location_markers.get(data.location_id)
         if marker:
             self.view.animate_to_marker(marker, zoom_level=10.0)
+        return marker
 
     def _set_guild_filter(self, guild_id: str, guild_name: str) -> None:
         self._guild_filter = guild_id
@@ -894,11 +1228,18 @@ class MapTab(QWidget):
             )
 
     def _add_pin_at_coordinates(self) -> None:
-        limit = 2500 if self.current_map == 'tree' else 1000
+        if self.current_map == 'tree':
+            min_x, min_y, max_x, max_y = palworld_coord.get_treemap_map_bounds()
+            coordinate_hint = (
+                f'x {min_x:.0f} to {max_x:.0f}; '
+                f'y {min_y:.0f} to {max_y:.0f}'
+            )
+        else:
+            coordinate_hint = 'x and y -1000 to 1000'
         value, accepted = QInputDialog.getText(
             self,
             'Add map pin',
-            f'Coordinates (x, y; {-limit} to {limit}):',
+            f'Coordinates (x, y; {coordinate_hint}):',
         )
         if not accepted:
             return

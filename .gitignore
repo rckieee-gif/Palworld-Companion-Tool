@@ -52,6 +52,8 @@ tmp/*.tmp
 .build/
 build/nuitka-cache/
 build/nuitka-report.xml
+build/nuitka-verification-report.xml
+build/verification-dist/
 build/pytest-tmp/
 build/visual-check/
 uv.lock

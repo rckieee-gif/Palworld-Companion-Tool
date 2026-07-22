@@ -33,8 +33,8 @@
       }
     },
     "characters.json": {
-      "bytes": 2520182,
-      "sha256": "6ea22f750780ec89fb0ceeef8304335318c0cedffafd47c4a32e2fd85c6e0d39",
+      "bytes": 2519977,
+      "sha256": "1f7fe66f8bb6fdcbfb25e4c2783c9193fe1e094736ef590f37babc1104bf7980",
       "sections": {
         "friendship": 14,
         "npcs": 369,
@@ -353,6 +353,20 @@
         "97": 9,
         "98": 9,
         "99": 9
+      }
+    },
+    "pal_spawns.json": {
+      "bytes": 2486598,
+      "sha256": "1944843e73de12176559adf307049226de6280745b35e3a409350a3445195e9b",
+      "sections": {
+        "counts": 6,
+        "game_version": 1,
+        "map_bounds": 2,
+        "pals": 286,
+        "schema_version": 1,
+        "source_tables": 3,
+        "unknown_time_values": 0,
+        "unmatched_pal_ids": 1
       }
     },
     "pals_learnset.json": {

@@ -38,6 +38,7 @@ from palworld_aio.read_only_world import (
     WorldLoadError,
     load_read_only_world,
 )
+from palworld_aio.team_builder import is_team_share_url
 from palworld_aio.update_service import (
     GitHubReleaseChecker,
     ReleaseInfo,
@@ -50,6 +51,8 @@ from palworld_aio.ui.tabs.breeding_tab import BreedingTab
 from palworld_aio.ui.tabs.docs_tab import DocsTab
 from palworld_aio.ui.tabs.map_tab import MapTab
 from palworld_aio.ui.tabs.settings_tab import SettingsTab
+from palworld_aio.ui.tabs.stats_calculator_tab import StatsCalculatorTab
+from palworld_aio.ui.tabs.team_builder_tab import TeamBuilderTab
 
 
 class _WorldLoadWorker(QObject):
@@ -79,7 +82,15 @@ class _WorldLoadWorker(QObject):
 
 
 class MainWindow(QMainWindow):
-    NAVIGATION = ('map', 'breeding', 'wiki', 'settings', 'about')
+    NAVIGATION = (
+        'map',
+        'breeding',
+        'stats_calculator',
+        'team_builder',
+        'wiki',
+        'settings',
+        'about',
+    )
 
     def __init__(
         self,
@@ -142,12 +153,15 @@ class MainWindow(QMainWindow):
         sidebar_layout.addWidget(self.brand_label)
         self.tagline_label = QLabel()
         self.tagline_label.setObjectName('brandTagline')
+        self.tagline_label.setWordWrap(True)
         sidebar_layout.addWidget(self.tagline_label)
         sidebar_layout.addSpacing(18)
 
         nav_specs = (
             ('map', QStyle.SP_DriveNetIcon),
             ('breeding', QStyle.SP_FileDialogContentsView),
+            ('stats_calculator', QStyle.SP_ComputerIcon),
+            ('team_builder', QStyle.SP_FileDialogListView),
             ('wiki', QStyle.SP_DialogHelpButton),
             ('settings', QStyle.SP_FileDialogDetailedView),
             ('about', QStyle.SP_MessageBoxInformation),
@@ -197,12 +211,16 @@ class MainWindow(QMainWindow):
         self.stack = QStackedWidget()
         self.map_tab = MapTab()
         self.breeding_tab = BreedingTab()
+        self.stats_calculator_tab = StatsCalculatorTab()
+        self.team_builder_tab = TeamBuilderTab()
         self.wiki_tab = DocsTab()
         self.settings_tab = SettingsTab()
         self.about_tab = AboutTab()
         for page_id, page in (
             ('map', self.map_tab),
             ('breeding', self.breeding_tab),
+            ('stats_calculator', self.stats_calculator_tab),
+            ('team_builder', self.team_builder_tab),
             ('wiki', self.wiki_tab),
             ('settings', self.settings_tab),
             ('about', self.about_tab),
@@ -233,6 +251,8 @@ class MainWindow(QMainWindow):
         self.map_tab.load_requested.connect(self.choose_world)
         self.map_tab.close_requested.connect(self.close_world)
         self.map_tab.status_message.connect(self.status_bar.showMessage)
+        self.team_builder_tab.status_message.connect(self.status_bar.showMessage)
+        self.stats_calculator_tab.status_message.connect(self.status_bar.showMessage)
         self.settings_tab.theme_changed.connect(self._apply_theme)
         self.settings_tab.language_changed.connect(self._change_language)
         self.settings_tab.check_updates_requested.connect(
@@ -255,6 +275,11 @@ class MainWindow(QMainWindow):
         titles = {
             'map': t('companion.nav.map', default='Map'),
             'breeding': t('companion.title.breeding', default='Breeding Calculator'),
+            'stats_calculator': t(
+                'companion.title.stats_calculator',
+                default='Stats Calculator',
+            ),
+            'team_builder': t('companion.title.team_builder', default='Team Builder'),
             'wiki': t('companion.title.wiki', default='Palworld Wiki'),
             'settings': t('companion.nav.settings', default='Settings'),
             'about': t('companion.nav.about', default='About'),
@@ -263,6 +288,12 @@ class MainWindow(QMainWindow):
         refresh = getattr(page, 'refresh', None)
         if callable(refresh):
             refresh()
+
+    def open_team_url(self, value: str) -> None:
+        if not is_team_share_url(value):
+            return
+        self.team_builder_tab.load_share_url(value)
+        self.navigate('team_builder')
 
     def choose_world(self) -> None:
         initial_path = get_preferred_save_path()
@@ -459,6 +490,11 @@ class MainWindow(QMainWindow):
         labels = {
             'map': t('companion.nav.map', default='Map'),
             'breeding': t('companion.nav.breeding', default='Breeding'),
+            'stats_calculator': t(
+                'companion.nav.stats_calculator',
+                default='Stats Calculator',
+            ),
+            'team_builder': t('companion.nav.team_builder', default='Team Builder'),
             'wiki': t('companion.nav.wiki', default='Wiki'),
             'settings': t('companion.nav.settings', default='Settings'),
             'about': t('companion.nav.about', default='About'),
@@ -468,7 +504,7 @@ class MainWindow(QMainWindow):
             if button is not None:
                 button.setText(label)
         self.tagline_label.setText(
-            t('companion.tagline', default='Map, breed, discover')
+            t('companion.tagline', default='Map, breed, build, discover')
         )
         self.privacy_label.setText(
             t(

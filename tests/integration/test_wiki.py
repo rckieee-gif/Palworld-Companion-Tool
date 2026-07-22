@@ -47,6 +47,25 @@ def test_wiki_search_filters_pal_names(qapp) -> None:
         wiki.close()
 
 
+def test_wiki_search_uses_resolved_partner_skill_text(qapp) -> None:
+    wiki = WikiTab()
+    try:
+        page = wiki._pages['pals']
+        page._search.setText('Electrify 2~6')
+
+        matches = [
+            page._all_data[index]
+            for index in page._filtered_indices
+        ]
+        assert [pal['name'] for pal in matches] == ['Snock']
+        assert matches[0]['_display_description'] == (
+            "While in party, the player's attacks inflict Electrify 2~6. "
+            '(Does not stack)'
+        )
+    finally:
+        wiki.close()
+
+
 def test_wiki_empty_state_and_reset_controls(qapp) -> None:
     wiki = WikiTab()
     try:

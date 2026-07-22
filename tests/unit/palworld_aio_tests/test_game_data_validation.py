@@ -67,6 +67,11 @@ def _create_data_dir(tmp_path: Path) -> Path:
         'fast_travel_points.json': {},
         'friendship.json': {},
         'items.json': {'items': [], 'items_dynamic': {}},
+        'pal_spawns.json': {
+            'pals': {},
+            'map_bounds': {},
+            'counts': {},
+        },
         'pal_exp_table.json': {},
         'pals_learnset.json': {'learnset': {}},
         'relic_data.json': {},
@@ -88,7 +93,7 @@ def test_consistent_data_and_manifest_validate(tmp_path: Path) -> None:
     report = validate_game_data(data_dir, expected_version='test-1')
 
     assert report.is_valid is True
-    assert report.files_checked == 15
+    assert report.files_checked == 16
     assert report.icons_checked == 4
     assert report.known_icon_fallbacks == 0
     assert report.issues == ()

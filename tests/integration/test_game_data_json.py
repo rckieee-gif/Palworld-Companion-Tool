@@ -118,6 +118,12 @@ class TestSchemaValidation:
                     errors.append(
                         f"  pals[{i}] ({p.get('name','?')}).scaling missing '{sf}'"
                     )
+            stats = p.get("stats", {})
+            if scaling.get("attack") != stats.get("shot_attack"):
+                errors.append(
+                    f"  pals[{i}] ({p.get('name','?')}).scaling.attack must "
+                    "match stats.shot_attack"
+                )
         assert not errors, "\n" + "\n".join(errors)
 
     def test_characters_npcs_required_fields(self):

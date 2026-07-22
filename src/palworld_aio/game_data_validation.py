@@ -23,6 +23,7 @@ REQUIRED_DATA_FILES = frozenset({
     'fast_travel_points.json',
     'friendship.json',
     'items.json',
+    'pal_spawns.json',
     'pal_exp_table.json',
     'pals_learnset.json',
     'relic_data.json',
@@ -46,6 +47,7 @@ _SECTION_TYPES: dict[str, dict[str, type]] = {
     },
     'characters.json': {'pals': list, 'npcs': list, 'friendship': dict},
     'items.json': {'items': list, 'items_dynamic': dict},
+    'pal_spawns.json': {'pals': dict, 'map_bounds': dict, 'counts': dict},
     'pals_learnset.json': {'learnset': dict},
     'skills.json': {'passives': list, 'skills': list, 'elements': list},
     'uidata.json': {'ui_icons': dict},
@@ -304,9 +306,8 @@ def write_game_data_manifest(
     )
     output = data_dir / MANIFEST_FILENAME
     temporary = output.with_suffix('.json.tmp')
-    temporary.write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=True) + '\n',
-        encoding='utf-8',
+    temporary.write_bytes(
+        (json.dumps(manifest, indent=2, ensure_ascii=True) + '\n').encode('utf-8')
     )
     temporary.replace(output)
     return output

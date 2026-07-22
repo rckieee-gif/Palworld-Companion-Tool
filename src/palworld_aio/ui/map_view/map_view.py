@@ -9,6 +9,7 @@ class MapGraphicsView(QGraphicsView):
     marker_clicked = Signal(object, object)
     marker_double_clicked = Signal(object, object)
     marker_right_clicked = Signal(object, QPointF)
+    empty_space_clicked = Signal()
     empty_space_right_clicked = Signal(QPointF)
     marker_hover_entered = Signal(object, QPointF)
     marker_hover_left = Signal()
@@ -166,6 +167,7 @@ class MapGraphicsView(QGraphicsView):
                 self.polygon_preview_item.add_point(scene_pos)
                 return
             self.scene().clearSelection()
+            self.empty_space_clicked.emit()
         super().mousePressEvent(event)
     def mouseDoubleClickEvent(self, event):
         if self.zone_drawing_mode and event.button() == Qt.LeftButton:

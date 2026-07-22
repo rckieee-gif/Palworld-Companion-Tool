@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+## 1.0.3 - Team Planning and Spawn Heatmaps
+
+- Added a five-slot Team Builder with duplicate support, generated filters,
+  team analysis, presets, locally saved teams, and shareable app links.
+- Added a read-only Stats Calculator for Pal HP, Attack, and Defense IV ranges.
+- Registered `palworld-companion://` links in the Windows installer.
+- Improved Wiki partner-skill descriptions and resolved game-data placeholders.
+- Added fast-travel detail popups and locally stored found-location progress.
+- Corrected World Tree coordinate calibration using Palworld 1.0 map metadata.
+- Added searchable World and Tree Pal spawn heatmaps generated from bundled game
+  tables, including day/night filters and an optional high-contrast outline.
+- Added spawn-data extraction, validation, resource-integrity, and UI regression
+  coverage.
+
 ## 1.0.2 - Native Map and Path Planner Update
 
 - Replaced the third-party web map with a fully local World/Tree explorer.

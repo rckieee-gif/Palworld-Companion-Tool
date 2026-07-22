@@ -54,5 +54,11 @@ Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{group}\Uninstall {#AppName}"; Filename: "{uninstallexe}"
 Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon
 
+[Registry]
+Root: HKA; Subkey: "Software\Classes\palworld-companion"; ValueType: string; ValueData: "URL:Palworld Companion Team"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\palworld-companion"; ValueName: "URL Protocol"; ValueType: string; ValueData: ""
+Root: HKA; Subkey: "Software\Classes\palworld-companion\DefaultIcon"; ValueType: string; ValueData: "{app}\{#AppExeName},0"
+Root: HKA; Subkey: "Software\Classes\palworld-companion\shell\open\command"; ValueType: string; ValueData: """{app}\{#AppExeName}"" ""%1"""
+
 [Run]
 Filename: "{app}\{#AppExeName}"; Description: "Launch {#AppName}"; Flags: nowait postinstall skipifsilent

@@ -10,6 +10,8 @@ import io
 import itertools
 import threading
 import time
+
+from pal_spawn_export import build_spawn_payload
 VENV_DIR = Path(__file__).resolve().parent.parent.parent / '.venv'
 def _venv_python():
     if os.name == 'nt':
@@ -526,7 +528,8 @@ def update_pal_data():
                     val = val.get('value', 0)
                 work_suit[w] = int(val) if val else 0
             pal_entry['stats'] = {'hp': monster_row.get('Hp', 100), 'melee_attack': monster_row.get('MeleeAttack', 100), 'shot_attack': monster_row.get('ShotAttack', 100), 'defense': monster_row.get('Defense', 100), 'support': monster_row.get('Support', 100), 'craft_speed': monster_row.get('CraftSpeed', 100), 'max_full_stomach': monster_row.get('MaxFullStomach', 300), 'food_amount': monster_row.get('FoodAmount', 5), 'element_type1': el1, 'element_type2': el2, 'zukan_index': monster_row.get('ZukanIndex', 0), 'rarity': monster_row.get('Rarity', 0), 'size': monster_row.get('Size', 'EPalSizeType::XS') if isinstance(monster_row.get('Size', ''), str) else 'EPalSizeType::XS', 'run_speed': monster_row.get('RunSpeed', 400), 'ride_sprint_speed': monster_row.get('RideSprintSpeed', 700)}
-            pal_entry['scaling'] = {'hp': monster_row.get('Hp', 100), 'attack': monster_row.get('MeleeAttack', 100), 'defense': monster_row.get('Defense', 100)}
+            # Displayed Pal Attack scales from ShotAttack, not MeleeAttack.
+            pal_entry['scaling'] = {'hp': monster_row.get('Hp', 100), 'attack': monster_row.get('ShotAttack', 100), 'defense': monster_row.get('Defense', 100)}
             pal_entry['friendship_hp'] = monster_row.get('Friendship_HP', 0)
             pal_entry['friendship_shotattack'] = monster_row.get('Friendship_ShotAttack', 0)
             pal_entry['friendship_defense'] = monster_row.get('Friendship_Defense', 0)
@@ -627,7 +630,8 @@ def update_pal_data():
                     val = val.get('value', 0)
                 work_suit[w] = int(val) if val else 0
             pal_entry['stats'] = {'hp': monster_row.get('Hp', 100), 'melee_attack': monster_row.get('MeleeAttack', 100), 'shot_attack': monster_row.get('ShotAttack', 100), 'defense': monster_row.get('Defense', 100), 'support': monster_row.get('Support', 100), 'craft_speed': monster_row.get('CraftSpeed', 100), 'max_full_stomach': monster_row.get('MaxFullStomach', 300), 'food_amount': monster_row.get('FoodAmount', 5), 'element_type1': el1, 'element_type2': el2, 'zukan_index': monster_row.get('ZukanIndex', 0), 'rarity': monster_row.get('Rarity', 0), 'size': monster_row.get('Size', 'EPalSizeType::XS') if isinstance(monster_row.get('Size', ''), str) else 'EPalSizeType::XS', 'run_speed': monster_row.get('RunSpeed', 400), 'ride_sprint_speed': monster_row.get('RideSprintSpeed', 700)}
-            pal_entry['scaling'] = {'hp': monster_row.get('Hp', 100), 'attack': monster_row.get('MeleeAttack', 100), 'defense': monster_row.get('Defense', 100)}
+            # Displayed Pal Attack scales from ShotAttack, not MeleeAttack.
+            pal_entry['scaling'] = {'hp': monster_row.get('Hp', 100), 'attack': monster_row.get('ShotAttack', 100), 'defense': monster_row.get('Defense', 100)}
             pal_entry['friendship_hp'] = monster_row.get('Friendship_HP', 0)
             pal_entry['friendship_shotattack'] = monster_row.get('Friendship_ShotAttack', 0)
             pal_entry['friendship_defense'] = monster_row.get('Friendship_Defense', 0)
@@ -2319,6 +2323,37 @@ def update_world_map_area_data():
     output = {'areas': area_ids}
     save_resource_json('world_map_areas.json', output)
     print(f'  Total world map areas: {len(area_ids)}')
+
+
+def update_pal_spawn_data():
+    print('\n=== Updating Pal Spawn Heatmap Data ===')
+    src_dir = BASE_DIR / 'src'
+    if str(src_dir) not in sys.path:
+        sys.path.insert(0, str(src_dir))
+    from app_info import GAME_DATA_VERSION
+
+    placement_data = load_export_json('Spawner/DT_PalSpawnerPlacement.json')
+    wild_data = load_export_json('Spawner/DT_PalWildSpawner.json')
+    map_data = load_export_json('WorldMapUIData/DT_WorldMapUIData.json')
+    if not placement_data or not wild_data or not map_data:
+        print('  Required spawn or map exports are missing. Skipping.')
+        return
+    characters = load_resource_json('paldata.json')
+    if not characters or not characters.get('pals'):
+        characters = load_resource_json('characters.json')
+    payload = build_spawn_payload(
+        get_rows(placement_data),
+        get_rows(wild_data),
+        get_rows(map_data),
+        characters,
+        game_version=GAME_DATA_VERSION,
+    )
+    save_resource_json('pal_spawns.json', payload)
+    counts = payload['counts']
+    print(
+        f"  Total Pal spawn entries: {counts['spawn_entries']} "
+        f"for {counts['pals']} Pals"
+    )
 def update_ui_icons():
     print('\n=== Updating UI Icons ===')
     target_subdir = 'ui'
@@ -3080,6 +3115,7 @@ def main():
     _run_step('Updating boss mapping...', update_boss_mapping)
     _run_step('Updating work data...', update_work_data)
     _run_step('Updating world map areas...', update_world_map_area_data)
+    _run_step('Updating Pal spawn heatmap data...', update_pal_spawn_data)
     _run_step('Updating fast travel data...', update_fast_travel_data)
     _run_step('Updating breeding data...', update_breeding_data)
     _run_step('Updating map data...', update_map_data)

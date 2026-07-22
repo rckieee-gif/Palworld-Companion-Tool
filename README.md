@@ -2,7 +2,7 @@
 
 <h1>Palworld Companion Tools</h1>
 
-<p><strong>Map. Breed. Discover.</strong></p>
+<p><strong>Map. Breed. Build. Discover.</strong></p>
 
 <p>A focused, read-only desktop companion for Palworld.</p>
 
@@ -25,11 +25,12 @@
 
 Palworld Companion Tools keeps the informational parts of PalworldSaveTools and
 removes its save-editing and server-administration capabilities. It is designed
-for players who want to explore a world map, plan breeding combinations, and
-browse bundled game information without modifying game data.
+for players who want to explore a world map, plan breeding combinations,
+estimate Pal stat quality, build ordered teams, and browse bundled game
+information without modifying game data.
 
-The application starts without a save. Breeding and Wiki are always available,
-and loading `Level.sav` is optional.
+The application starts without a save. Breeding, Stats Calculator, Team Builder,
+and Wiki are always available, and loading `Level.sav` is optional.
 
 ### Highlights
 
@@ -37,6 +38,8 @@ and loading `Level.sav` is optional.
 | --- | --- |
 | Interactive Map | Fully local World and Tree maps with 174 bundled fast-travel locations, personal pins, read-only save overlays, filters, and coordinates. |
 | Breeding Calculator | Parent-to-child results, desired-child searches, special combinations, required Pals, and multi-generation paths. |
+| Stats Calculator | Manual HP, Attack, and Defense entry, bundled Pal base-stat lookup, modifier validation, and Palworld 1.0 rounding-aware IV ranges. |
+| Team Builder | Five ordered slots, duplicate support, search and generated filters, team analysis, system presets, local custom teams, and share links. |
 | Built-in Wiki | Searchable Pals, items, buildings, technologies, skills, elements, and work suitability from bundled data. |
 | Game-data validation | Verifies bundled JSON schemas, breeding references, icons, versions, and SHA-256 manifest entries locally. |
 | Read-only design | No save, overwrite, patch, restore, injection, conversion, cleanup, or backup operation exists in the retained application. |
@@ -68,6 +71,8 @@ and loading `Level.sav` is optional.
 - Searches and navigates 174 bundled fast-travel locations across both maps.
 - Opens `Level.sav` as immutable input for map inspection.
 - Shows World Map and Tree Map views with zooming and panning.
+- Shows searchable Pal spawn heatmaps with day and night filters, generated
+  from the bundled Palworld game tables.
 - Displays base and last-known player markers when available.
 - Filters markers by guild or player and opens read-only detail panels.
 - Toggles locations, bases, players, radius rings, and local annotations.
@@ -84,6 +89,33 @@ and loading `Level.sav` is optional.
 - Accepts required Pals and optional unowned breeding partners.
 - Uses localized names, Pal icons, sorting, filtering, and clear states.
 - Works without loading a save.
+
+### Team Builder
+
+- Selects, replaces, removes, and reorders up to five Pals.
+- Preserves intentional duplicates and displays their quantities.
+- Searches bundled Pal data and filters by element, partner effect, and work
+  suitability without duplicating the game-data source.
+- Groups partner-skill contributions, element coverage, work coverage, and
+  potential gaps without inventing unsupported numeric totals.
+- Includes validated system presets made only from bundled Pals.
+- Saves named custom teams locally with rename, overwrite, load, and delete actions.
+- Copies ordered, duplicate-preserving links in the form
+  `palworld-companion://team-builder?team=slug-1,slug-2`.
+- Restores installed-app share links and ignores unknown identifiers safely.
+- Works without loading a save or creating an account.
+
+### Stats Calculator
+
+- Searches bundled Pal names and internal IDs while keeping manual typing available.
+- Uses calculator-ready HP, Shot Attack, and Defense scaling from `characters.json`.
+- Accepts Soul Enhancement, Condenser rank, passive percentages, and separate
+  other-modifier percentages for newer mechanics.
+- Allows manual base stats when a Pal is unavailable or ambiguous in bundled data.
+- Validates malformed, non-finite, negative, and out-of-range input in place.
+- Reports exact IVs or integer-rounding ranges without hiding uncertainty.
+- Uses a sourced Palworld 1.0 formula profile with the game's raw-stat and final
+  displayed-stat flooring stages. Patch-specific behavior remains injectable.
 
 ### Built-in Wiki
 
@@ -200,11 +232,13 @@ player identifiers, map data, or Wiki searches.
 1. Start the application. Breeding opens by default.
 2. Use Pair Calculator to select two parents and view their offspring.
 3. Use Find Parents or Path Planner for a target Pal.
-4. Open Wiki to search the bundled Palworld data.
-5. Open Map to search fast-travel locations or add personal pins.
-6. Select **Load world** to add read-only base and player overlays from `Level.sav`.
-7. Use the map filters, overlays, marker details, and coordinate tools.
-8. Select **Close world** when finished. No game file is changed.
+4. Open Stats Calculator to enter a Pal's level, displayed stats, and modifiers.
+5. Open Team Builder to plan, save, or share an ordered party of up to five Pals.
+6. Open Wiki to search the bundled Palworld data.
+7. Open Map to search fast-travel locations or add personal pins.
+8. Select **Load world** to add read-only base and player overlays from `Level.sav`.
+9. Use the map filters, overlays, marker details, and coordinate tools.
+10. Select **Close world** when finished. No game file is changed.
 
 ## Save Locations
 
@@ -261,10 +295,11 @@ attaches all three artifacts to releases triggered by matching `v*` tags.
 .\.venv\Scripts\python.exe scripts\validate_game_data.py
 ```
 
-The suite covers startup, the five allowed navigation entries, feature-removal
-boundaries, file invariants, map interactions, breeding formulas, special
-combinations, path constraints, Wiki categories, localization, resources, and
-packaging configuration.
+The suite covers startup, the seven allowed navigation entries, feature-removal
+boundaries, file invariants, map interactions, breeding formulas, stat-calculator
+validation and range handling, special combinations, path constraints, Team
+Builder selection and persistence, Wiki categories, localization, resources,
+and packaging configuration.
 
 After intentionally updating files under `resources/game_data`, regenerate and
 review the manifest before running validation:
@@ -278,29 +313,36 @@ review the manifest before running validation:
 
 - Save parsing is local.
 - Breeding and Wiki searches are local.
+- Stats Calculator validation and Pal lookup are local.
+- Team Builder searches, history, and saved teams are local.
 - Save data, player identifiers, and world data are not uploaded.
 - Preferences, personal pins, and local annotations are stored in the app configuration folder.
 - Map browsing and bundled location search require no network connection.
+- Pal spawn heatmaps use bundled data and do not contact a third-party map.
 - Optional update checks contact only GitHub's latest-release API and send no save data.
 
 ## Limitations
 
 - Palworld save formats and game data can change after game updates.
+- Spawn heatmaps represent the bundled game-data version and may not include
+  changes introduced by a newer Palworld patch until the data is refreshed.
 - The validation manifest proves bundle consistency, not endorsement or live
   accuracy against Pocketpair's current servers.
 - Save inspection focuses on the guild, base, and player locations needed by Map.
 - The bundled map currently includes fast-travel points; broader resource,
   dungeon, Pal, and collectible datasets require independently sourced data.
 - The bundled Wiki is not an official live database.
+- Calculator results depend on the selected formula profile and may need an
+  update if a future Palworld patch changes stat or modifier behavior.
 - Update notifications require internet access and track stable GitHub Releases only.
 - Windows packages are not currently code-signed and may trigger SmartScreen.
 - Native Linux and macOS release packages are not currently validated.
 
 ## Contributing
 
-Contributions that improve Map, Breeding, Wiki, accessibility, localization,
-testing, or read-only safety are welcome. Save editing and server-administration
-features are intentionally outside this project's scope.
+Contributions that improve Map, Breeding, Stats Calculator, Team Builder, Wiki,
+accessibility, localization, testing, or read-only safety are welcome. Save editing and
+server-administration features are intentionally outside this project's scope.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Security
 reports should follow [SECURITY.md](SECURITY.md).

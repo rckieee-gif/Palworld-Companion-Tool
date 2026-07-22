@@ -12,6 +12,7 @@ from PySide6.QtGui import QAction, QPixmap, QIcon, QCursor, QKeySequence
 from i18n import t
 from palworld_aio.game_data import GameDataError, load_game_data
 from palworld_aio.ui.pal_assets import element_pixmap
+from palworld_aio.wiki_text import prepare_wiki_entries
 from resource_resolver import get_base_dir, resource_path
 
 LOGGER = logging.getLogger(__name__)
@@ -178,7 +179,10 @@ _pals_cache = None
 def _pals():
     global _pals_cache
     if _pals_cache is None:
-        _pals_cache = _load_json('characters.json', 'pals')
+        _pals_cache = prepare_wiki_entries(
+            'pals',
+            _load_json('characters.json', 'pals'),
+        )
     return _pals_cache
 
 def _pals_by_element(name):
@@ -636,7 +640,11 @@ class WikiDetailPanel(QScrollArea):
         elements = _get(d, 'elements') or {}
         work = _get(d, 'work_suitabilities') or {}
         partner = _get(d, 'partner_skill') or ''
-        partner_description = _get(d, 'description') or ''
+        partner_description = (
+            _get(d, '_display_description')
+            or _get(d, 'description')
+            or ''
+        )
         stats = _get(d, 'stats') or {}
         zukan = _resolve_zukan(d)
         element_names = list(elements) if isinstance(elements, dict) else []
@@ -934,7 +942,7 @@ class WikiDetailPanel(QScrollArea):
     def _render_passive_skill(self, d):
         name = _get(d, 'name') or ''
         code = _get(d, 'asset') or ''
-        desc = _get(d, 'description') or ''
+        desc = _get(d, '_display_description') or _get(d, 'description') or ''
         rank = _get(d, 'rank')
         self._identity(
             name,
@@ -1282,7 +1290,7 @@ class WikiCategoryPage(QWidget):
                 fixed = _work_icon(item.get('id', ''))
                 if fixed:
                     item['icon'] = fixed
-        self._all_data = items
+        self._all_data = prepare_wiki_entries(self._cat, items)
         self._loaded = True
         self._active_filters = {}
         self._filter_combos = {}
@@ -1316,6 +1324,7 @@ class WikiCategoryPage(QWidget):
                 'display',
                 'id',
                 'description',
+                '_display_description',
                 'partner_skill',
                 'type_a_display',
                 'type_b_display',
