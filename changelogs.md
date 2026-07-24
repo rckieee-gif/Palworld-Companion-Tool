@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.1.1 - Breeding Power Search
+
+- Added exact breeding-power searches to the Breeding Pal picker.
+- Added low-to-high and high-to-low breeding-power sorting.
+
 ## 1.1.0 - World Heatmap Reliability
 
 - Fixed World-map Pal heatmaps crashing when converting spawn coordinates.

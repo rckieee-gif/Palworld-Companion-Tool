@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import re
+
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
+    QComboBox,
     QDialog,
     QDialogButtonBox,
+    QHBoxLayout,
     QLabel,
     QLineEdit,
     QListWidget,
@@ -16,6 +20,37 @@ from PySide6.QtWidgets import (
 from palworld_aio.ui.pal_assets import pal_pixmap
 
 
+_POWER_QUERY = re.compile(
+    r'(?:(?:breeding\s+)?power\s*[:=]?\s*)?(\d+)',
+    re.IGNORECASE,
+)
+
+
+def _breeding_power(info: dict) -> int | None:
+    value = info.get('combi_rank')
+    if isinstance(value, bool):
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _matches_query(
+    query: str,
+    name: str,
+    species: str,
+    power: int | None,
+) -> bool:
+    if not query:
+        return True
+    power_match = _POWER_QUERY.fullmatch(query)
+    if power_match is not None:
+        return power == int(power_match.group(1))
+    normalized = query.casefold()
+    return normalized in name.casefold() or normalized in species.casefold()
+
+
 class PalSelectorDialog(QDialog):
     def __init__(self, pal_info: dict, parent: QWidget | None = None):
         super().__init__(parent)
@@ -25,10 +60,19 @@ class PalSelectorDialog(QDialog):
         self.setMinimumSize(480, 620)
 
         layout = QVBoxLayout(self)
+        search_row = QHBoxLayout()
         self.search = QLineEdit()
-        self.search.setPlaceholderText('Search by Pal name or internal ID')
+        self.search.setPlaceholderText('Search by name, ID, or breeding power')
         self.search.setClearButtonEnabled(True)
-        layout.addWidget(self.search)
+        search_row.addWidget(self.search, 1)
+        self.sort_order = QComboBox()
+        self.sort_order.setObjectName('palSelectorSort')
+        self.sort_order.setAccessibleName('Sort Pals')
+        self.sort_order.addItem('Name (A-Z)', 'name')
+        self.sort_order.addItem('Breeding power (low-high)', 'power_asc')
+        self.sort_order.addItem('Breeding power (high-low)', 'power_desc')
+        search_row.addWidget(self.sort_order)
+        layout.addLayout(search_row)
 
         self.count_label = QLabel()
         self.count_label.setObjectName('pageSubtitle')
@@ -47,23 +91,46 @@ class PalSelectorDialog(QDialog):
         self.buttons = buttons
 
         self.search.textChanged.connect(self._populate)
+        self.sort_order.currentIndexChanged.connect(self._populate)
         self.list_widget.itemSelectionChanged.connect(self._selection_changed)
         self.list_widget.itemDoubleClicked.connect(lambda _item: self._accept_selection())
         self._populate()
 
     def _populate(self, *_args) -> None:
-        needle = self.search.text().strip().lower()
+        query = self.search.text().strip()
         self.list_widget.clear()
         records = []
         for species, info in self.pal_info.items():
             name = str(info.get('name') or species)
-            if needle and needle not in name.lower() and needle not in species.lower():
+            power = _breeding_power(info)
+            if not _matches_query(query, name, species, power):
                 continue
-            records.append((name, species, info))
-        records.sort(key=lambda record: (record[0].lower(), record[1].lower()))
-        for name, species, info in records:
-            power = info.get('combi_rank', '?')
-            item = QListWidgetItem(f'{name}   |   Power {power}')
+            records.append((name, species, power))
+        sort_mode = self.sort_order.currentData()
+        if sort_mode == 'power_asc':
+            records.sort(key=lambda record: (
+                record[2] is None,
+                record[2] if record[2] is not None else 0,
+                record[0].casefold(),
+                record[1].casefold(),
+            ))
+        elif sort_mode == 'power_desc':
+            records.sort(key=lambda record: (
+                record[2] is None,
+                -(record[2] if record[2] is not None else 0),
+                record[0].casefold(),
+                record[1].casefold(),
+            ))
+        else:
+            records.sort(key=lambda record: (
+                record[0].casefold(),
+                record[1].casefold(),
+            ))
+        for name, species, power in records:
+            power_label = str(power) if power is not None else '?'
+            item = QListWidgetItem(
+                f'{name}   |   Breeding power {power_label}'
+            )
             item.setData(Qt.UserRole, species)
             item.setToolTip(species)
             pixmap = pal_pixmap(species, self.pal_info, 38)
