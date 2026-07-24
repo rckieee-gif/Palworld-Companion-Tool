@@ -220,7 +220,15 @@ def test_native_map_renders_pal_heatmap_on_both_maps(qapp) -> None:
 
         map_tab.world_button.click()
         assert map_tab.current_map == 'world'
-        assert map_tab._heatmap_item is None
+        index = map_tab.heatmap_pal_combo.findText('Blazehowl')
+        assert index >= 0
+        map_tab.heatmap_pal_combo.setCurrentIndex(index)
+        qapp.processEvents()
+
+        assert map_tab._heatmap_item is not None
+        assert map_tab._heatmap_item.scene() is map_tab.scene
+        assert 'Blazehowl' in map_tab.heatmap_status_label.text()
+        assert 'spawn areas' in map_tab.heatmap_status_label.text()
     finally:
         window.close()
 

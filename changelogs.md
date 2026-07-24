@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.1.0 - World Heatmap Reliability
+
+- Fixed World-map Pal heatmaps crashing when converting spawn coordinates.
+- Added Blazehowl World-map renderer and Map-tab regression coverage.
+
 ## 1.0.3 - Team Planning and Spawn Heatmaps
 
 - Added a five-slot Team Builder with duplicate support, generated filters,

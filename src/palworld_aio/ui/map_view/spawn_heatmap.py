@@ -41,6 +41,12 @@ def _point_to_pixel(
         point.world_y,
         new=True,
     )
+    return annotations.world_to_scene(
+        map_point.x,
+        map_point.y,
+        width,
+        height,
+    )
 
 
 def _render_spawn_outline(
@@ -98,12 +104,6 @@ def _render_spawn_outline(
         size * 4,
         QImage.Format_RGBA8888,
     ).copy()
-    return annotations.world_to_scene(
-        map_point.x,
-        map_point.y,
-        width,
-        height,
-    )
 
 
 def render_spawn_heatmap(

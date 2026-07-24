@@ -75,6 +75,28 @@ def test_heatmap_renderer_produces_a_transparent_overlay(qapp) -> None:
     )
 
 
+def test_world_heatmap_renderer_maps_blazehowl_spawn_points(qapp) -> None:
+    repository = PalSpawnRepository.from_game_data()
+    blazehowl = repository.resolve('Blazehowl')
+
+    assert blazehowl is not None
+    assert blazehowl.world
+    pixmap = render_spawn_heatmap(
+        blazehowl.world,
+        'world',
+        repository.bounds_for('world'),
+        render_size=256,
+    )
+    image = pixmap.toImage()
+
+    assert not pixmap.isNull()
+    assert any(
+        image.pixelColor(x, y).alpha() > 0
+        for x in range(0, image.width(), 8)
+        for y in range(0, image.height(), 8)
+    )
+
+
 def test_heatmap_outline_extends_the_visible_spawn_boundary(qapp) -> None:
     repository = PalSpawnRepository.from_game_data()
     aegidron = repository.resolve('Aegidron')
